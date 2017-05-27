@@ -18,28 +18,61 @@
     var reload_time = 400;
     var speed_units = 300;
     var speed_angle = 90;
-        
 
-    Math.degToRad = function(degrees) {
-        return degrees * Math.PI / 180;
-    }
+    var enemies;
+    var enemiesCount;
 
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
+
+    EnemyTank = function (index, game, player, bullets) {
+        var x = game.world.randomX;
+        var y = game.world.randomY;
+
+        this.game = game;
+        this.health = 3;
+        this.player = player;
+        this.bullets = bullets;
+        this.fireRate = 1000;
+        this.nextFire = 0;
+        this.alive = true;
+
+        this.tank = game.add.sprite(x, y, 'tankRed');
+        this.tank.anchor.setTo(0.5, 0.5);
+        this.turret = game.add.sprite(x, y, 'barrelRed');
+
+        this.tank.name = index.toString();
+        game.physics.enable(this.tank, Phaser.Physics.ARCADE);
+        this.tank.body.immovable = false;
+        this.tank.body.collideWorldBounds = true;
+        this.tank.body.bounce.setTo(1, 1);
+    }
+
+    EnemyTank.prototype.update = function() {
+        this.turret.x = this.tank.x -7;
+        this.turret.y = this.tank.y -50;
+    }
 
     function hitBarrel (barrel, bullet) {
         var animation = explosions.getFirstExists(false);
         animation.reset(barrel.x, barrel.y);
         animation.play('kaboom', 30, false, true);
         
+
         barrel.kill();
         bullet.kill();
     }
 
+    Math.degToRad = function (degrees) {
+        return degrees * Math.PI / 180;
+    };
+
     function preload() {
         // tanks
         game.load.image('tankBlue', 'assets/img/Tanks/tankBlue.png');
+        game.load.image('tankRed', 'assets/img/Tanks/tankRed.png');
         game.load.image('barrelBlue', 'assets/img/Tanks/barrelBlue.png');
+        game.load.image('barrelRed', 'assets/img/Tanks/barrelRed.png');
         game.load.image('bullet', 'assets/img/Bullets/bulletBlue.png');
 
         // terrain
@@ -68,7 +101,6 @@
 
         player.anchor.setTo(0.5, 0.5);
         turret = game.add.sprite(0, 0, 'barrelBlue');
-        game.camera.follow(player);
 
         // add sandbags with collision
         sandbags = game.add.group();
@@ -101,11 +133,18 @@
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
         bullets.setAll('checkWorldBounds', true);
+
         explosions = game.add.group();
         for (var i = 0; i < 10; i++) {
             var explosionAnimation = explosions.create(0, 0, 'kaboom', [0], false);
             explosionAnimation.anchor.setTo(0.5, 0.5);
             explosionAnimation.animations.add('kaboom');
+        }
+        // create enemies
+        enemies = [];
+        enemiesCount = 7;
+        for (var i = 0; i < enemiesCount; i++) {
+             enemies.push(new EnemyTank(i, game, player, []));
         }
     }
 
@@ -160,6 +199,13 @@
 
         game.camera.x = player.x;
         game.camera.y = player.y;
+
+        for (var i = 0; i < enemies.length; i++) {
+            game.physics.arcade.collide(player, enemies[i].tank);
+            game.physics.arcade.collide(enemies[i].tank, sandbags);
+            game.physics.arcade.collide(enemies[i].tank, barrelGrey);
+            enemies[i].update();
+        }
     }
 
     function render() {
