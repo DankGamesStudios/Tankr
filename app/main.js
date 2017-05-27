@@ -14,7 +14,10 @@
     var spacebar;
     var timer;
     var last_fired = 0;
-    var reload_time = 100;
+    var reload_time = 400;
+    var speed_units = 300;
+    var speed_angle = 90;
+        
 
     Math.degToRad = function(degrees) {
         return degrees * Math.PI / 180;
@@ -22,6 +25,11 @@
 
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
+
+    function hitBarrel (barrel, bullet) {
+        barrel.kill();
+        bullet.kill();
+    }
 
     function preload() {
         // tanks
@@ -67,8 +75,12 @@
         barrelGrey = game.add.group();
         barrelGrey.physicsBodyType = Phaser.Physics.ARCADE;
         barrelGrey.enableBody = true;
+
+
         for (var i = 0; i < barrelGreyCount; i++) {
             var bg = barrelGrey.create(game.world.randomX, game.world.randomY, 'barrelGrey');
+            bg.body.onCollide = new Phaser.Signal();
+            bg.body.onCollide.add(hitBarrel, this);
             bg.body.immovable = false;
         }
 
@@ -84,36 +96,35 @@
     }
 
     function update() {
-        var units = 100,
-            angle = 60;
-
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         player.body.angularVelocity = 0;
 
         game.physics.arcade.collide(player, sandbags);
         game.physics.arcade.collide(player, barrelGrey);
+        game.physics.arcade.collide(barrelGrey, bullets);
 
         if (cursors.left.isDown) {
-            player.body.angularVelocity = -angle;
+            player.body.angularVelocity = -speed_angle;
         } else if (cursors.right.isDown) {
-            player.body.angularVelocity = angle;
+            player.body.angularVelocity = speed_angle;
         } else if (cursors.down.isDown) {
             game.physics.arcade.velocityFromAngle(
                 player.angle + 90,
-                units,
+                speed_units,
                 player.body.velocity
             );
         } else if (cursors.up.isDown) {
             game.physics.arcade.velocityFromAngle(
                 player.angle + -90,
-                units,
+                speed_units,
                 player.body.velocity
             );
         } else if (spacebar.isDown) {            
             now = game.time.now;
             if (last_fired + reload_time < now) {
                 var bullet = bullets.getFirstExists(false);
+
                 bullet.reset(turret.x, turret.y);
                 bullet.angle = player.angle;
                 ix = player.x + 100 * Math.cos(Math.degToRad(player.angle - 90));
