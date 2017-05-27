@@ -7,15 +7,13 @@
     );
     var map;
     var player;
+    var barrel;
     var cursors;
+    var bullets;
 
     function preload() {
-        console.log('preload');
-        // game.load.tilemap('tankr', 'assets/map/tanker-14x14.json', null,
-        //                   Phaser.Tilemap.TILED_JSON);
         game.load.image('tankBlue', 'assets/img/Tanks/tankBlue.png');
         game.load.image('barrelBlue', 'assets/img/Tanks/barrelBlue.png');
-
         game.load.image('grass', 'assets/img/Environment/grass.png');
         game.load.image('sandbagBrown', 'assets/img/Obstacles/sandbagBrown.png');
     }
@@ -27,12 +25,11 @@
         land.fixedToCamera = true;
 
         player = game.add.sprite(0, 0, 'tankBlue');
+        game.physics.enable(player, Phaser.Physics.ARCADE);
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         player.anchor.setTo(0.5, 0.5);
         barrel = game.add.sprite(0, 0, 'barrelBlue');
-
-        game.physics.enable(player, Phaser.Physics.ARCADE);
         game.camera.follow(player);
 
         sandbags = game.add.group();
@@ -42,13 +39,22 @@
             var sbag = sandbags.create(game.world.randomX, game.world.randomY, 'sandbagBrown');
             sbag.body.immovable = true;
         }
-
+        game.camera.follow(player);
+        game.camera.focusOnXY(0, 0);
         cursors = game.input.keyboard.createCursorKeys();
+        bullets = game.add.group();
+        bullets.enableBody = true;
+        bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        bullets.createMultiple(30, 'bullet', 0, false);
+        bullets.setAll('anchor.x', 0.5);
+        bullets.setAll('anchor.y', 0.5);
+        bullets.setAll('outOfBoundsKill', true);
+        bullets.setAll('checkWorldBounds', true);
     }
 
     function update() {
         var units = 100,
-            angle = 45;
+            angle = 60;
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
@@ -61,7 +67,6 @@
         } else if (cursors.right.isDown) {
             player.body.angularVelocity = angle;
         } else if (cursors.down.isDown) {
-            
             game.physics.arcade.velocityFromAngle(
                 player.angle + 90,
                 units,
@@ -73,34 +78,24 @@
                 units,
                 player.body.velocity
             );
+        } else if (game.input.activePointer.isDown) {
+            var bullet = bullets.getFirstExists(false);
+
+            bullet.reset(barrel.x, barrel.y);
+            bullet.rotation = game.physics.arcade.moveToPointer(
+                bullet, 1000, 
+                game.input.activePointer, 500
+            );
         } else {
             player.animations.stop();
             player.frame = 4;
         }
-        if (cursors.up.isDown && player.body.touching.down && hitPlatform)
+        if (cursors.up.isDown && player.body.touching.down)
         {
             player.body.velocity.y = -350;
         }
+        barrel.x = player.x + 8;
+        barrel.y = player.y;
+        barrel.angle = 180 + player.angle;
     }
-
-    function render() {
-        console.log('render');
-    }
-
-    PlayerTank = function (game) {
-        this.game = game;
-        this.tank = game.add.sprite(
-            game.world.randomX, game.world.randomY,
-            'tank', 'tankRed'
-        );
-
-        game.physics.enable(tank, Phaser.Physics.ARCADE);
-        tank.angle = game.rnd.angle();
-        game.physics.arcade.velocityFromRotation(
-            this.tank.rotation,
-            100,
-            this.tank.body.velocity
-        );
-    };
-
 }());
