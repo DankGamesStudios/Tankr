@@ -59,11 +59,7 @@
     }
 
     function update() {
-<<<<<<< HEAD
-        var units = 50,
-=======
         var units = 100,
->>>>>>> e1e62dcf15ff9be0bf5628c66d29c50616facae5
             angle = 3;
 
         if (cursors.left.isDown) {
