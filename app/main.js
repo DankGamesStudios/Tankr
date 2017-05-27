@@ -40,10 +40,11 @@
         this.tank = game.add.sprite(x, y, 'tankRed');
         this.tank.anchor.setTo(0.5, 0.5);
         this.turret = game.add.sprite(x, y, 'barrelRed');
+        this.tank.turret = this.turret;
 
         this.tank.name = index.toString();
         game.physics.enable(this.tank, Phaser.Physics.ARCADE);
-        this.tank.body.immovable = false;
+        this.tank.body.immovable = true;
         this.tank.body.collideWorldBounds = true;
         this.tank.body.bounce.setTo(1, 1);
     }
@@ -62,6 +63,20 @@
         barrel.kill();
         bullet.kill();
     }
+    
+    function hitEnemy (enemy, bullet) {
+        enemy.health -= 0.5;
+        if (enemy.health <= 0) {
+            var animation = explosions.getFirstExists(false);
+            animation.reset(enemy.x, enemy.y);
+            animation.play('kaboom', 30, false, true);
+            enemy.turret.kill();
+            enemy.kill();
+        }
+
+        bullet.kill();
+    }
+
 
     Math.degToRad = function (degrees) {
         return degrees * Math.PI / 180;
@@ -144,7 +159,9 @@
         enemies = [];
         enemiesCount = 7;
         for (var i = 0; i < enemiesCount; i++) {
-             enemies.push(new EnemyTank(i, game, player, []));
+            enemy = new EnemyTank(i, game, player, []);
+            enemy.tank.enableBody = true;
+            enemies.push(enemy);
         }
     }
 
@@ -156,6 +173,9 @@
         game.physics.arcade.collide(player, sandbags);
         game.physics.arcade.collide(player, barrelGrey);
         game.physics.arcade.collide(barrelGrey, bullets);
+        for (var i=0; i<enemies.length; i++) {
+            game.physics.arcade.collide(enemies[i].tank, bullets, hitEnemy);
+        }
 
         if (cursors.left.isDown) {
             player.body.angularVelocity = -speed_angle;
