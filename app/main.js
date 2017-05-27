@@ -7,13 +7,14 @@
     );
     var map;
     var player;
-    var barrel;
+    var turret;
     var cursors;
     var bullets;
 
     function preload() {
         game.load.image('tankBlue', 'assets/img/Tanks/tankBlue.png');
         game.load.image('barrelBlue', 'assets/img/Tanks/barrelBlue.png');
+        game.load.image('bullet', 'assets/img/Bullets/bulletBlue.png');
         game.load.image('grass', 'assets/img/Environment/grass.png');
         game.load.image('sandbagBrown', 'assets/img/Obstacles/sandbagBrown.png');
     }
@@ -29,7 +30,7 @@
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         player.anchor.setTo(0.5, 0.5);
-        barrel = game.add.sprite(0, 0, 'barrelBlue');
+        turret = game.add.sprite(0, 0, 'barrelBlue');
         game.camera.follow(player);
 
         sandbags = game.add.group();
@@ -81,7 +82,7 @@
         } else if (game.input.activePointer.isDown) {
             var bullet = bullets.getFirstExists(false);
 
-            bullet.reset(barrel.x, barrel.y);
+            bullet.reset(turret.x, turret.y);
             bullet.rotation = game.physics.arcade.moveToPointer(
                 bullet, 1000, 
                 game.input.activePointer, 500
@@ -94,8 +95,8 @@
         {
             player.body.velocity.y = -350;
         }
-        barrel.x = player.x + 8;
-        barrel.y = player.y;
-        barrel.angle = 180 + player.angle;
+        turret.x = player.x + 8;
+        turret.y = player.y;
+        turret.angle = 180 + player.angle;
     }
 }());
