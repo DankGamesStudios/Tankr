@@ -20,6 +20,7 @@
     var speed_angle = 90;
 
     var enemies;
+    var enemyBullets;
     var enemiesCount;
 
     var sandbagsCount = 15;
@@ -54,14 +55,19 @@
         this.turret.y = this.tank.y -50;
     }
 
-    function hitBarrel (barrel, bullet) {
-        var animation = explosions.getFirstExists(false);
-        animation.reset(barrel.x, barrel.y);
-        animation.play('kaboom', 30, false, true);
-        
+    EnemyTank.prototype.update = function () {
+        this.turret.x = this.tank.x - 7;
+        this.turret.y = this.tank.y - 50;
+        this.tank.body.velocity.x = 0;
+        this.tank.body.velocity.y = 0;
+        this.tank.body.angularVelocity = 0;
 
-        barrel.kill();
-        bullet.kill();
+        // follow the player
+        // setInterval(function () {
+        //     for (var i = 0; i < enemies.length; i++) {
+        //         enemyFire(enemies[i]);
+        //     }
+        // }, 1000);
     }
     
     function hitEnemy (enemy, bullet) {
@@ -77,10 +83,6 @@
         bullet.kill();
     }
 
-
-    Math.degToRad = function (degrees) {
-        return degrees * Math.PI / 180;
-    };
 
     function preload() {
         // tanks
@@ -134,8 +136,6 @@
 
         for (var i = 0; i < barrelGreyCount; i++) {
             var bg = barrelGrey.create(game.world.randomX, game.world.randomY, 'barrelGrey');
-            bg.body.onCollide = new Phaser.Signal();
-            bg.body.onCollide.add(hitBarrel, this);
             bg.body.immovable = false;
         }
 
@@ -156,26 +156,39 @@
             explosionAnimation.animations.add('kaboom');
         }
         // create enemies
+        enemyBullets = game.add.group();
+        enemyBullets.enableBody = true;
+        enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
+        enemyBullets.createMultiple(100, 'bullet');
+
+        enemyBullets.setAll('anchor.x', 0.5);
+        enemyBullets.setAll('anchor.y', 0.5);
+        enemyBullets.setAll('outOfBoundsKill', true);
+        enemyBullets.setAll('checkWorldBounds', true);
+
         enemies = [];
         enemiesCount = 7;
         for (var i = 0; i < enemiesCount; i++) {
-            enemy = new EnemyTank(i, game, player, []);
+            enemy = new EnemyTank(i, game, player, enemyBullets);
             enemy.tank.enableBody = true;
             enemies.push(enemy);
         }
     }
 
     function update() {
+        game.physics.arcade.overlap(enemyBullets, player, bulletHitPlayer, null, this);
+
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         player.body.angularVelocity = 0;
 
         game.physics.arcade.collide(player, sandbags);
         game.physics.arcade.collide(player, barrelGrey);
-        game.physics.arcade.collide(barrelGrey, bullets);
+        game.physics.arcade.collide(barrelGrey, bullets, hitBarrel);
         for (var i=0; i<enemies.length; i++) {
             game.physics.arcade.collide(enemies[i].tank, bullets, hitEnemy);
         }
+        game.physics.arcade.collide(barrelGrey, bullets, hitBarrel);
 
         if (cursors.left.isDown) {
             player.body.angularVelocity = -speed_angle;
@@ -227,6 +240,34 @@
             enemies[i].update();
         }
     }
+
+    function enemyFire(tank) {
+        var bullet = enemyBullets.getFirstExists(false);
+        var turret = tank.turret;
+
+        bullet.reset(turret.x, turret.y);
+        bullet.angle = tank.angle;
+        ix = tank.x + 100 * Math.cos(Math.degToRad(tank.angle - 90));
+        iy = tank.y + 100 * Math.sin(Math.degToRad(tank.angle - 90));
+        game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+    }
+
+    function bulletHitPlayer (tank, bullet) {
+        console.log('bullet hit the player.');
+    }
+
+    function hitBarrel (barrel, bullet) {
+        var animation = explosions.getFirstExists(false);
+        animation.reset(barrel.x, barrel.y);
+        animation.play('kaboom', 30, false, true);
+
+        barrel.kill();
+        bullet.kill();
+    }
+
+    Math.degToRad = function (degrees) {
+        return degrees * Math.PI / 180;
+    };
 
     function render() {
         game.debug.cameraInfo(game.camera, 32, 64);
