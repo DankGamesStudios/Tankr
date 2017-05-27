@@ -22,7 +22,7 @@
         console.log('create');
         game.physics.startSystem(Phaser.Physics.ARCADE);
         player = game.add.sprite(900, 500, 'tankBlue');
-        player.anchor.setTo(1, 1);
+        player.anchor.setTo(0.5, 0.5);
         barrel = game.add.sprite(0, 0, 'barrelBlue');
         // barrel.anchor.setTo(0.3, 0.5);
         game.physics.arcade.enable(player);
@@ -45,10 +45,8 @@
 
         if (cursors.left.isDown) {
             player.angle += -angle;
-            player.animations.play('left');
         } else if (cursors.right.isDown) {
             player.angle += angle;
-            player.animations.play('right');
         } else if (cursors.down.isDown) {
             game.physics.arcade.velocityFromAngle(
                 player.angle + 90,
@@ -62,7 +60,7 @@
                 units,
                 player.body.velocity
             );
-            player.animations.play('up');
+            // player.animations.play('up');
         } else {
             player.animations.stop();
             player.frame = 4;
