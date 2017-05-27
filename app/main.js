@@ -11,6 +11,7 @@
     var turret;
     var cursors;
     var bullets;
+    var explosions;
     var spacebar;
     var timer;
     var last_fired = 0;
@@ -27,6 +28,10 @@
     var barrelGreyCount = 15;
 
     function hitBarrel (barrel, bullet) {
+        var animation = explosions.getFirstExists(false);
+        animation.reset(barrel.x, barrel.y);
+        animation.play('kaboom', 30, false, true);
+        
         barrel.kill();
         bullet.kill();
     }
@@ -43,6 +48,9 @@
         // obstacles
         game.load.image('sandbagBrown', 'assets/img/Obstacles/sandbagBrown.png');
         game.load.image('barrelGrey', 'assets/img/Obstacles/barrelGrey_up.png');
+
+        // 'splosions
+        game.load.spritesheet('kaboom', 'assets/img/Smoke/explosion.png', 64, 64, 23);
     }
 
     function create() {
@@ -93,6 +101,12 @@
         bullets.setAll('anchor.y', 0.5);
         bullets.setAll('outOfBoundsKill', true);
         bullets.setAll('checkWorldBounds', true);
+        explosions = game.add.group();
+        for (var i = 0; i < 10; i++) {
+            var explosionAnimation = explosions.create(0, 0, 'kaboom', [0], false);
+            explosionAnimation.anchor.setTo(0.5, 0.5);
+            explosionAnimation.animations.add('kaboom');
+        }
     }
 
     function update() {
