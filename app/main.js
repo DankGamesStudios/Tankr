@@ -10,6 +10,12 @@
     var turret;
     var cursors;
     var bullets;
+    var spacebar;
+    var timer;
+
+    Math.degToRad = function(degrees) {
+        return degrees * Math.PI / 180;
+    }
 
     function preload() {
         game.load.image('tankBlue', 'assets/img/Tanks/tankBlue.png');
@@ -24,6 +30,7 @@
 
         land = game.add.tileSprite(0, 0, 2000, 2000, 'grass');
         land.fixedToCamera = true;
+        spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         player = game.add.sprite(0, 0, 'tankBlue');
         game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -79,14 +86,12 @@
                 units,
                 player.body.velocity
             );
-        } else if (game.input.activePointer.isDown) {
+        } else if (spacebar.isDown) {            
             var bullet = bullets.getFirstExists(false);
-
             bullet.reset(turret.x, turret.y);
-            bullet.rotation = game.physics.arcade.moveToPointer(
-                bullet, 1000, 
-                game.input.activePointer, 500
-            );
+            ix = player.x + 100 * Math.cos(Math.degToRad(player.angle - 90));
+            iy = player.y + 100 * Math.sin(Math.degToRad(player.angle - 90));
+            game.physics.arcade.moveToXY(bullet, ix, iy, 500);
         } else {
             player.animations.stop();
             player.frame = 4;
