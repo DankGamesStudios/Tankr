@@ -41,26 +41,29 @@
 
     function update() {
         var units = 100,
-            angle = 3;
+            angle = 45;
+
+        player.body.velocity.x = 0;
+        player.body.velocity.y = 0;
+        player.body.angularVelocity = 0;
 
         if (cursors.left.isDown) {
-            player.angle += -angle;
+            player.body.angularVelocity = -angle;
         } else if (cursors.right.isDown) {
-            player.angle += angle;
+            player.body.angularVelocity = angle;
         } else if (cursors.down.isDown) {
+            
             game.physics.arcade.velocityFromAngle(
                 player.angle + 90,
                 units,
                 player.body.velocity
             );
-            player.animations.play('down');
         } else if (cursors.up.isDown) {
             game.physics.arcade.velocityFromAngle(
                 player.angle + -90,
                 units,
                 player.body.velocity
             );
-            // player.animations.play('up');
         } else {
             player.animations.stop();
             player.frame = 4;
