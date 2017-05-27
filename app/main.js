@@ -22,7 +22,7 @@
         console.log('create');
         game.physics.startSystem(Phaser.Physics.ARCADE);
         player = game.add.sprite(900, 500, 'tankBlue');
-        // player.anchor.setTo(0.5, 0.5);
+        player.anchor.setTo(1, 1);
         barrel = game.add.sprite(0, 0, 'barrelBlue');
         // barrel.anchor.setTo(0.3, 0.5);
         game.physics.arcade.enable(player);
@@ -40,7 +40,7 @@
     }
 
     function update() {
-        var units = 50,
+        var units = 100,
             angle = 3;
 
         if (cursors.left.isDown) {
