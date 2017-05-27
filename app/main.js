@@ -15,19 +15,33 @@
         //                   Phaser.Tilemap.TILED_JSON);
         game.load.image('tankBlue', 'assets/img/Tanks/tankBlue.png');
         game.load.image('barrelBlue', 'assets/img/Tanks/barrelBlue.png');
-        // game.load.image('earth', 'assets/map/tanker-14x14.png');
+
+        game.load.image('grass', 'assets/img/Environment/grass.png');
+        game.load.image('sandbagBrown', 'assets/img/Obstacles/sandbagBrown.png');
     }
 
     function create() {
         console.log('create');
-        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.world.setBounds(-1000, -1000, 2000, 2000);
+        // game.physics.startSystem(Phaser.Physics.ARCADE);
+
+        land = game.add.tileSprite(0, 0, 2000, 2000, 'grass');
+        land.fixedToCamera = true;
+
         player = game.add.sprite(0, 0, 'tankBlue');
         // player.anchor.setTo(0.5, 0.5);
         barrel = game.add.sprite(0, 0, 'barrelBlue');
         // barrel.anchor.setTo(0.3, 0.5);
-        game.physics.arcade.enable(player);
+
+        // game.physics.arcade.enable(player);
+        game.physics.enable(player, Phaser.Physics.ARCADE);
+        // player.body.drag.set(0.2);
+        // player.body.maxVelocity.setTo(400, 400);
+        // player.body.collideWorldBounds = true;
         game.camera.follow(player);
-        game.camera.focusOnXY(0, 0);
+        // game.camera.focusOnXY(0, 0);
+        sandbagBrown1 = game.add.sprite(200, 200, 'sandbagBrown');
+        sandbagBrown2 = game.add.sprite(-200, -200, 'sandbagBrown');
         // map = game.add.tilemap('tankr');
         // map = this.game.add.tilemap('MyTilemap');
         // map.addTilesetImage('tiles', 'tiles');
@@ -36,11 +50,12 @@
         // layer.resizeWorld();
         // layer.wrap = true;
 
+        // player.bringToTop();
+        // barrel.bringToTop();
         cursors = game.input.keyboard.createCursorKeys();
     }
 
     function update() {
-        console.log('update');
         var units = 50,
             angle = 3;
 
@@ -72,20 +87,20 @@
         console.log('render');
     }
 
-    // PlayerTank = function (game) {
-    //     this.game = game;
-    //     this.tank = game.add.sprite(
-    //         game.world.randomX, game.world.randomY,
-    //         'tank', 'tankRed'
-    //     );
+    PlayerTank = function (game) {
+        this.game = game;
+        this.tank = game.add.sprite(
+            game.world.randomX, game.world.randomY,
+            'tank', 'tankRed'
+        );
 
-    //     game.physics.enable(this.tank, Phaser.Physics.ARCADE);
-    //     this.tank.angle = game.rnd.angle();
-    //     game.physics.arcade.velocityFromRotation(
-    //         this.tank.rotation,
-    //         100,
-    //         this.tank.body.velocity
-    //     );
-    // };
+        game.physics.enable(tank, Phaser.Physics.ARCADE);
+        tank.angle = game.rnd.angle();
+        game.physics.arcade.velocityFromRotation(
+            this.tank.rotation,
+            100,
+            this.tank.body.velocity
+        );
+    };
 
 }());
