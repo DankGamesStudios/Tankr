@@ -21,40 +21,28 @@
     }
 
     function create() {
-        console.log('create');
         game.world.setBounds(-1000, -1000, 2000, 2000);
-        // game.physics.startSystem(Phaser.Physics.ARCADE);
 
         land = game.add.tileSprite(0, 0, 2000, 2000, 'grass');
         land.fixedToCamera = true;
 
         player = game.add.sprite(0, 0, 'tankBlue');
-        // player.anchor.setTo(0.5, 0.5);
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        player = game.add.sprite(900, 500, 'tankBlue');
+
         player.anchor.setTo(0.5, 0.5);
         barrel = game.add.sprite(0, 0, 'barrelBlue');
-        // barrel.anchor.setTo(0.3, 0.5);
 
-        // game.physics.arcade.enable(player);
         game.physics.enable(player, Phaser.Physics.ARCADE);
-        // player.body.drag.set(0.2);
-        // player.body.maxVelocity.setTo(400, 400);
-        // player.body.collideWorldBounds = true;
         game.camera.follow(player);
-        // game.camera.focusOnXY(0, 0);
-        sandbagBrown1 = game.add.sprite(200, 200, 'sandbagBrown');
-        sandbagBrown2 = game.add.sprite(-200, -200, 'sandbagBrown');
-        // map = game.add.tilemap('tankr');
-        // map = this.game.add.tilemap('MyTilemap');
-        // map.addTilesetImage('tiles', 'tiles');
 
-        // layer = map.createLayer('MyTerrain');
-        // layer.resizeWorld();
-        // layer.wrap = true;
+        sandbags = game.add.group();
+        sandbags.physicsBodyType = Phaser.Physics.ARCADE;
+        sandbags.enableBody = true;
+        for (var i = 0; i < 10; i++) {
+            var sbag = sandbags.create(game.world.randomX, game.world.randomY, 'sandbagBrown');
+            sbag.body.immovable = true;
+        }
 
-        // player.bringToTop();
-        // barrel.bringToTop();
         cursors = game.input.keyboard.createCursorKeys();
     }
 
@@ -65,6 +53,8 @@
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         player.body.angularVelocity = 0;
+
+        game.physics.arcade.collide(player, sandbags);
 
         if (cursors.left.isDown) {
             player.body.angularVelocity = -angle;
