@@ -1,9 +1,10 @@
 (function () {
     var game = new Phaser.Game(
-        window.innerWidth, window.innerHeight, Phaser.AUTO, 'tankr',
+        1024, 768, Phaser.AUTO, 'tankr',
         { preload: preload,
           create: create,
-          update: update }
+          update: update,
+          render: render }
     );
     var map;
     var player;
@@ -17,12 +18,21 @@
         return degrees * Math.PI / 180;
     }
 
+    var sandbagsCount = 15;
+    var barrelGreyCount = 15;
+
     function preload() {
+        // tanks
         game.load.image('tankBlue', 'assets/img/Tanks/tankBlue.png');
         game.load.image('barrelBlue', 'assets/img/Tanks/barrelBlue.png');
         game.load.image('bullet', 'assets/img/Bullets/bulletBlue.png');
+
+        // terrain
         game.load.image('grass', 'assets/img/Environment/grass.png');
+
+        // obstacles
         game.load.image('sandbagBrown', 'assets/img/Obstacles/sandbagBrown.png');
+        game.load.image('barrelGrey', 'assets/img/Obstacles/barrelGrey_up.png');
     }
 
     function create() {
@@ -32,7 +42,9 @@
         land.fixedToCamera = true;
         spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        player = game.add.sprite(0, 0, 'tankBlue');
+        player = game.add.sprite(game.world.centerX, game.world.centerY, 'tankBlue');
+        player.anchor.setTo(0.5, 0.5);
+        game.camera.follow(player);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -40,15 +52,24 @@
         turret = game.add.sprite(0, 0, 'barrelBlue');
         game.camera.follow(player);
 
+        // add sandbags with collision
         sandbags = game.add.group();
         sandbags.physicsBodyType = Phaser.Physics.ARCADE;
         sandbags.enableBody = true;
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < sandbagsCount; i++) {
             var sbag = sandbags.create(game.world.randomX, game.world.randomY, 'sandbagBrown');
             sbag.body.immovable = true;
         }
-        game.camera.follow(player);
-        game.camera.focusOnXY(0, 0);
+
+        // add empty barrels
+        barrelGrey = game.add.group();
+        barrelGrey.physicsBodyType = Phaser.Physics.ARCADE;
+        barrelGrey.enableBody = true;
+        for (var i = 0; i < barrelGreyCount; i++) {
+            var bg = barrelGrey.create(game.world.randomX, game.world.randomY, 'barrelGrey');
+            bg.body.immovable = false;
+        }
+
         cursors = game.input.keyboard.createCursorKeys();
         bullets = game.add.group();
         bullets.enableBody = true;
@@ -69,6 +90,7 @@
         player.body.angularVelocity = 0;
 
         game.physics.arcade.collide(player, sandbags);
+        game.physics.arcade.collide(player, barrelGrey);
 
         if (cursors.left.isDown) {
             player.body.angularVelocity = -angle;
@@ -103,5 +125,12 @@
         turret.x = player.x + 8;
         turret.y = player.y;
         turret.angle = 180 + player.angle;
+
+        game.camera.x = player.x;
+        game.camera.y = player.y;
+    }
+
+    function render() {
+        game.debug.cameraInfo(game.camera, 32, 64);
     }
 }());
