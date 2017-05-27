@@ -13,6 +13,8 @@
     var bullets;
     var spacebar;
     var timer;
+    var last_fired = 0;
+    var reload_time = 100;
 
     Math.degToRad = function(degrees) {
         return degrees * Math.PI / 180;
@@ -109,11 +111,16 @@
                 player.body.velocity
             );
         } else if (spacebar.isDown) {            
-            var bullet = bullets.getFirstExists(false);
-            bullet.reset(turret.x, turret.y);
-            ix = player.x + 100 * Math.cos(Math.degToRad(player.angle - 90));
-            iy = player.y + 100 * Math.sin(Math.degToRad(player.angle - 90));
-            game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+            now = game.time.now;
+            if (last_fired + reload_time < now) {
+                var bullet = bullets.getFirstExists(false);
+                bullet.reset(turret.x, turret.y);
+                bullet.angle = player.angle;
+                ix = player.x + 100 * Math.cos(Math.degToRad(player.angle - 90));
+                iy = player.y + 100 * Math.sin(Math.degToRad(player.angle - 90));
+                game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+                last_fired = now;
+            }
         } else {
             player.animations.stop();
             player.frame = 4;
