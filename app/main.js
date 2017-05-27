@@ -21,7 +21,7 @@
     function create() {
         console.log('create');
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        player = game.add.sprite(0, 0, 'tankBlue');
+        player = game.add.sprite(900, 500, 'tankBlue');
         // player.anchor.setTo(0.5, 0.5);
         barrel = game.add.sprite(0, 0, 'barrelBlue');
         // barrel.anchor.setTo(0.3, 0.5);
@@ -40,23 +40,28 @@
     }
 
     function update() {
-        console.log('update');
         var units = 50,
             angle = 3;
 
         if (cursors.left.isDown) {
-            // player.body.velocity.x += -units;
             player.angle += -angle;
             player.animations.play('left');
         } else if (cursors.right.isDown) {
-            // player.body.velocity.x += units;
             player.angle += angle;
             player.animations.play('right');
         } else if (cursors.down.isDown) {
-            player.body.velocity.y += units;
+            game.physics.arcade.velocityFromAngle(
+                player.angle + 90,
+                units,
+                player.body.velocity
+            );
             player.animations.play('down');
         } else if (cursors.up.isDown) {
-            player.body.velocity.y += -units;
+            game.physics.arcade.velocityFromAngle(
+                player.angle + -90,
+                units,
+                player.body.velocity
+            );
             player.animations.play('up');
         } else {
             player.animations.stop();
