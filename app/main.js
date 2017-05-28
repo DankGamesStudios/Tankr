@@ -28,7 +28,7 @@
 
     var enemies;
     var enemyBullets;
-    var enemiesCount = 9;
+    var enemiesCount = 5;
 
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
@@ -129,15 +129,19 @@
 
         if (enemiesCount === 0) {
             label ("- Victory -");
+            game.paused = true;
         }
     }
 
-    function label (message) {
+    function label(message, x, y) {
         var style = { font: "65px Arial", align: "center" };
-        var text = game.add.text(player.x, player.y, message, style);
+        var text = game.add.text(Math.floor(x + game.camera.width / 2), Math.floor(y + game.camera.height / 2), message, style);
+        // text.setTextBounds(0,0,800,600);
+        // text.boundsAlignH = 'center';
+        // text.boundsAlignV = 'bottom';
         
+        label.fixedToCamera = true;
         text.anchor.set(0.5);
-
     }
 
     function preload() {
@@ -312,7 +316,6 @@
             game.physics.arcade.collide(enemies[i].tank, barrelGrey);
             enemies[i].update();
         }
-        
     }
 
     function enemyFire(tank) {
@@ -332,16 +335,13 @@
             var animation = explosions.getFirstExists(false);
             animation.reset(player.x, player.y);
             animation.play('kaboom', 30, false, true);
-
+            game.camera.unfollow();
             ix = player.x;
             iy = player.y;
-            console.log(ix, iy);
             player.turret.kill();
             player.kill();
-            console.log(ix, iy);
-            game.camera.x = ix;
-            game.camera.y = iy;
-            label('You have been defeated!');
+            label('You have been defeated!', ix, iy);
+            game.paused = true;
         }
         bullet.kill();
     }
@@ -372,7 +372,6 @@
 
     function render() {
         var info_text = '';
-        game.debug.cameraInfo(game.camera, 32, 64);
         info_text += ' lives: ' + player.health;
         info_text += ' score: ' + score;
         info_text += ' enemies: ' + enemiesCount;
