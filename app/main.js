@@ -30,8 +30,8 @@
     var enemyBullets;
     var enemiesCount = 5;
 
-    var sandbagsCount = 15;
-    var barrelGreyCount = 15;
+    var sandbagsCount = 20;
+    var barrelGreyCount = 20;
 
     var spawnedObjects = [];
 
@@ -133,14 +133,10 @@
         }
     }
 
-    function label(message, x, y) {
-        var style = { font: "65px Arial", align: "center" };
-        var text = game.add.text(Math.floor(x + game.camera.width / 2), Math.floor(y + game.camera.height / 2), message, style);
-        // text.setTextBounds(0,0,800,600);
-        // text.boundsAlignH = 'center';
-        // text.boundsAlignV = 'bottom';
-        
-        label.fixedToCamera = true;
+    function label(message) {
+        var style = { font: "32px Arial" };
+        var text = game.add.text(Math.floor(game.camera.width / 2), Math.floor(game.camera.height / 2), message, style);
+        text.fixedToCamera = true;
         text.anchor.set(0.5);
     }
 
