@@ -118,13 +118,13 @@
         bullet.kill();
 
         if (enemiesCount === 0) {
-            victory();
+            label ("- Victory -");
         }
     }
 
-    function victory () {
+    function label (message) {
         var style = { font: "65px Arial", align: "center" };
-        var text = game.add.text(player.x, player.y, "- Victory -", style);
+        var text = game.add.text(player.x, player.y, message, style);
         
         text.anchor.set(0.5);
 
@@ -167,6 +167,7 @@
 
         player.anchor.setTo(0.5, 0.5);
         turret = game.add.sprite(0, 0, 'barrelBlue');
+        player.turret = turret;
 
         // add sandbags with collision
         sandbags = game.add.group();
@@ -232,7 +233,7 @@
     }
 
     function update() {
-        game.physics.arcade.overlap(enemyBullets, player, bulletHitPlayer, null, this);
+        // game.physics.arcade.overlap(enemyBullets, player, bulletHitPlayer, null, this);
 
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
@@ -240,6 +241,7 @@
 
         game.physics.arcade.collide(player, sandbags);
         game.physics.arcade.collide(player, barrelGrey);
+        game.physics.arcade.collide(player, enemyBullets, bulletHitPlayer);
         game.physics.arcade.collide(barrelGrey, bullets, hitBarrel);
         for (var i=0; i<enemies.length; i++) {
             game.physics.arcade.collide(enemies[i].tank, bullets, hitEnemy);
@@ -309,8 +311,24 @@
         game.physics.arcade.moveToXY(bullet, ix, iy, 500);
     }
 
-    function bulletHitPlayer (tank, bullet) {
-        console.log('bullet hit the player.');
+    function bulletHitPlayer (player, bullet) {
+        player.health -= 1;
+        if (player.health <= 0) {
+            var animation = explosions.getFirstExists(false);
+            animation.reset(player.x, player.y);
+            animation.play('kaboom', 30, false, true);
+
+            ix = player.x;
+            iy = player.y;
+            console.log(ix, iy);
+            player.turret.kill();
+            player.kill();
+            console.log(ix, iy);
+            game.camera.x = ix;
+            game.camera.y = iy;
+            label('You have been defeated!');
+        }
+        bullet.kill();
     }
 
     function hitBarrel (barrel, bullet) {
