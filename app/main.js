@@ -63,6 +63,7 @@
 
         this.tank.name = index.toString();
         game.physics.enable(this.tank, Phaser.Physics.ARCADE);
+        this.tank.enableBody = true;
         this.tank.body.immovable = true;
         this.tank.body.collideWorldBounds = true;
         this.tank.body.bounce.setTo(1, 1);
@@ -94,13 +95,22 @@
             game.physics.arcade.moveToXY(bullet, ix, iy, 500);
             this.tank.last_fired = now;
         }
+        game.physics.arcade.collide(this.tank, this.tank);
 
         // follow the player
-        // setInterval(function () {
-        //     for (var i = 0; i < enemies.length; i++) {
-        //         enemyFire(enemies[i]);
-        //     }
-        // }, 1000);
+        game.physics.arcade.moveToObject(this.tank, this.player);
+    }
+
+    EnemyTank.prototype.damage = function () {
+        this.health -= 1;
+        if (this.health <= 0) {
+            this.alive = false;
+            this.tank.kill();
+            this.turret.kill();
+            return true;
+        }
+        return false;
+
     }
     
     function hitEnemy (enemy, bullet) {
@@ -349,12 +359,6 @@
         var boundsB = spriteB.getBounds();
 
         return Phaser.Rectangle.intersects(boundsA, boundsB);
-    }
-
-    function getSpawnLocation(tank) {
-        if (checkOverlap('tankRed', 'grass')) {
-            console.log('overlap');
-        }
     }
 
     function render() {
