@@ -19,7 +19,7 @@
     var last_fired = 0;
     var reload_time = 400;
     var enemy_reload_time = reload_time * 3;
-    var speed_units = 600;
+    var speed_units = 350;
     var speed_angle = 90;
     var info_text;
     var score = 0;
@@ -173,6 +173,7 @@
         player.anchor.setTo(0.5, 0.5);
         game.camera.follow(player);
         game.physics.enable(player, Phaser.Physics.ARCADE);
+        player.body.collideWorldBounds = true;
         game.physics.startSystem(Phaser.Physics.ARCADE);
 
         player.anchor.setTo(0.5, 0.5);
