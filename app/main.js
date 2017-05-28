@@ -1,6 +1,8 @@
 (function () {
+    var screen_height = 1024;
+    var screen_width = 768;
     var game = new Phaser.Game(
-        1024, 768, Phaser.AUTO, 'tankr',
+        screen_height, screen_width, Phaser.AUTO, 'tankr',
         { preload: preload,
           create: create,
           update: update,
@@ -18,10 +20,14 @@
     var reload_time = 400;
     var speed_units = 300;
     var speed_angle = 90;
+    var info_text;
+    var score = 0;
+    var player_health = 10;
+
 
     var enemies;
     var enemyBullets;
-    var enemiesCount;
+    var enemiesCount = 3;
 
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
@@ -78,11 +84,24 @@
             animation.play('kaboom', 30, false, true);
             enemy.turret.kill();
             enemy.kill();
+            score += 1;
+            enemiesCount -= 1;
         }
 
         bullet.kill();
+
+        if (enemiesCount === 0) {
+            victory();
+        }
     }
 
+    function victory () {
+        var style = { font: "65px Arial", align: "center" };
+        var text = game.add.text(player.x, player.y, "- Victory -", style);
+        
+        text.anchor.set(0.5);
+
+    }
 
     function preload() {
         // tanks
@@ -111,6 +130,7 @@
         spacebar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'tankBlue');
+        player.health = player_health;
         player.anchor.setTo(0.5, 0.5);
         game.camera.follow(player);
         game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -167,7 +187,6 @@
         enemyBullets.setAll('checkWorldBounds', true);
 
         enemies = [];
-        enemiesCount = 7;
         for (var i = 0; i < enemiesCount; i++) {
             enemy = new EnemyTank(i, game, player, enemyBullets);
             enemy.tank.enableBody = true;
@@ -239,6 +258,7 @@
             game.physics.arcade.collide(enemies[i].tank, barrelGrey);
             enemies[i].update();
         }
+        
     }
 
     function enemyFire(tank) {
@@ -270,6 +290,11 @@
     };
 
     function render() {
+        var info_text = '';
         game.debug.cameraInfo(game.camera, 32, 64);
+        info_text += ' lives: ' + player.health;
+        info_text += ' score: ' + score;
+        info_text += ' enemies: ' + enemiesCount;
+        game.debug.text(info_text, screen_width - 50, 64);
     }
 }());
