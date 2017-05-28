@@ -32,6 +32,8 @@
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
 
+    var spawnedObjects = [];
+
     EnemyTank = function (index, game, player, bullets) {
         var x = game.world.randomX;
         var y = game.world.randomY;
@@ -45,6 +47,15 @@
         this.alive = true;
 
         this.tank = game.add.sprite(x, y, 'tankRed');
+
+        for (var i = 0; i < spawnedObjects.length; i++) {
+            if (checkOverlap(this.tank, spawnedObjects[i])) {
+                this.tank.x += 10;
+                this.tank.y += 15;
+            }
+        }
+        spawnedObjects.push(this.tank);
+
         this.tank.anchor.setTo(0.5, 0.5);
         this.turret = game.add.sprite(x, y, 'barrelRed');
         this.tank.turret = this.turret;
@@ -131,6 +142,7 @@
 
         player = game.add.sprite(game.world.centerX, game.world.centerY, 'tankBlue');
         player.health = player_health;
+        spawnedObjects.push(player);
         player.anchor.setTo(0.5, 0.5);
         game.camera.follow(player);
         game.physics.enable(player, Phaser.Physics.ARCADE);
@@ -146,6 +158,13 @@
         for (var i = 0; i < sandbagsCount; i++) {
             var sbag = sandbags.create(game.world.randomX, game.world.randomY, 'sandbagBrown');
             sbag.body.immovable = true;
+            for (var i = 0; i < spawnedObjects.length; i++) {
+                if (checkOverlap(sbag, spawnedObjects[i])) {
+                    sbag.x += 10;
+                    sbag.y += 10;
+                }
+            }
+            spawnedObjects.push(sbag);
         }
 
         // add empty barrels
@@ -157,6 +176,7 @@
         for (var i = 0; i < barrelGreyCount; i++) {
             var bg = barrelGrey.create(game.world.randomX, game.world.randomY, 'barrelGrey');
             bg.body.immovable = false;
+            spawnedObjects.push(bg);
         }
 
         cursors = game.input.keyboard.createCursorKeys();
@@ -288,6 +308,19 @@
     Math.degToRad = function (degrees) {
         return degrees * Math.PI / 180;
     };
+
+    function checkOverlap(spriteA, spriteB) {
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();
+
+        return Phaser.Rectangle.intersects(boundsA, boundsB);
+    }
+
+    function getSpawnLocation(tank) {
+        if (checkOverlap('tankRed', 'grass')) {
+            console.log('overlap');
+        }
+    }
 
     function render() {
         var info_text = '';
