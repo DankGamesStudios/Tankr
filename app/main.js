@@ -252,6 +252,8 @@
         game.physics.arcade.collide(player, sandbags);
         game.physics.arcade.collide(player, barrelGrey);
         game.physics.arcade.collide(player, enemyBullets, bulletHitPlayer);
+        game.physics.arcade.collide(sandbags, enemyBullets, bulletHitSandbag);
+        game.physics.arcade.collide(barrelGrey, enemyBullets, hitBarrel);
         game.physics.arcade.collide(barrelGrey, bullets, hitBarrel);
         for (var i=0; i<enemies.length; i++) {
             game.physics.arcade.collide(enemies[i].tank, bullets, hitEnemy);
@@ -338,6 +340,10 @@
             game.camera.y = iy;
             label('You have been defeated!');
         }
+        bullet.kill();
+    }
+
+    function bulletHitSandbag (sandbag, bullet) {
         bullet.kill();
     }
 
