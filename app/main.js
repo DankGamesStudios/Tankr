@@ -23,7 +23,7 @@
     var speed_angle = 90;
     var info_text;
     var score = 0;
-    var player_health = 40;
+    var player_health = 15;
 
 
     var enemies;
@@ -369,7 +369,7 @@
 
     function render() {
         var info_text = '';
-        info_text += ' lives: ' + player.health;
+        info_text += ' health: ' + player.health;
         info_text += ' score: ' + score;
         info_text += ' enemies: ' + enemiesCount;
         game.debug.text(info_text, screen_width - 50, 64);
