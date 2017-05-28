@@ -18,6 +18,7 @@
     var timer;
     var last_fired = 0;
     var reload_time = 400;
+    var enemy_reload_time = reload_time * 3;
     var speed_units = 300;
     var speed_angle = 90;
     var info_text;
@@ -27,7 +28,7 @@
 
     var enemies;
     var enemyBullets;
-    var enemiesCount = 3;
+    var enemiesCount = 9;
 
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
@@ -47,7 +48,7 @@
         this.alive = true;
 
         this.tank = game.add.sprite(x, y, 'tankRed');
-
+        this.tank.last_fired = 0;
         for (var i = 0; i < spawnedObjects.length; i++) {
             if (checkOverlap(this.tank, spawnedObjects[i])) {
                 this.tank.x += 10;
@@ -67,17 +68,32 @@
         this.tank.body.bounce.setTo(1, 1);
     }
 
-    EnemyTank.prototype.update = function() {
-        this.turret.x = this.tank.x -7;
-        this.turret.y = this.tank.y -50;
-    }
-
     EnemyTank.prototype.update = function () {
         this.turret.x = this.tank.x - 7;
         this.turret.y = this.tank.y - 50;
         this.tank.body.velocity.x = 0;
         this.tank.body.velocity.y = 0;
         this.tank.body.angularVelocity = 0;
+
+        var player_angle = this.game.physics.arcade.angleBetween(this.tank, player);
+        // this.tank.rotation = -80 + player_angle;
+        this.tank.rotation = -80 + player_angle;
+        // this.tank.turret.rotation = 80 + player_angle;
+        this.tank.turret.x = this.tank.x + 8;
+        this.tank.turret.y = this.tank.y;
+        this.tank.turret.angle = 180 + this.tank.angle;
+
+        now = game.time.now;
+        
+        if (this.tank.last_fired + enemy_reload_time < now) {
+            var bullet = enemyBullets.getFirstExists(false);
+            bullet.reset(this.tank.turret.x, this.tank.turret.y);
+            bullet.angle = this.tank.angle;
+            ix = this.tank.x + 100 * Math.cos(Math.degToRad(this.tank.angle - 90));
+            iy = this.tank.y + 100 * Math.sin(Math.degToRad(this.tank.angle - 90));
+            game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+            this.tank.last_fired = now;
+        }
 
         // follow the player
         // setInterval(function () {
@@ -121,6 +137,7 @@
         game.load.image('barrelBlue', 'assets/img/Tanks/barrelBlue.png');
         game.load.image('barrelRed', 'assets/img/Tanks/barrelRed.png');
         game.load.image('bullet', 'assets/img/Bullets/bulletBlue.png');
+        game.load.image('enemy_bullet', 'assets/img/Bullets/bulletRed.png');
 
         // terrain
         game.load.image('grass', 'assets/img/Environment/grass.png');
@@ -199,7 +216,7 @@
         enemyBullets = game.add.group();
         enemyBullets.enableBody = true;
         enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-        enemyBullets.createMultiple(100, 'bullet');
+        enemyBullets.createMultiple(100, 'enemy_bullet');
 
         enemyBullets.setAll('anchor.x', 0.5);
         enemyBullets.setAll('anchor.y', 0.5);
