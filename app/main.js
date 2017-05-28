@@ -250,6 +250,7 @@
         player.body.angularVelocity = 0;
 
         game.physics.arcade.collide(player, sandbags);
+
         game.physics.arcade.collide(player, barrelGrey);
         game.physics.arcade.collide(player, enemyBullets, bulletHitPlayer);
         game.physics.arcade.collide(sandbags, enemyBullets, bulletHitSandbag);
@@ -257,6 +258,8 @@
         game.physics.arcade.collide(barrelGrey, bullets, hitBarrel);
         for (var i=0; i<enemies.length; i++) {
             game.physics.arcade.collide(enemies[i].tank, bullets, hitEnemy);
+            game.physics.arcade.collide(enemies[i].tank, sandbags);
+            game.physics.arcade.collide(enemies[i].tank.turret, sandbags);
         }
         game.physics.arcade.collide(barrelGrey, bullets, hitBarrel);
 
@@ -376,3 +379,4 @@
         game.debug.text(info_text, screen_width - 50, 64);
     }
 }());
+
