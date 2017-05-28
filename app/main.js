@@ -19,16 +19,16 @@
     var last_fired = 0;
     var reload_time = 400;
     var enemy_reload_time = reload_time * 3;
-    var speed_units = 300;
+    var speed_units = 600;
     var speed_angle = 90;
     var info_text;
     var score = 0;
-    var player_health = 10;
+    var player_health = 40;
 
 
     var enemies;
     var enemyBullets;
-    var enemiesCount = 9;
+    var enemiesCount = 5;
 
     var sandbagsCount = 15;
     var barrelGreyCount = 15;
@@ -86,7 +86,7 @@
 
         now = game.time.now;
         
-        if (this.tank.last_fired + enemy_reload_time < now) {
+        if ((this.tank.last_fired + enemy_reload_time < now) && (this.tank.health > 0)) {
             var bullet = enemyBullets.getFirstExists(false);
             bullet.reset(this.tank.turret.x, this.tank.turret.y);
             bullet.angle = this.tank.angle;
@@ -177,6 +177,7 @@
 
         player.anchor.setTo(0.5, 0.5);
         turret = game.add.sprite(0, 0, 'barrelBlue');
+        turret.anchor.setTo(0.1, 0.1);
         player.turret = turret;
 
         // add sandbags with collision
