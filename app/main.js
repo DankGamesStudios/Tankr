@@ -23,7 +23,7 @@
     var speed_angle = 90;
     var info_text;
     var score = 0;
-    var player_health = 15;
+    var player_health = 20;
 
 
     var enemies;
