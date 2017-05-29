@@ -17,7 +17,7 @@
     var spacebar;
     var timer;
     var last_fired = 0;
-    var reload_time = 400;
+    var reload_time = 200;
     var enemy_reload_time = reload_time * 3;
     var speed_units = 350;
     var speed_angle = 90;
@@ -35,19 +35,35 @@
 
     var spawnedObjects = [];
 
+    function notNear(a, b, range) {
+        var diff = a - b;
+        if (diff < 0) {
+            diff = -diff;
+        }
+        return diff < range;
+    }
+
+    function randomOutside(game, x, y, range) {
+        var genX, genY;
+        do {
+            genX = game.world.randomX;
+            genY = game.world.randomY;
+        } while(notNear(x, genX, range) && notNear(y, getY, range));
+        return [genX, genY];
+    }
+
     EnemyTank = function (index, game, player, bullets) {
-        var x = game.world.randomX;
-        var y = game.world.randomY;
+        var genXY = randomOutside(game, player.x, player.y, 30);
 
         this.game = game;
         this.health = 3;
         this.player = player;
         this.bullets = bullets;
-        this.fireRate = 1000;
+        this.fireRate = 200;
         this.nextFire = 0;
         this.alive = true;
 
-        this.tank = game.add.sprite(x, y, 'tankRed');
+        this.tank = game.add.sprite(genXY[0], genXY[1], 'tankRed');
         this.tank.last_fired = 0;
         for (var i = 0; i < spawnedObjects.length; i++) {
             if (checkOverlap(this.tank, spawnedObjects[i])) {
@@ -58,7 +74,7 @@
         spawnedObjects.push(this.tank);
 
         this.tank.anchor.setTo(0.5, 0.5);
-        this.turret = game.add.sprite(x, y, 'barrelRed');
+        this.turret = game.add.sprite(this.tank.x, this.tank.y, 'barrelRed');
         this.tank.turret = this.turret;
 
         this.tank.name = index.toString();
@@ -246,7 +262,7 @@
 
     function update() {
         // game.physics.arcade.overlap(enemyBullets, player, bulletHitPlayer, null, this);
-
+        var moved=false;
         player.body.velocity.x = 0;
         player.body.velocity.y = 0;
         player.body.angularVelocity = 0;
@@ -269,19 +285,23 @@
             player.body.angularVelocity = -speed_angle;
         } else if (cursors.right.isDown) {
             player.body.angularVelocity = speed_angle;
-        } else if (cursors.down.isDown) {
+        }
+        if (cursors.down.isDown) {
+            moved = true;
             game.physics.arcade.velocityFromAngle(
                 player.angle + 90,
                 speed_units,
                 player.body.velocity
             );
         } else if (cursors.up.isDown) {
+            moved = true;
             game.physics.arcade.velocityFromAngle(
                 player.angle + -90,
                 speed_units,
                 player.body.velocity
             );
-        } else if (spacebar.isDown) {            
+        }
+        if (spacebar.isDown) {
             now = game.time.now;
             if (last_fired + reload_time < now) {
                 var bullet = bullets.getFirstExists(false);
@@ -293,7 +313,8 @@
                 game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                 last_fired = now;
             }
-        } else {
+        }
+        if (!moved) {
             player.animations.stop();
             player.frame = 4;
         }
