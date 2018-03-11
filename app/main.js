@@ -2,7 +2,7 @@
     var screen_height = 1024;
     var screen_width = 768;
     var game = new Phaser.Game(
-        screen_height, screen_width, Phaser.AUTO, 'tankr',
+        2000, 2000, Phaser.AUTO, 'tankr',
         { preload: preload,
           create: create,
           update: update,
@@ -177,6 +177,8 @@
     }
 
     function create() {
+        game.physics.startSystem(Phaser.Physics.ARCADE);
+        game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         game.world.setBounds(-1000, -1000, 2000, 2000);
 
         land = game.add.tileSprite(0, 0, 2000, 2000, 'grass');
@@ -190,9 +192,8 @@
         game.camera.follow(player);
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.body.collideWorldBounds = true;
-        game.physics.startSystem(Phaser.Physics.ARCADE);
 
-        player.anchor.setTo(0.5, 0.5);
+        // player.anchor.setTo(0.5, 0.5);
         turret = game.add.sprite(0, 0, 'barrelBlue');
         turret.anchor.setTo(0.1, 0.1);
         player.turret = turret;
@@ -329,11 +330,11 @@
         game.camera.x = player.x;
         game.camera.y = player.y;
 
-        for (var i = 0; i < enemies.length; i++) {
-            game.physics.arcade.collide(player, enemies[i].tank);
-            game.physics.arcade.collide(enemies[i].tank, sandbags);
-            game.physics.arcade.collide(enemies[i].tank, barrelGrey);
-            enemies[i].update();
+        for (var j = 0; j < enemies.length; j++) {
+            game.physics.arcade.collide(player, enemies[j].tank);
+            game.physics.arcade.collide(enemies[j].tank, sandbags);
+            game.physics.arcade.collide(enemies[j].tank, barrelGrey);
+            enemies[j].update();
         }
     }
 
