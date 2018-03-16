@@ -32,9 +32,9 @@
   "dependencies": {
     "@types/node": "9.3.0",
     "@types/webfontloader": "1.6.29",
-    "clean-webpack-plugin": "0.1.17",
-    "commander": "2.13.0",
-    "copy-webpack-plugin": "4.3.1",
+    "clean-webpack-plugin": "0.1.19",
+    "commander": "2.15.0",
+    "copy-webpack-plugin": "4.5.1",
     "echo-cli": "1.0.8",
     "electron": "1.7.11",
     "electron-packager": "10.1.1",
