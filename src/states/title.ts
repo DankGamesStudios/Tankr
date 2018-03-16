@@ -1,5 +1,6 @@
 import * as Assets from '../assets';
-import Player from '../components/Player'
+import 'phaser-ce';
+import Player from '../components/Player';
 
 export default class Title extends Phaser.State {
     private backgroundTemplateSprite: Phaser.Sprite = null;
@@ -13,6 +14,9 @@ export default class Title extends Phaser.State {
     private mummySpritesheet: Phaser.Sprite = null;
 
     public create(): void {
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
         this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY, Assets.Images.ImagesBackgroundTemplate.getName());
         this.backgroundTemplateSprite.anchor.setTo(0.5);
 
@@ -59,11 +63,11 @@ export default class Title extends Phaser.State {
 
         // this.game.sound.play(Assets.Audio.AudioMusic.getName(), 0.2, true);
 
-        this.backgroundTemplateSprite.inputEnabled = true;
+        // this.backgroundTemplateSprite.inputEnabled = true;
         // this.backgroundTemplateSprite.events.onInputDown.add(() => {
         //     this.sfxAudiosprite.play(Phaser.ArrayUtils.getRandomItem(this.sfxLaserSounds));
         // });
 
-        this.game.camera.flash(0x000000, 1000);
+        // this.game.camera.flash(0x000000, 1000);
     }
 }
