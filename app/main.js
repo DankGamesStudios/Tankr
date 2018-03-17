@@ -48,7 +48,7 @@
         do {
             genX = game.world.randomX;
             genY = game.world.randomY;
-        } while(notNear(x, genX, range) && notNear(y, getY, range));
+        } while(notNear(x, genX, range) && notNear(y, genY, range));
         return [genX, genY];
     }
 
@@ -195,7 +195,8 @@
 
         // player.anchor.setTo(0.5, 0.5);
         turret = game.add.sprite(0, 0, 'barrelBlue');
-        turret.anchor.setTo(0.1, 0.1);
+        // turret rotates from middle of bottom, so set that as anchor
+        turret.anchor.setTo(0.5, 1);
         player.turret = turret;
 
         // add sandbags with collision
@@ -261,6 +262,13 @@
         }
     }
 
+    // taken from the interwebs: 
+    // http://www.html5gamedevs.com/topic/9007-help-managing-sprite-orientation/
+    // we add 90 degrees in radians to rotation to fix orientation for angleToPointer
+    function fixRotation(rotation) {
+        return rotation + 1.57079633;
+    }
+
     function update() {
         // game.physics.arcade.overlap(enemyBullets, player, bulletHitPlayer, null, this);
         var moved=false;
@@ -302,15 +310,15 @@
                 player.body.velocity
             );
         }
-        if (spacebar.isDown) {
+        if (game.input.activePointer.leftButton.isDown) {
             now = game.time.now;
             if (last_fired + reload_time < now) {
                 var bullet = bullets.getFirstExists(false);
 
                 bullet.reset(turret.x, turret.y);
-                bullet.angle = player.angle;
-                ix = player.x + 100 * Math.cos(Math.degToRad(player.angle - 90));
-                iy = player.y + 100 * Math.sin(Math.degToRad(player.angle - 90));
+                bullet.angle = turret.angle;
+                ix = player.x + 100 * Math.cos(Math.degToRad(turret.angle - 90));
+                iy = player.y + 100 * Math.sin(Math.degToRad(turret.angle - 90));
                 game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                 last_fired = now;
             }
@@ -323,9 +331,10 @@
         {
             player.body.velocity.y = -350;
         }
-        turret.x = player.x + 8;
+        // turret anchor should match player anchor
+        turret.x = player.x;
         turret.y = player.y;
-        turret.angle = 180 + player.angle;
+        turret.rotation = fixRotation(game.physics.arcade.angleToPointer(turret));
 
         game.camera.x = player.x;
         game.camera.y = player.y;
