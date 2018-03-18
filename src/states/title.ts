@@ -4,14 +4,7 @@ import Player from '../components/Player';
 import Enemy from '../components/Enemy';
 
 export default class Title extends Phaser.State {
-    // private backgroundTemplateSprite: Phaser.Sprite = null;
-    // private googleFontText: Phaser.Text = null;
-    // private localFontText: Phaser.Text = null;
-    // private pixelateShader: Phaser.Filter = null;
-    // private bitmapFontText: Phaser.BitmapText = null;
-    // private blurXFilter: Phaser.Filter.BlurX = null;
-    // private blurYFilter: Phaser.Filter.BlurY = null;
-    // private sfxAudiosprite: Phaser.AudioSprite = null;
+
     hitEnemy = (enemy, bullet) => {
         enemy.hit();
         if (!enemy.isAlive()) {
@@ -27,6 +20,7 @@ export default class Title extends Phaser.State {
             this.game.paused = true;
         }
     }
+
     bulletHitPlayer = (player, bullet) => {
         this.player.hitWithBullet();
         if (!this.player.isAlive()) {
@@ -41,9 +35,11 @@ export default class Title extends Phaser.State {
         }
         bullet.kill();
     }
+
     bulletHitSandbag = (sandbag, bullet) => {
         bullet.kill();
     }
+
     hitBarrel = (barrel, bullet) => {
         let animation = this.explosions.getFirstExists(false);
         animation.reset(barrel.x, barrel.y);
@@ -79,32 +75,6 @@ export default class Title extends Phaser.State {
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.world.setBounds(-1000, -1000, this.game.width * 2, this.game.height * 2);
 
-        // this.backgroundTemplateSprite = this.game.add.sprite(this.game.world.centerX, this.game.world.centerY,
-        //     Assets.Images.ImagesBackgroundTemplate.getName());
-        // this.backgroundTemplateSprite.anchor.setTo(0.5);
-
-        // this.googleFontText = this.game.add.text(this.game.world.centerX, this.game.world.centerY - 100, 'Google Web Fonts', {
-        //     font: '50px ' + Assets.GoogleWebFonts.Barrio
-        // });
-        // this.googleFontText.anchor.setTo(0.5);
-
-        // this.localFontText = this.game.add.text(this.game.world.centerX, this.game.world.centerY, 'Local Fonts + Shaders .frag (Pixelate here)!', {
-        //     font: '30px ' + Assets.CustomWebFonts.Fonts2DumbWebfont.getFamily()
-        // });
-        // this.localFontText.anchor.setTo(0.5);
-
-        // this.pixelateShader = new Phaser.Filter(this.game, null, this.game.cache.getShader(Assets.Shaders.ShadersPixelate.getName()));
-        // this.localFontText.filters = [this.pixelateShader];
-
-        // this.bitmapFontText = this.game.add.bitmapText(this.game.world.centerX, this.game.world.centerY + 100, Assets.BitmapFonts.FontsFontFnt.getName(), 'Bitmap Fonts + Filters .js (Blur here)!', 40);
-        // this.bitmapFontText.anchor.setTo(0.5);
-
-        // this.blurXFilter = this.game.add.filter(Assets.Scripts.ScriptsBlurX.getName()) as Phaser.Filter.BlurX;
-        // this.blurXFilter.blur = 8;
-        // this.blurYFilter = this.game.add.filter(Assets.Scripts.ScriptsBlurY.getName()) as Phaser.Filter.BlurY;
-        // this.blurYFilter.blur = 2;
-        //
-        // this.bitmapFontText.filters = [this.blurXFilter, this.blurYFilter];
         let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2, 'grass');
         land.fixedToCamera = true;
 
@@ -113,31 +83,6 @@ export default class Title extends Phaser.State {
         this.addBarrels();
         this.addExplosions();
         this.addEnemies();
-
-        // this.sfxAudiosprite = this.game.add.audioSprite(Assets.Audiosprites.AudiospritesSfx.getName());
-
-        // This is an example of how you can lessen the verbosity
-        // let availableSFX = Assets.Audiosprites.AudiospritesSfx.Sprites;
-        // this.sfxLaserSounds = [
-        //     availableSFX.Laser1,
-        //     availableSFX.Laser2,
-        //     availableSFX.Laser3,
-        //     availableSFX.Laser4,
-        //     availableSFX.Laser5,
-        //     availableSFX.Laser6,
-        //     availableSFX.Laser7,
-        //     availableSFX.Laser8,
-        //     availableSFX.Laser9
-        // ];
-
-        // this.game.sound.play(Assets.Audio.AudioMusic.getName(), 0.2, true);
-
-        // this.backgroundTemplateSprite.inputEnabled = true;
-        // this.backgroundTemplateSprite.events.onInputDown.add(() => {
-        //     this.sfxAudiosprite.play(Phaser.ArrayUtils.getRandomItem(this.sfxLaserSounds));
-        // });
-
-        // this.game.camera.flash(0x000000, 1000);
     }
 
     public update(): void {
@@ -214,7 +159,7 @@ export default class Title extends Phaser.State {
     private addExplosions(): void {
         this.explosions = this.game.add.group();
         for (let i = 0; i < 10; i++) {
-            let explosionAnimation = this.explosions.create(0, 0, 'explosion', 0, false);
+            let explosionAnimation = this.explosions.create(0, 0, 'kaboom', 0, false);
             explosionAnimation.anchor.setTo(0.5, 0.5);
             explosionAnimation.animations.add('kaboom');
         }
