@@ -1,5 +1,6 @@
 import 'phaser-ce';
 import {Images} from '../assets';
+import Title from '../states/title';
 
 export default class Player extends Phaser.Sprite {
     game: Phaser.Game;
@@ -10,18 +11,34 @@ export default class Player extends Phaser.Sprite {
     reload_time = 200;
     last_fired = 0;
     cursors = this.game.input.keyboard.createCursorKeys();
+    health: number;
+    bullets: Phaser.Group = null;
 
-    constructor(game: Phaser.Game) {
-        super(game, 100, game.world.centerY, Images.ImgTanksTankBlue.getName());
 
+    constructor(playStage: Title) {
+        super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBlue.getName());
+
+        this.health = 20;
         this.game.add.existing(this);
-        this.turret = game.add.sprite(0, 0, 'barrelBlue');
+        this.turret = this.game.add.sprite(0, 0, 'barrelBlue');
         this.turret.anchor.setTo(0.1, 0.1);
         this.anchor.setTo(0.5, 0.5);
-        game.physics.enable(this, Phaser.Physics.ARCADE);
+        this.game.camera.follow(this);
+        this.game.physics.enable(this, Phaser.Physics.ARCADE);
+
         this.body.collideWorldBounds = true;
 
-        this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+        this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+
+        this.bullets = this.game.add.group();
+        this.bullets.enableBody = true;
+        this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        this.bullets.createMultiple(30, 'bulletBlue', 0, false);
+        this.bullets.setAll('anchor.x', 0.5);
+        this.bullets.setAll('anchor.y', 0.5);
+        this.bullets.setAll('outOfBoundsKill', true);
+        this.bullets.setAll('checkWorldBounds', true);
+
     }
 
     public update() {
@@ -53,6 +70,20 @@ export default class Player extends Phaser.Sprite {
                 this.body.velocity
             );
         }
+        if (this.spaceKey.isDown) {
+            let now = this.game.time.now;
+            if (this.last_fired + this.reload_time < now) {
+                let bullet = this.bullets.getFirstExists(false);
+
+                bullet.reset(this.turret.x, this.turret.y);
+                bullet.angle = this.angle;
+                let ix = this.x + 100 * Math.cos(this.degToRad(this.angle - 90));
+                let iy = this.y + 100 * Math.sin(this.degToRad(this.angle - 90));
+                this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+                this.last_fired = now;
+            }
+        }
+
         if (!moved) {
             this.animations.stop();
             this.frame = 4;
@@ -60,6 +91,14 @@ export default class Player extends Phaser.Sprite {
         if (this.cursors.up.isDown && this.body.touching.down) {
             this.body.velocity.y = -350;
         }
+
+        this.turret.x = this.x + 8;
+        this.turret.y = this.y;
+        this.turret.angle = 180 + this.angle;
+
+        this.game.camera.x = this.x;
+        this.game.camera.y = this.y;
+
     }
 
     public fire() {
@@ -78,7 +117,15 @@ export default class Player extends Phaser.Sprite {
         }
     }
 
-    private degToRad (degrees: number) {
+    private degToRad(degrees: number) {
         return degrees * Math.PI / 180;
+    }
+
+    hitWithBullet() {
+        this.health -= 1;
+    }
+
+    isAlive() {
+        return this.health > 0;
     }
 }
