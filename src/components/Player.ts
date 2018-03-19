@@ -21,7 +21,8 @@ export default class Player extends Phaser.Sprite {
         this.health = 20;
         this.game.add.existing(this);
         this.turret = this.game.add.sprite(0, 0, 'barrelBlue');
-        this.turret.anchor.setTo(0.1, 0.1);
+        // turret rotates from middle of bottom, so set that as anchor
+        this.turret.anchor.setTo(0.5, 1);
         this.anchor.setTo(0.5, 0.5);
         this.game.camera.follow(this);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
@@ -39,6 +40,13 @@ export default class Player extends Phaser.Sprite {
         this.bullets.setAll('outOfBoundsKill', true);
         this.bullets.setAll('checkWorldBounds', true);
 
+    }
+
+    // taken from the interwebs:
+    // http://www.html5gamedevs.com/topic/9007-help-managing-sprite-orientation/
+    // we add 90 degrees in radians to rotation to fix orientation for angleToPointer
+    private fixRotation(rotation: number) {
+        return rotation + 1.57079633;
     }
 
     public update() {
@@ -70,15 +78,22 @@ export default class Player extends Phaser.Sprite {
                 this.body.velocity
             );
         }
-        if (this.spaceKey.isDown) {
+
+        // turret anchor should match player anchor
+        this.turret.x = this.x;
+        this.turret.y = this.y;
+        this.turret.rotation = this.fixRotation(
+            this.game.physics.arcade.angleToPointer(this.turret));
+
+        if (this.game.input.activePointer.leftButton.isDown) {
             let now = this.game.time.now;
             if (this.last_fired + this.reload_time < now) {
                 let bullet = this.bullets.getFirstExists(false);
 
                 bullet.reset(this.turret.x, this.turret.y);
-                bullet.angle = this.angle;
-                let ix = this.x + 100 * Math.cos(this.degToRad(this.angle - 90));
-                let iy = this.y + 100 * Math.sin(this.degToRad(this.angle - 90));
+                bullet.angle = this.turret.angle;
+                let ix = this.x + 100 * Math.cos(this.degToRad(this.turret.angle - 90));
+                let iy = this.y + 100 * Math.sin(this.degToRad(this.turret.angle - 90));
                 this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                 this.last_fired = now;
             }
@@ -91,10 +106,6 @@ export default class Player extends Phaser.Sprite {
         if (this.cursors.up.isDown && this.body.touching.down) {
             this.body.velocity.y = -350;
         }
-
-        this.turret.x = this.x + 8;
-        this.turret.y = this.y;
-        this.turret.angle = 180 + this.angle;
 
         this.game.camera.x = this.x;
         this.game.camera.y = this.y;
