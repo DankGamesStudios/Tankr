@@ -1,8 +1,19 @@
 # Tankr
 Arcade Tank Game
 
-[Play](https://hacktm2017bozo.github.io/Tankr/dist/)
+[Play](https://hacktm2017bozo.github.io/Tankr/)
 
 ### Contributing
 
-For now please run `npm run-script webpack:dev` to update live demo.
+```bash
+npm install
+npm run-script server:dev
+```
+Then start playing or start writing code.
+
+
+### Updating demo app
+```bash
+npm run-script build:dist
+npm run-script deploy
+```

@@ -18,7 +18,8 @@
     "electron:dist": "npm run build:dist && electron .",
     "electron:pack:dev": "npm run build:dev && node ./scripts/packageElectronApp.js",
     "electron:pack:dist": "npm run build:dist && node ./scripts/packageElectronApp.js",
-    "checkDepsVersions": "npm-check --skip-unused -u"
+    "checkDepsVersions": "npm-check --skip-unused -u",
+    "deploy": "gh-pages -d dist"
   },
   "repository": {
     "type": "git",
@@ -55,5 +56,8 @@
     "webpack-dev-server": "2.11.1",
     "webpack-synchronizable-shell-plugin": "0.0.6",
     "xml2js": "0.4.19"
+  },
+  "devDependencies": {
+    "gh-pages": "^1.1.0"
   }
 }
