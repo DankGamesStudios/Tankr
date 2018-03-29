@@ -1,11 +1,13 @@
 import 'phaser-ce';
 import {Images} from '../assets';
 import Player from './Player';
+import HealthBar from './HealthBar';
+import PlayerCaption from './PlayerCaption';
 
 export default class Enemy extends Phaser.Sprite {
     game: Phaser.Game;
     last_fired: number = 0;
-    health: number = 3;
+    health: number = 100;
     fireRate: number = 400;
     turret: Phaser.Sprite;
     enemy_name: String;
@@ -13,6 +15,8 @@ export default class Enemy extends Phaser.Sprite {
     player: Player;
     bullets: Phaser.Group;
     alive = true;
+    caption: Phaser.Text = null;
+    healthBar: HealthBar = null;
 
     constructor(game: Phaser.Game, genXY, id, player, bullets) {
         super(game, genXY[0], genXY[1], Images.ImgTanksTankRed.getName());
@@ -29,6 +33,9 @@ export default class Enemy extends Phaser.Sprite {
         this.body.immovable = true;
         this.body.collideWorldBounds = true;
         this.body.bounce.setTo(1, 1);
+
+        this.caption = new PlayerCaption(this.game).addCaption(this, 'CPU');
+        this.healthBar = new HealthBar(this.game, this, '#ff0000');
     }
 
     update() {
@@ -37,6 +44,10 @@ export default class Enemy extends Phaser.Sprite {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         this.body.angularVelocity = 0;
+        this.caption.x = Math.floor((this.x + this.width / 2) - 40);
+        this.caption.y = Math.floor((this.y + this.height / 2) - 110);
+
+        this.healthBar.update();
 
         let player_angle = this.game.physics.arcade.angleBetween(this, this.player);
         // this.tank.rotation = -80 + player_angle;
@@ -79,5 +90,9 @@ export default class Enemy extends Phaser.Sprite {
     // TODO: copied
     private degToRad(degrees: number) {
         return degrees * Math.PI / 180;
+    }
+
+    public kill(): any {
+        this.healthBar.kill();
     }
 }
