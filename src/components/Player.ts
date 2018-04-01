@@ -1,4 +1,6 @@
 import 'phaser-ce';
+import HealthBar from './HealthBar';
+import PlayerCaption from './PlayerCaption';
 import {Images} from '../assets';
 import Title from '../states/title';
 
@@ -13,12 +15,14 @@ export default class Player extends Phaser.Sprite {
     cursors = this.game.input.keyboard.createCursorKeys();
     health: number;
     bullets: Phaser.Group = null;
+    caption: PlayerCaption = null;
+    healthBar: HealthBar = null;
 
 
     constructor(playStage: Title) {
         super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBlue.getName());
 
-        this.health = 20;
+        this.health = 100;
         this.game.add.existing(this);
         this.turret = this.game.add.sprite(0, 0, 'barrelBlue');
         // turret rotates from middle of bottom, so set that as anchor
@@ -40,6 +44,8 @@ export default class Player extends Phaser.Sprite {
         this.bullets.setAll('outOfBoundsKill', true);
         this.bullets.setAll('checkWorldBounds', true);
 
+        this.caption = new PlayerCaption(this.game, this, 'Player 1');
+        this.healthBar = new HealthBar(this.game, this, '#136572');
     }
 
     // taken from the interwebs:
@@ -57,6 +63,9 @@ export default class Player extends Phaser.Sprite {
         this.turret.x = this.x + 8;
         this.turret.y = this.y;
         this.turret.angle = 180 + this.angle;
+
+        this.caption.update();
+        this.healthBar.update();
 
         if (this.cursors.left.isDown) {
             this.body.angularVelocity = -this.speed_angle;
@@ -138,5 +147,9 @@ export default class Player extends Phaser.Sprite {
 
     isAlive() {
         return this.health > 0;
+    }
+
+    public kill(): any {
+        this.healthBar.kill();
     }
 }

@@ -48,7 +48,6 @@ export default class Title extends Phaser.State {
         barrel.kill();
         bullet.kill();
     }
-    // private mummySpritesheet: Phaser.Sprite = null;
     private spawnedObjects: Array<Phaser.Sprite> = [];
     private player: Player;
     private greyBarrels: Phaser.Group = null;
@@ -116,7 +115,6 @@ export default class Title extends Phaser.State {
 
     public render(): void {
         let info_text = '';
-        info_text += ' health: ' + this.player.health;
         info_text += ' score: ' + this.score;
         info_text += ' enemies: ' + this.enemies.length;
         this.game.debug.text(info_text, this.world.cameraOffset.x + 50, 64);
