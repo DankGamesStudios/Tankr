@@ -15,7 +15,7 @@ export default class Player extends Phaser.Sprite {
     cursors = this.game.input.keyboard.createCursorKeys();
     health: number;
     bullets: Phaser.Group = null;
-    caption: Phaser.Text = null;
+    caption: PlayerCaption = null;
     healthBar: HealthBar = null;
 
 
@@ -43,8 +43,8 @@ export default class Player extends Phaser.Sprite {
         this.bullets.setAll('anchor.y', 0.5);
         this.bullets.setAll('outOfBoundsKill', true);
         this.bullets.setAll('checkWorldBounds', true);
-        
-        this.caption = new PlayerCaption(this.game).addCaption(this, 'Player 1');
+
+        this.caption = new PlayerCaption(this.game, this, 'Player 1');
         this.healthBar = new HealthBar(this.game, this, '#136572');
     }
 
@@ -63,9 +63,8 @@ export default class Player extends Phaser.Sprite {
         this.turret.x = this.x + 8;
         this.turret.y = this.y;
         this.turret.angle = 180 + this.angle;
-        this.caption.x = Math.floor((this.x + this.width / 2) - 40);
-        this.caption.y = Math.floor((this.y + this.height / 2) - 110);
 
+        this.caption.update();
         this.healthBar.update();
 
         if (this.cursors.left.isDown) {

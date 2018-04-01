@@ -15,7 +15,7 @@ export default class Enemy extends Phaser.Sprite {
     player: Player;
     bullets: Phaser.Group;
     alive = true;
-    caption: Phaser.Text = null;
+    caption: PlayerCaption = null;
     healthBar: HealthBar = null;
 
     constructor(game: Phaser.Game, genXY, id, player, bullets) {
@@ -34,7 +34,7 @@ export default class Enemy extends Phaser.Sprite {
         this.body.collideWorldBounds = true;
         this.body.bounce.setTo(1, 1);
 
-        this.caption = new PlayerCaption(this.game).addCaption(this, 'CPU');
+        this.caption = new PlayerCaption(this.game, this, 'CPU');
         this.healthBar = new HealthBar(this.game, this, '#ff0000');
     }
 
@@ -44,9 +44,8 @@ export default class Enemy extends Phaser.Sprite {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         this.body.angularVelocity = 0;
-        this.caption.x = Math.floor((this.x + this.width / 2) - 40);
-        this.caption.y = Math.floor((this.y + this.height / 2) - 110);
 
+        this.caption.update();
         this.healthBar.update();
 
         let player_angle = this.game.physics.arcade.angleBetween(this, this.player);
