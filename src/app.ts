@@ -6,19 +6,79 @@ import * as WebFontLoader from 'webfontloader';
 
 import Boot from './states/boot';
 import Preloader from './states/preloader';
-import Title from './states/title';
+import Game from './states/game';
+import MainScreen from './states/mainScreen';
+import Credits from './states/credits';
+import Win from './states/win';
+import Loss from './states/loss';
+import Settings from './states/settings';
 import * as Utils from './utils/utils';
 import * as Assets from './assets';
+import KeyCode = Phaser.KeyCode;
 
-class App extends Phaser.Game {
+export default class TankrApp extends Phaser.Game {
+    settings = {
+        'UpKey': KeyCode.UP,
+        'LeftKey': KeyCode.LEFT,
+        'RightKey': KeyCode.RIGHT,
+        'DownKey': KeyCode.DOWN,
+        'FireKey': 'mouseLeft',
+    };
+
     constructor(config: Phaser.IGameConfig) {
-        super (config);
+        super(config);
 
-        this.state.add('boot', Boot);
+        this.state.add('boot', Boot, true);
         this.state.add('preloader', Preloader);
-        this.state.add('title', Title);
+        this.state.add('mainScreen', MainScreen);
+        this.state.add('game', Game);
+        this.state.add('credits', Credits);
+        this.state.add('win', Win);
+        this.state.add('loss', Loss);
+        this.state.add('settings', new Settings(this));
+    }
 
-        this.state.start('boot');
+    public getSettings() {
+        return this.settings;
+    }
+
+    public getSetting(name: string) {
+        return this.settings[name];
+    }
+
+    public setSetting(name: string, value: any) {
+        this.settings[name] = value;
+    }
+
+    public isButtonPressed(buttonKey: string): boolean {
+        let key = this.settings[buttonKey];
+        if (key === 'mouseLeft') {
+            return this.input.activePointer.leftButton.isDown;
+        } else if (key === 'mouseRight') {
+            return this.input.activePointer.rightButton.isDown;
+        } else {
+            return this.input.keyboard.isDown(key);
+        }
+    }
+
+    public isUpPressed(): boolean {
+        return this.isButtonPressed('UpKey');
+    }
+
+    public isLeftPressed(): boolean {
+        return this.isButtonPressed('LeftKey');
+    }
+
+    public isRightPressed(): boolean {
+        return this.isButtonPressed('RightKey');
+    }
+
+    public isDownPressed(): boolean {
+        return this.isButtonPressed('DownKey');
+    }
+
+    public isFirePressed(): boolean {
+        return this.isButtonPressed('FireKey');
     }
 }
 
@@ -42,7 +102,7 @@ function startApp(): void {
         resolution: 1
     };
 
-    let app = new App(gameConfig);
+    new TankrApp(gameConfig);
 }
 
 window.onload = () => {

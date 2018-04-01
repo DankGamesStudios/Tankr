@@ -1,8 +1,10 @@
 import 'phaser-ce';
 import {Images} from '../assets';
-import Title from '../states/title';
+import Game from '../states/game';
+import TankrApp from '../app';
 
 export default class Player extends Phaser.Sprite {
+    tankrGame: TankrApp;
     game: Phaser.Game;
     turret = null;
     spaceKey = null;
@@ -15,9 +17,9 @@ export default class Player extends Phaser.Sprite {
     bullets: Phaser.Group = null;
 
 
-    constructor(playStage: Title) {
+    constructor(tankrGame: TankrApp, playStage: Game) {
         super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBlue.getName());
-
+        this.tankrGame = tankrGame;
         this.health = 20;
         this.game.add.existing(this);
         this.turret = this.game.add.sprite(0, 0, 'barrelBlue');
@@ -57,20 +59,20 @@ export default class Player extends Phaser.Sprite {
         this.turret.x = this.x + 8;
         this.turret.y = this.y;
         this.turret.angle = 180 + this.angle;
-
-        if (this.cursors.left.isDown) {
+        let downPressed = this.tankrGame.isDownPressed();
+        if (this.tankrGame.isLeftPressed()) {
             this.body.angularVelocity = -this.speed_angle;
-        } else if (this.cursors.right.isDown) {
+        } else if (this.tankrGame.isRightPressed()) {
             this.body.angularVelocity = this.speed_angle;
         }
-        if (this.cursors.down.isDown) {
+        if (downPressed) {
             moved = true;
             this.game.physics.arcade.velocityFromAngle(
                 this.angle + 90,
                 this.speed_units,
                 this.body.velocity
             );
-        } else if (this.cursors.up.isDown) {
+        } else if (this.tankrGame.isUpPressed()) {
             moved = true;
             this.game.physics.arcade.velocityFromAngle(
                 this.angle - 90,
@@ -85,7 +87,7 @@ export default class Player extends Phaser.Sprite {
         this.turret.rotation = this.fixRotation(
             this.game.physics.arcade.angleToPointer(this.turret));
 
-        if (this.game.input.activePointer.leftButton.isDown) {
+        if (this.tankrGame.isFirePressed()) {
             let now = this.game.time.now;
             if (this.last_fired + this.reload_time < now) {
                 let bullet = this.bullets.getFirstExists(false);
@@ -103,7 +105,7 @@ export default class Player extends Phaser.Sprite {
             this.animations.stop();
             this.frame = 4;
         }
-        if (this.cursors.up.isDown && this.body.touching.down) {
+        if (downPressed && this.body.touching.down) {
             this.body.velocity.y = -350;
         }
 
@@ -112,7 +114,7 @@ export default class Player extends Phaser.Sprite {
 
     }
 
-    public fire() {
+    public fire() { // TODO: delete this ?
         if (this.spaceKey.isDown) {
             let now = this.game.time.now;
             if (this.last_fired + this.reload_time < now) {
