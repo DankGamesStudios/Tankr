@@ -34,8 +34,8 @@ export default class Settings extends MenuState {
         this.addOption('Fire key', null, this.game.world.centerX - 100, this.game.world.centerY + 140);
         this.fire = this.addKeySelect('FireKey', this.game.world.centerX + 100, this.game.world.centerY + 140);
 
-        this.addOption('Press value to change', null, this.game.world.centerX - 100, this.game.world.centerY + 250);
-        this.addOption('Return', 'mainScreen', this.game.world.centerX + 100, this.game.world.centerY + 250);
+        this.addOption('Press value to change', null, this.game.world.centerX - 100, this.game.world.centerY + 220);
+        this.addOption('Return', 'mainScreen', this.game.world.centerX + 100, this.game.world.centerY + 220);
     }
 
     public render(): void {

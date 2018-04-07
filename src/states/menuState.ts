@@ -16,7 +16,7 @@ export default class MenuState extends Phaser.State {
             this.game.world.centerX,
             this.game.world.centerY - 200,
             this.title,
-            {font: '60px', fill: '#9eff63', align: 'center'});
+            {font: '50px', fill: '#9eff63', align: 'center'});
         title.anchor.set(0.5, 0.5);
     }
 
@@ -27,7 +27,7 @@ export default class MenuState extends Phaser.State {
             x,
             y,
             text,
-            {font: '30px', fill: '#9eff63', align: 'center'});
+            {font: '25px', fill: '#9eff63', align: 'center'});
         option.anchor.set(0.5, 0.5);
         option.inputEnabled = true;
         if (stateKey) {
