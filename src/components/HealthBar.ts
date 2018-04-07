@@ -15,7 +15,7 @@ export default class HealthBar extends Phaser.Sprite {
     healthBar: Phaser.Sprite = null;
 
     constructor(game, public parent: Phaser.Sprite, foregroundColor: string) {
-        super(game, parent.x, parent.y)
+        super(game, parent.x, parent.y);
 
         this.options.foreground = foregroundColor;
         this.drawBackground();

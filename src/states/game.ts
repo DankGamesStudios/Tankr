@@ -2,8 +2,15 @@ import * as Assets from '../assets';
 import 'phaser-ce';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
+import TankrApp from '../app';
 
 export default class Title extends Phaser.State {
+    tankrGame: TankrApp;
+
+    constructor(tankrGame: TankrApp) {
+        super();
+        this.tankrGame = tankrGame;
+    }
 
     hitEnemy = (enemy, bullet) => {
         enemy.hit();
@@ -16,8 +23,7 @@ export default class Title extends Phaser.State {
         }
         bullet.kill();
         if (this.enemies.length === 0) {
-            this.label('- Victory -');
-            this.game.paused = true;
+            this.game.state.start('win');
         }
     }
 
@@ -30,8 +36,7 @@ export default class Title extends Phaser.State {
             this.game.camera.unfollow();
             player.turret.kill();
             player.kill();
-            this.label('You have been defeated!');
-            this.game.paused = true;
+            this.game.state.start('loss');
         }
         bullet.kill();
     }
@@ -48,7 +53,7 @@ export default class Title extends Phaser.State {
         barrel.kill();
         bullet.kill();
     }
-    private spawnedObjects: Array<Phaser.Sprite> = [];
+    private spawnedObjects: Array<Phaser.Sprite>;
     private player: Player;
     private greyBarrels: Phaser.Group = null;
     private sandbags: Phaser.Group = null;
@@ -70,6 +75,7 @@ export default class Title extends Phaser.State {
     }
 
     public create(): void {
+        this.spawnedObjects = [];
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.world.setBounds(-1000, -1000, this.game.width * 2, this.game.height * 2);
@@ -77,7 +83,7 @@ export default class Title extends Phaser.State {
         let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2, 'grass');
         land.fixedToCamera = true;
 
-        this.player = new Player(this);
+        this.player = new Player(this.tankrGame, this);
         this.addSandBags();
         this.addBarrels();
         this.addExplosions();

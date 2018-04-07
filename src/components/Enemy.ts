@@ -7,7 +7,8 @@ import PlayerCaption from './PlayerCaption';
 export default class Enemy extends Phaser.Sprite {
     game: Phaser.Game;
     last_fired: number = 0;
-    health: number = 100;
+    health: number = 20;
+    maxHealth: number = 20;
     fireRate: number = 400;
     turret: Phaser.Sprite;
     enemy_name: String;
@@ -76,7 +77,6 @@ export default class Enemy extends Phaser.Sprite {
         if (this.health <= 0) {
             this.alive = false;
             this.kill();
-            this.turret.kill();
             return true;
         }
         return false;
@@ -92,6 +92,9 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     public kill(): any {
+        super.kill();
+        this.turret.kill();
+        this.caption.kill();
         this.healthBar.kill();
     }
 }

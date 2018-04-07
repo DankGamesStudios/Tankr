@@ -23,4 +23,8 @@ export default class PlayerCaption {
         this.caption.x = Math.floor((this.player.x + this.player.width / 2) - 40);
         this.caption.y = Math.floor((this.player.y + this.player.height / 2) - 110);
     }
+
+    kill() {
+        this.caption.kill();
+    }
 }
