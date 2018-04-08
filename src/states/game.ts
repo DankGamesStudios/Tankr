@@ -1,4 +1,3 @@
-import * as Assets from '../assets';
 import 'phaser-ce';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
@@ -112,13 +111,6 @@ export default class Title extends Phaser.State {
             this.game.physics.arcade.collide(enemy, this.greyBarrels);
             enemy.update();
         }
-    }
-
-    label(message) {
-        const style = {font: '32px Arial'};
-        const text = this.game.add.text(Math.floor(this.game.camera.width / 2), Math.floor(this.game.camera.height / 2), message, style);
-        text.fixedToCamera = true;
-        text.anchor.set(0.5);
     }
 
     public render(): void {
