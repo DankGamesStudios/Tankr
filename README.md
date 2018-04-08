@@ -17,3 +17,7 @@ Then start playing or start writing code.
 npm run-script build:dist
 npm run-script deploy
 ```
+
+### Acknowledgments
+
+Thanks to [www.kenney.nl](https://www.kenney.nl/) for public license assets!

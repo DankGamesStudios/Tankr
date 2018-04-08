@@ -27,7 +27,7 @@ export default class Enemy extends Phaser.Sprite {
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         this.anchor.setTo(0.5, 0.5);
-        this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksBarrelRed.getName());
+        this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksTankRed.getName());
 
         this.enemy_name = id.toString();
         // this.enableBody = true;

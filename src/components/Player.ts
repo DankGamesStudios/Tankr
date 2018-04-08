@@ -22,11 +22,11 @@ export default class Player extends Phaser.Sprite {
 
 
     constructor(tankrGame: TankrApp, playStage: Game) {
-        super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBlue.getName());
+        super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBodyBlueOutline.getName());
         this.tankrGame = tankrGame;
         this.health = 100;
         this.game.add.existing(this);
-        this.turret = this.game.add.sprite(0, 0, 'barrelBlue');
+        this.turret = this.game.add.sprite(0, 0, Images.ImgTanksTankBlueBarrel1.getName());
         // turret rotates from middle of bottom, so set that as anchor
         this.turret.anchor.setTo(0.5, 1);
         this.anchor.setTo(0.5, 0.5);
@@ -40,7 +40,7 @@ export default class Player extends Phaser.Sprite {
         this.bullets = this.game.add.group();
         this.bullets.enableBody = true;
         this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        this.bullets.createMultiple(30, 'bulletBlue', 0, false);
+        this.bullets.createMultiple(30, Images.ImgBulletsBulletBlue1.getName(), 0, false);
         this.bullets.setAll('anchor.x', 0.5);
         this.bullets.setAll('anchor.y', 0.5);
         this.bullets.setAll('outOfBoundsKill', true);

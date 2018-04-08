@@ -3,6 +3,7 @@ import 'phaser-ce';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
 import TankrApp from '../app';
+import {Images} from '../assets';
 
 export default class Title extends Phaser.State {
     tankrGame: TankrApp;
@@ -80,7 +81,8 @@ export default class Title extends Phaser.State {
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.world.setBounds(-1000, -1000, this.game.width * 2, this.game.height * 2);
 
-        let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2, 'grass');
+        let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2,
+            Images.ImgEnvironmentTileGrass1.getName());
         land.fixedToCamera = true;
 
         this.player = new Player(this.tankrGame, this);
@@ -154,7 +156,8 @@ export default class Title extends Phaser.State {
         this.greyBarrels.enableBody = true;
 
         for (let i = 0; i < 20; i++) {
-            let bg = this.greyBarrels.create(this.game.world.randomX, this.game.world.randomY, 'barrelGrey_up');
+            let bg = this.greyBarrels.create(this.game.world.randomX, this.game.world.randomY,
+                Images.ImgObstaclesBarrelBlackTop.getName());
             bg.body.immovable = false;
             this.spawnedObjects.push(bg);
         }
@@ -163,7 +166,8 @@ export default class Title extends Phaser.State {
     private addExplosions(): void {
         this.explosions = this.game.add.group();
         for (let i = 0; i < 10; i++) {
-            let explosionAnimation = this.explosions.create(0, 0, 'kaboom', 0, false);
+            let explosionAnimation = this.explosions.create(0, 0,
+                Images.ImgSmokeExplosion4.getName(), 0, false);
             explosionAnimation.anchor.setTo(0.5, 0.5);
             explosionAnimation.animations.add('kaboom');
         }
@@ -173,7 +177,7 @@ export default class Title extends Phaser.State {
         this.enemyBullets = this.game.add.group();
         this.enemyBullets.enableBody = true;
         this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
-        this.enemyBullets.createMultiple(100, 'bulletRed');
+        this.enemyBullets.createMultiple(100, Images.ImgBulletsBulletRed1.getName());
 
         this.enemyBullets.setAll('anchor.x', 0.5);
         this.enemyBullets.setAll('anchor.y', 0.5);
