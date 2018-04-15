@@ -158,8 +158,7 @@ export default class Title extends Phaser.State {
     private addExplosions(): void {
         this.explosions = this.game.add.group();
         for (let i = 0; i < 10; i++) {
-            let explosionAnimation = this.explosions.create(0, 0,
-                Images.ImgSmokeExplosion4.getName(), 0, false);
+            let explosionAnimation = this.explosions.create(0, 0, 'kaboom', 0, false);
             explosionAnimation.anchor.setTo(0.5, 0.5);
             explosionAnimation.animations.add('kaboom');
         }

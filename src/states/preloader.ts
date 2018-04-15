@@ -20,7 +20,7 @@ export default class Preloader extends Phaser.State {
         this.preloadFrameSprite.anchor.setTo(0.5);
 
         this.game.load.setPreloadSprite(this.preloadBarSprite);
-
+        this.game.load.spritesheet('kaboom', Assets.Images.ImgSmokeExplosion.getPNG(), 64, 64, 23);
         AssetUtils.Loader.loadAllAssets(this.game, this.waitForSoundDecoding, this);
     }
 

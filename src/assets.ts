@@ -531,6 +531,11 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/img/Obstacles/sandbagBrown.png'); }
     }
+    export class ImgSmokeExplosion {
+        static getName(): string { return 'explosion'; }
+
+        static getPNG(): string { return require('assets/img/Smoke/explosion.png'); }
+    }
     export class ImgSmokeExplosion1 {
         static getName(): string { return 'explosion1'; }
 
