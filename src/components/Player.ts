@@ -14,7 +14,6 @@ export default class Player extends Phaser.Sprite {
     speed_angle = 90;
     reload_time = 200;
     last_fired = 0;
-    cursors = this.game.input.keyboard.createCursorKeys();
     health: number;
     bullets: Phaser.Group = null;
     caption: PlayerCaption = null;
@@ -22,11 +21,11 @@ export default class Player extends Phaser.Sprite {
 
 
     constructor(tankrGame: TankrApp, playStage: Game) {
-        super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBlue.getName());
+        super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBodyBlueOutline.getName());
         this.tankrGame = tankrGame;
         this.health = 100;
         this.game.add.existing(this);
-        this.turret = this.game.add.sprite(0, 0, 'barrelBlue');
+        this.turret = this.game.add.sprite(0, 0, Images.ImgTanksTankBlueBarrel1.getName());
         // turret rotates from middle of bottom, so set that as anchor
         this.turret.anchor.setTo(0.5, 1);
         this.anchor.setTo(0.5, 0.5);
@@ -40,7 +39,7 @@ export default class Player extends Phaser.Sprite {
         this.bullets = this.game.add.group();
         this.bullets.enableBody = true;
         this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        this.bullets.createMultiple(30, 'bulletBlue', 0, false);
+        this.bullets.createMultiple(30, Images.ImgBulletsBulletBlue1.getName(), 0, false);
         this.bullets.setAll('anchor.x', 0.5);
         this.bullets.setAll('anchor.y', 0.5);
         this.bullets.setAll('outOfBoundsKill', true);
@@ -53,7 +52,7 @@ export default class Player extends Phaser.Sprite {
     // taken from the interwebs:
     // http://www.html5gamedevs.com/topic/9007-help-managing-sprite-orientation/
     // we add 90 degrees in radians to rotation to fix orientation for angleToPointer
-    private fixRotation(rotation: number) {
+    private static fixRotation(rotation: number) {
         return rotation + 1.57079633;
     }
 
@@ -93,7 +92,7 @@ export default class Player extends Phaser.Sprite {
         // turret anchor should match player anchor
         this.turret.x = this.x;
         this.turret.y = this.y;
-        this.turret.rotation = this.fixRotation(
+        this.turret.rotation = Player.fixRotation(
             this.game.physics.arcade.angleToPointer(this.turret));
 
         if (this.tankrGame.isFirePressed()) {
@@ -103,8 +102,8 @@ export default class Player extends Phaser.Sprite {
 
                 bullet.reset(this.turret.x, this.turret.y);
                 bullet.angle = this.turret.angle;
-                let ix = this.x + 100 * Math.cos(this.degToRad(this.turret.angle - 90));
-                let iy = this.y + 100 * Math.sin(this.degToRad(this.turret.angle - 90));
+                let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle - 90));
+                let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle - 90));
                 this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                 this.last_fired = now;
             }
@@ -123,23 +122,7 @@ export default class Player extends Phaser.Sprite {
 
     }
 
-    public fire() { // TODO: delete this ?
-        if (this.spaceKey.isDown) {
-            let now = this.game.time.now;
-            if (this.last_fired + this.reload_time < now) {
-                // var bullet = bullets.getFirstExists(false);
-
-                // bullet.reset(this.turret.x, this.turret.y);
-                // bullet.angle = this.angle;
-                let ix = this.x + 100 * Math.cos(this.degToRad(this.angle - 90));
-                let iy = this.y + 100 * Math.sin(this.degToRad(this.angle - 90));
-                // this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
-                this.last_fired = now;
-            }
-        }
-    }
-
-    private degToRad(degrees: number) {
+    private static degToRad(degrees: number) {
         return degrees * Math.PI / 180;
     }
 

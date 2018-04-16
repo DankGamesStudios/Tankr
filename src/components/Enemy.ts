@@ -20,14 +20,14 @@ export default class Enemy extends Phaser.Sprite {
     healthBar: HealthBar = null;
 
     constructor(game: Phaser.Game, genXY, id, player, bullets) {
-        super(game, genXY[0], genXY[1], Images.ImgTanksTankRed.getName());
+        super(game, genXY[0], genXY[1], Images.ImgTanksTankBodyRedOutline.getName());
         this.player = player;
         this.bullets = bullets;
         this.game.add.existing(this);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         this.anchor.setTo(0.5, 0.5);
-        this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksBarrelRed.getName());
+        this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksTankRedBarrel1.getName());
 
         this.enemy_name = id.toString();
         // this.enableBody = true;
