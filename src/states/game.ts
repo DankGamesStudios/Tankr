@@ -1,6 +1,7 @@
 import 'phaser-ce';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
+import Powerup from '../components/Powerup';
 import TankrApp from '../app';
 import {Images} from '../assets';
 
@@ -16,8 +17,8 @@ export default class Title extends Phaser.State {
         enemy.hit();
         if (!enemy.isAlive()) {
             let animation = this.explosions.getFirstExists(false);
-            animation.reset(enemy.x, enemy.y);
-            animation.play('kaboom', 30, false, true);
+            animation && animation.reset(enemy.x, enemy.y);
+            animation && animation.play('kaboom', 30, false, true);
             this.enemies.splice(this.enemies.indexOf(enemy), 1);
             this.score += 1;
         }
@@ -31,8 +32,8 @@ export default class Title extends Phaser.State {
         this.player.hitWithBullet();
         if (!this.player.isAlive()) {
             let animation = this.explosions.getFirstExists(false);
-            animation.reset(player.x, player.y);
-            animation.play('kaboom', 30, false, true);
+            animation && animation.reset(player.x, player.y);
+            animation && animation.play('kaboom', 30, false, true);
             this.game.camera.unfollow();
             player.turret.kill();
             player.kill();
@@ -47,8 +48,8 @@ export default class Title extends Phaser.State {
 
     hitBarrel = (barrel, bullet) => {
         let animation = this.explosions.getFirstExists(false);
-        animation.reset(barrel.x, barrel.y);
-        animation.play('kaboom', 30, false, true);
+        animation && animation.reset(barrel.x, barrel.y);
+        animation && animation.play('kaboom', 30, false, true);
 
         barrel.kill();
         bullet.kill();
@@ -57,6 +58,7 @@ export default class Title extends Phaser.State {
     private player: Player;
     private greyBarrels: Phaser.Group = null;
     private sandbags: Phaser.Group = null;
+    private powerups: Array<Powerup> = null;
     private enemyBullets: Phaser.Group = null;
     private enemies: Array<Enemy> = null;
     private explosions: Phaser.Group = null;
@@ -89,6 +91,7 @@ export default class Title extends Phaser.State {
         this.addBarrels();
         this.addExplosions();
         this.addEnemies();
+        this.addPowerups();
     }
 
     public update(): void {
@@ -97,6 +100,9 @@ export default class Title extends Phaser.State {
         this.game.physics.arcade.collide(this.greyBarrels, this.player.bullets, this.hitBarrel);
 
         this.game.physics.arcade.collide(this.player, this.enemyBullets, this.bulletHitPlayer);
+        for (let powerup of this.powerups) {
+            this.game.physics.arcade.collide(this.player, powerup, powerup.applyPowerup);
+        }
         this.game.physics.arcade.collide(this.sandbags, this.enemyBullets, this.bulletHitSandbag);
         this.game.physics.arcade.collide(this.greyBarrels, this.enemyBullets, this.hitBarrel);
         for (let enemy of this.enemies) {
@@ -132,12 +138,7 @@ export default class Title extends Phaser.State {
         for (let i = 0; i < 20; i++) {
             let sbag = this.sandbags.create(this.game.world.randomX, this.game.world.randomY, 'sandbagBrown');
             sbag.body.immovable = true;
-            for (let j = 0; i < this.spawnedObjects.length; i++) {
-                if (Title.checkOverlap(sbag, this.spawnedObjects[j])) {
-                    sbag.x += 10;
-                    sbag.y += 10;
-                }
-            }
+            this.adjustPosition(sbag, 10, 10);
             this.spawnedObjects.push(sbag);
         }
     }
@@ -164,6 +165,16 @@ export default class Title extends Phaser.State {
         }
     }
 
+    private addPowerups(nr: number = 10): void {
+        this.powerups = [];
+        for (let i = 0; i < nr; i++) {
+            let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'health', this.powerups);
+            this.adjustPosition(powerup, 10, 10);
+            this.addSpawnedObject(powerup);
+            this.powerups.push(powerup);
+        }
+    }
+
     private addEnemies(nr: number = 10): void {
         this.enemyBullets = this.game.add.group();
         this.enemyBullets.enableBody = true;
@@ -179,12 +190,7 @@ export default class Title extends Phaser.State {
         for (let i = 0; i < nr; i++) {
             let genXY = this.randomOutside(this.player.x, this.player.y, 30);
             let enemy = new Enemy(this.game, genXY, i, this.player, this.enemyBullets);
-            for (let j = 0; j < this.spawnedObjects.length; j++) {
-                if (Title.checkOverlap(enemy, this.spawnedObjects[j])) {
-                    enemy.x += 10;
-                    enemy.y += 15;
-                }
-            }
+            this.adjustPosition(enemy, 10, 15);
             this.addSpawnedObject(enemy);
             this.enemies.push(enemy);
         }
@@ -197,6 +203,15 @@ export default class Title extends Phaser.State {
             genY = this.game.world.randomY;
         } while (Title.notNear(x, genX, range) && Title.notNear(y, genY, range));
         return [genX, genY];
+    }
+
+    private adjustPosition(element, offset_x, offset_y) {
+        for (let i = 0; i < this.spawnedObjects.length; i++) {
+            if (Title.checkOverlap(element, this.spawnedObjects[i])) {
+                element.x += offset_x;
+                element.y += offset_y;
+            }
+        }
     }
 
 }
