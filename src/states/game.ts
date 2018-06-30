@@ -72,7 +72,14 @@ export default class Title extends Phaser.State {
     private score: number = 0;
 
     private static checkOverlap(spriteA: Phaser.Sprite, spriteB: Phaser.Sprite): boolean {
-        return (spriteA.getBounds() as any).intersects(spriteB.getBounds());
+        let boundsA = spriteA.getBounds();
+        let boundsB = spriteB.getBounds();
+        // update bounds' x,y coordinates, something fishy made them all 0,0
+        boundsA.x = spriteA.x;
+        boundsA.y = spriteA.y;
+        boundsB.x = spriteB.x;
+        boundsB.y = spriteB.y;
+        return (boundsA as any).intersects(boundsB);
     }
 
     private static notNear(a, b, range) {
@@ -145,7 +152,7 @@ export default class Title extends Phaser.State {
         for (let i = 0; i < 20; i++) {
             let sbag = this.sandbags.create(this.game.world.randomX, this.game.world.randomY, 'sandbagBrown');
             sbag.body.immovable = true;
-            this.adjustPosition(sbag, 10, 10);
+            this.adjustPosition(sbag);
             this.spawnedObjects.push(sbag);
         }
     }
@@ -176,13 +183,13 @@ export default class Title extends Phaser.State {
         this.powerups = [];
         for (let i = 0; i < nr / 2; i++) {
             let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'health');
-            this.adjustPosition(powerup, 10, 10);
+            this.adjustPosition(powerup);
             this.addSpawnedObject(powerup);
             this.powerups.push(powerup);
         }
         for (let i = 0; i < nr / 2; i++) {
             let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'missiles');
-            this.adjustPosition(powerup, 10, 10);
+            this.adjustPosition(powerup);
             this.addSpawnedObject(powerup);
             this.powerups.push(powerup);
         }
@@ -203,7 +210,7 @@ export default class Title extends Phaser.State {
         for (let i = 0; i < nr; i++) {
             let genXY = this.randomOutside(this.player.x, this.player.y, 30);
             let enemy = new Enemy(this.game, genXY, i, this.player, this.enemyBullets);
-            this.adjustPosition(enemy, 10, 15);
+            this.adjustPosition(enemy);
             this.addSpawnedObject(enemy);
             this.enemies.push(enemy);
         }
@@ -218,24 +225,24 @@ export default class Title extends Phaser.State {
         return [genX, genY];
     }
 
-    private adjustPosition(element, offset_x, offset_y) {
-        let leeway = 30;
-        for (let i = 0; i < this.spawnedObjects.length; i++) {
-            if (Title.checkOverlap(element, this.spawnedObjects[i])) {
-                if (element.x + offset_x > this.game.world.width - leeway) {
-                    element.x -= offset_x;
-                }
-                else {
-                    element.x += offset_x;
-                }
-                if (element.y + offset_y > this.game.world.height - leeway) {
-                    element.y -= offset_y;
-                }
-                else {
-                    element.y += offset_y;
+    private adjustPosition(element) {
+        let overlaps = false;
+        let times = 5; // maximum times we relocate an item that still overlaps
+        do {
+            overlaps = false;
+            for (let i = 0; i < this.spawnedObjects.length && !overlaps; i++) {
+                if (Title.checkOverlap(element, this.spawnedObjects[i])) {
+                    overlaps = true;
+                    times --;
+                    element.x = this.game.world.randomX;
+                    element.y = this.game.world.randomY;
                 }
             }
-        }
+            if (times < 1) {
+                console.error('element still overlaps', element);
+                break;
+            }
+        } while (overlaps);
     }
 
 }

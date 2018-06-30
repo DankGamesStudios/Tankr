@@ -58,8 +58,8 @@ export default class Powerup extends Phaser.Sprite {
             this.game.time.events.add(1000, function() {
                 boost.kill();
             });
-            // boost becomes inactive after 20 seconds
-            this.game.time.events.add(20 * 1000, function() {
+            // boost becomes inactive after 10 seconds
+            this.game.time.events.add(10 * 1000, function() {
                 player.missile = false;
                 player.createBullets();
             });
