@@ -14,7 +14,8 @@ export default class Title extends Phaser.State {
     }
 
     hitEnemy = (enemy, bullet) => {
-        enemy.hit();
+        let damage = this.player.missile ? 2 : 1;
+        enemy.hit(damage);
         if (!enemy.isAlive()) {
             let animation = this.explosions.getFirstExists(false);
             animation && animation.reset(enemy.x, enemy.y);
@@ -54,6 +55,12 @@ export default class Title extends Phaser.State {
         barrel.kill();
         bullet.kill();
     }
+
+    applyPowerup = (player, powerup) => {
+        powerup.applyPowerup(player, powerup);
+        this.powerups.splice(this.powerups.indexOf(powerup), 1);
+    }
+
     private spawnedObjects: Array<Phaser.Sprite>;
     private player: Player;
     private greyBarrels: Phaser.Group = null;
@@ -80,7 +87,7 @@ export default class Title extends Phaser.State {
         this.spawnedObjects = [];
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
-        this.game.world.setBounds(-1000, -1000, this.game.width * 2, this.game.height * 2);
+        this.game.world.setBounds(0, 0, this.game.width * 2, this.game.height * 2);
 
         let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2,
             Images.ImgEnvironmentTileGrass1.getName());
@@ -101,7 +108,7 @@ export default class Title extends Phaser.State {
 
         this.game.physics.arcade.collide(this.player, this.enemyBullets, this.bulletHitPlayer);
         for (let powerup of this.powerups) {
-            this.game.physics.arcade.collide(this.player, powerup, powerup.applyPowerup);
+            this.game.physics.arcade.collide(this.player, powerup, this.applyPowerup);
         }
         this.game.physics.arcade.collide(this.sandbags, this.enemyBullets, this.bulletHitSandbag);
         this.game.physics.arcade.collide(this.greyBarrels, this.enemyBullets, this.hitBarrel);
@@ -167,8 +174,14 @@ export default class Title extends Phaser.State {
 
     private addPowerups(nr: number = 10): void {
         this.powerups = [];
-        for (let i = 0; i < nr; i++) {
-            let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'health', this.powerups);
+        for (let i = 0; i < nr / 2; i++) {
+            let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'health');
+            this.adjustPosition(powerup, 10, 10);
+            this.addSpawnedObject(powerup);
+            this.powerups.push(powerup);
+        }
+        for (let i = 0; i < nr / 2; i++) {
+            let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'missiles');
             this.adjustPosition(powerup, 10, 10);
             this.addSpawnedObject(powerup);
             this.powerups.push(powerup);
@@ -206,10 +219,21 @@ export default class Title extends Phaser.State {
     }
 
     private adjustPosition(element, offset_x, offset_y) {
+        let leeway = 30;
         for (let i = 0; i < this.spawnedObjects.length; i++) {
             if (Title.checkOverlap(element, this.spawnedObjects[i])) {
-                element.x += offset_x;
-                element.y += offset_y;
+                if (element.x + offset_x > this.game.world.width - leeway) {
+                    element.x -= offset_x;
+                }
+                else {
+                    element.x += offset_x;
+                }
+                if (element.y + offset_y > this.game.world.height - leeway) {
+                    element.y -= offset_y;
+                }
+                else {
+                    element.y += offset_y;
+                }
             }
         }
     }

@@ -531,10 +531,15 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/img/Obstacles/sandbagBrown.png'); }
     }
-    export class ImgPowerupsFirstaid {
-        static getName(): string { return 'firstaid'; }
+    export class ImgPowerupsRedGem {
+        static getName(): string { return 'red_gem'; }
 
-        static getPNG(): string { return require('assets/img/Powerups/firstaid.png'); }
+        static getPNG(): string { return require('assets/img/Powerups/red_gem.png'); }
+    }
+    export class ImgPowerupsRedHeart {
+        static getName(): string { return 'red_heart'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/red_heart.png'); }
     }
     export class ImgSmokeExplosion {
         static getName(): string { return 'explosion'; }

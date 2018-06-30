@@ -18,6 +18,7 @@ export default class Player extends Phaser.Sprite {
     bullets: Phaser.Group = null;
     caption: PlayerCaption = null;
     healthBar: HealthBar = null;
+    missile: boolean = false;
 
 
     constructor(tankrGame: TankrApp, playStage: Game) {
@@ -36,14 +37,7 @@ export default class Player extends Phaser.Sprite {
 
         this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
-        this.bullets = this.game.add.group();
-        this.bullets.enableBody = true;
-        this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        this.bullets.createMultiple(30, Images.ImgBulletsBulletBlue1.getName(), 0, false);
-        this.bullets.setAll('anchor.x', 0.5);
-        this.bullets.setAll('anchor.y', 0.5);
-        this.bullets.setAll('outOfBoundsKill', true);
-        this.bullets.setAll('checkWorldBounds', true);
+        this.createBullets();
 
         this.caption = new PlayerCaption(this.game, this, 'Player 1');
         this.healthBar = new HealthBar(this.game, this, '#136572');
@@ -54,6 +48,21 @@ export default class Player extends Phaser.Sprite {
     // we add 90 degrees in radians to rotation to fix orientation for angleToPointer
     private static fixRotation(rotation: number) {
         return rotation + 1.57079633;
+    }
+
+    public createBullets() {
+        // kill previous bullets?
+        this.bullets && this.bullets.killAll();
+
+        this.bullets = this.game.add.group();
+        this.bullets.enableBody = true;
+        this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
+        let bullet_sprite = this.missile ? Images.ImgBulletsBulletBlue2.getName() : Images.ImgBulletsBulletBlue1.getName();
+        this.bullets.createMultiple(30, bullet_sprite, 0, false);
+        this.bullets.setAll('anchor.x', 0.5);
+        this.bullets.setAll('anchor.y', 0.5);
+        this.bullets.setAll('outOfBoundsKill', true);
+        this.bullets.setAll('checkWorldBounds', true);
     }
 
     public update() {
@@ -100,7 +109,7 @@ export default class Player extends Phaser.Sprite {
             if (this.last_fired + this.reload_time < now) {
                 let bullet = this.bullets.getFirstExists(false);
 
-                bullet.reset(this.turret.x, this.turret.y);
+                bullet && bullet.reset(this.turret.x, this.turret.y);
                 bullet.angle = this.turret.angle;
                 let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle - 90));
                 let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle - 90));
