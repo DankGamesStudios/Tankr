@@ -61,12 +61,14 @@ export default class Enemy extends Phaser.Sprite {
 
         if ((this.last_fired + this.enemy_reload_time < now) && (this.health > 0)) {
             let bullet = this.bullets.getFirstExists(false);
-            bullet && bullet.reset(this.turret.x, this.turret.y);
-            bullet.angle = this.angle;
-            let ix = this.x + 100 * Math.cos(this.degToRad(this.angle - 90));
-            let iy = this.y + 100 * Math.sin(this.degToRad(this.angle - 90));
-            this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
-            this.last_fired = now;
+            if (bullet) {
+                bullet.reset(this.turret.x, this.turret.y);
+                bullet.angle = this.angle;
+                let ix = this.x + 100 * Math.cos(this.degToRad(this.angle - 90));
+                let iy = this.y + 100 * Math.sin(this.degToRad(this.angle - 90));
+                this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+                this.last_fired = now;
+            }
         }
         // follow the player
         this.game.physics.arcade.moveToObject(this, this.player);

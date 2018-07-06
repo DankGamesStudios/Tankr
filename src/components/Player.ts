@@ -108,13 +108,14 @@ export default class Player extends Phaser.Sprite {
             let now = this.game.time.now;
             if (this.last_fired + this.reload_time < now) {
                 let bullet = this.bullets.getFirstExists(false);
-
-                bullet && bullet.reset(this.turret.x, this.turret.y);
-                bullet.angle = this.turret.angle;
-                let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle - 90));
-                let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle - 90));
-                this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
-                this.last_fired = now;
+                if (bullet) {
+                    bullet.reset(this.turret.x, this.turret.y);
+                    bullet.angle = this.turret.angle;
+                    let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle - 90));
+                    let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle - 90));
+                    this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
+                    this.last_fired = now;
+                }
             }
         }
 
