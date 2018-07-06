@@ -2,8 +2,8 @@ import 'phaser-ce';
 import {Images} from '../assets';
 
 const sprite_map = {
-    'health': Images.ImgPowerupsRedHeart.getName(),
-    'missiles': Images.ImgPowerupsRedGem.getName()
+    'health': Images.ImgPowerupsFullHeart.getName(),
+    'missiles': Images.ImgPowerupsYellowGem.getName()
 };
 
 export default class Powerup extends Phaser.Sprite {

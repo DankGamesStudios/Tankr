@@ -531,15 +531,95 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/img/Obstacles/sandbagBrown.png'); }
     }
+    export class ImgPowerupsBlueGem {
+        static getName(): string { return 'blue_gem'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/blue_gem.png'); }
+    }
+    export class ImgPowerupsBlueKey {
+        static getName(): string { return 'blue_key'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/blue_key.png'); }
+    }
+    export class ImgPowerupsBlueSquare {
+        static getName(): string { return 'blue_square'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/blue_square.png'); }
+    }
+    export class ImgPowerupsEmptyGem {
+        static getName(): string { return 'empty_gem'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/empty_gem.png'); }
+    }
+    export class ImgPowerupsEmptyHeart {
+        static getName(): string { return 'empty_heart'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/empty_heart.png'); }
+    }
+    export class ImgPowerupsEmptyKey {
+        static getName(): string { return 'empty_key'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/empty_key.png'); }
+    }
+    export class ImgPowerupsEmptySquare {
+        static getName(): string { return 'empty_square'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/empty_square.png'); }
+    }
+    export class ImgPowerupsFullHeart {
+        static getName(): string { return 'full_heart'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/full_heart.png'); }
+    }
+    export class ImgPowerupsGreenGem {
+        static getName(): string { return 'green_gem'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/green_gem.png'); }
+    }
+    export class ImgPowerupsGreenKey {
+        static getName(): string { return 'green_key'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/green_key.png'); }
+    }
+    export class ImgPowerupsGreenSquare {
+        static getName(): string { return 'green_square'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/green_square.png'); }
+    }
+    export class ImgPowerupsHalfHeart {
+        static getName(): string { return 'half_heart'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/half_heart.png'); }
+    }
     export class ImgPowerupsRedGem {
         static getName(): string { return 'red_gem'; }
 
         static getPNG(): string { return require('assets/img/Powerups/red_gem.png'); }
     }
-    export class ImgPowerupsRedHeart {
-        static getName(): string { return 'red_heart'; }
+    export class ImgPowerupsRedKey {
+        static getName(): string { return 'red_key'; }
 
-        static getPNG(): string { return require('assets/img/Powerups/red_heart.png'); }
+        static getPNG(): string { return require('assets/img/Powerups/red_key.png'); }
+    }
+    export class ImgPowerupsRedSquare {
+        static getName(): string { return 'red_square'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/red_square.png'); }
+    }
+    export class ImgPowerupsYellowGem {
+        static getName(): string { return 'yellow_gem'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/yellow_gem.png'); }
+    }
+    export class ImgPowerupsYellowKey {
+        static getName(): string { return 'yellow_key'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/yellow_key.png'); }
+    }
+    export class ImgPowerupsYellowSquare {
+        static getName(): string { return 'yellow_square'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/yellow_square.png'); }
     }
     export class ImgSmokeExplosion {
         static getName(): string { return 'explosion'; }
