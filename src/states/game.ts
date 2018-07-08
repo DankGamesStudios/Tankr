@@ -14,8 +14,7 @@ export default class Title extends Phaser.State {
     }
 
     hitEnemy = (enemy, bullet) => {
-        let damage = this.player.missile ? 2 : 1;
-        enemy.hit(damage);
+        enemy.hit(this.player.bullet_damage);
         if (!enemy.isAlive()) {
             let animation = this.explosions.getFirstExists(false);
             animation && animation.reset(enemy.x, enemy.y);
@@ -140,6 +139,11 @@ export default class Title extends Phaser.State {
         this.game.debug.text(info_text, this.world.cameraOffset.x + 50, 64);
     }
 
+
+    public getEnemies() {
+        return this.enemies;
+    }
+
     public addSpawnedObject(obj: Phaser.Sprite): Phaser.State {
         this.spawnedObjects.push(obj);
         return this;
@@ -179,16 +183,20 @@ export default class Title extends Phaser.State {
         }
     }
 
+    private restrict_coord(coord, min, max, leeway) {
+        coord = coord > max - leeway ? max - leeway : coord;
+        coord = coord < min + leeway ? min + leeway : coord;
+        return coord;
+    }
+
     private addPowerups(nr: number = 10): void {
         this.powerups = [];
-        for (let i = 0; i < nr / 2; i++) {
-            let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'health');
-            this.adjustPosition(powerup);
-            this.addSpawnedObject(powerup);
-            this.powerups.push(powerup);
-        }
-        for (let i = 0; i < nr / 2; i++) {
-            let powerup = new Powerup(this.game, this.game.world.randomX, this.game.world.randomY, 'missiles');
+        let leeway = 50;
+        for (let i = 0; i < nr; i++) {
+            // we need the powerups random on the map, but wholy visible
+            let x = this.restrict_coord(this.game.world.randomX, 0, this.game.world.width, leeway);
+            let y = this.restrict_coord(this.game.world.randomY, 0, this.game.world.height, leeway);
+            let powerup = new Powerup(this.game, this, x, y);
             this.adjustPosition(powerup);
             this.addSpawnedObject(powerup);
             this.powerups.push(powerup);

@@ -14,11 +14,11 @@ export default class Player extends Phaser.Sprite {
     speed_angle = 90;
     reload_time = 200;
     last_fired = 0;
+    bullet_damage = 1;
     health: number;
     bullets: Phaser.Group = null;
     caption: PlayerCaption = null;
     healthBar: HealthBar = null;
-    missile: boolean = false;
 
 
     constructor(tankrGame: TankrApp, playStage: Game) {
@@ -57,7 +57,7 @@ export default class Player extends Phaser.Sprite {
         this.bullets = this.game.add.group();
         this.bullets.enableBody = true;
         this.bullets.physicsBodyType = Phaser.Physics.ARCADE;
-        let bullet_sprite = this.missile ? Images.ImgBulletsBulletBlue2.getName() : Images.ImgBulletsBulletBlue1.getName();
+        let bullet_sprite = this.bullet_damage === 2 ? Images.ImgBulletsBulletBlue2.getName() : Images.ImgBulletsBulletBlue1.getName();
         this.bullets.createMultiple(30, bullet_sprite, 0, false);
         this.bullets.setAll('anchor.x', 0.5);
         this.bullets.setAll('anchor.y', 0.5);

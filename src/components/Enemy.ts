@@ -18,6 +18,7 @@ export default class Enemy extends Phaser.Sprite {
     alive = true;
     caption: PlayerCaption = null;
     healthBar: HealthBar = null;
+    frozen: boolean = false;
 
     constructor(game: Phaser.Game, genXY, id, player, bullets) {
         super(game, genXY[0], genXY[1], Images.ImgTanksTankBodyRedOutline.getName());
@@ -59,7 +60,7 @@ export default class Enemy extends Phaser.Sprite {
 
         const now = this.game.time.now;
 
-        if ((this.last_fired + this.enemy_reload_time < now) && (this.health > 0)) {
+        if ((this.last_fired + this.enemy_reload_time < now) && (this.health > 0) && !this.frozen) {
             let bullet = this.bullets.getFirstExists(false);
             if (bullet) {
                 bullet.reset(this.turret.x, this.turret.y);
@@ -70,8 +71,10 @@ export default class Enemy extends Phaser.Sprite {
                 this.last_fired = now;
             }
         }
-        // follow the player
-        this.game.physics.arcade.moveToObject(this, this.player);
+        // follow the player, if not frozen
+        if (!this.frozen) {
+            this.game.physics.arcade.moveToObject(this, this.player);
+        }
     }
 
     hit(damage: number = 1) {

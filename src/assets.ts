@@ -531,6 +531,11 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/img/Obstacles/sandbagBrown.png'); }
     }
+    export class ImgPowerupsArmor {
+        static getName(): string { return 'armor'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/armor.png'); }
+    }
     export class ImgPowerupsBlueGem {
         static getName(): string { return 'blue_gem'; }
 
@@ -566,6 +571,11 @@ export namespace Images {
 
         static getPNG(): string { return require('assets/img/Powerups/empty_square.png'); }
     }
+    export class ImgPowerupsFreeze {
+        static getName(): string { return 'freeze'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/freeze.png'); }
+    }
     export class ImgPowerupsFullHeart {
         static getName(): string { return 'full_heart'; }
 
@@ -590,6 +600,16 @@ export namespace Images {
         static getName(): string { return 'half_heart'; }
 
         static getPNG(): string { return require('assets/img/Powerups/half_heart.png'); }
+    }
+    export class ImgPowerupsHealth {
+        static getName(): string { return 'health'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/health.png'); }
+    }
+    export class ImgPowerupsMissiles {
+        static getName(): string { return 'missiles'; }
+
+        static getPNG(): string { return require('assets/img/Powerups/missiles.png'); }
     }
     export class ImgPowerupsRedGem {
         static getName(): string { return 'red_gem'; }
