@@ -10,6 +10,7 @@ export default class Powerup extends Phaser.Sprite {
     // we have a tween that takes a second to destroy
     // so make sure the powerup can't be activated more than once
     is_alive: boolean;
+    time_left: number = -1;
 
     constructor(game: Phaser.Game, title: Title, x: number, y: number, power_type = '') {
         super(game, x, y, power_type);
@@ -54,6 +55,13 @@ export default class Powerup extends Phaser.Sprite {
         }
     }
 
+    private updateTimeLeft = () => {
+        if (this.time_left > 1) {
+            this.time_left --;
+            this.game.time.events.add(1000, this.updateTimeLeft);
+        }
+    }
+
     private playerGetMissiles = (player, boost) => {
         if (this.is_alive) {
             this.is_alive = false;
@@ -64,8 +72,11 @@ export default class Powerup extends Phaser.Sprite {
             this.game.time.events.add(1000, function() {
                 boost.kill();
             });
+            // update time_left
+            this.time_left = 10;
+            this.game.time.events.add(1000, this.updateTimeLeft);
             // boost becomes inactive after 10 seconds
-            this.game.time.events.add(10 * 1000, function() {
+            this.game.time.events.add(this.time_left * 1000, function() {
                 player.bullet_damage = 1;
                 player.createBullets();
             });
@@ -84,8 +95,11 @@ export default class Powerup extends Phaser.Sprite {
             this.game.time.events.add(1000, function() {
                 drop.kill();
             });
+            // update time_left
+            this.time_left = 5;
+            this.game.time.events.add(1000, this.updateTimeLeft);
             // boost becomes inactive after 5 seconds
-            this.game.time.events.add(5 * 1000, function() {
+            this.game.time.events.add(this.time_left * 1000, function() {
                 for (let i = 0; i < enemies.length; i++) {
                     enemies[i].frozen = false;
                 }

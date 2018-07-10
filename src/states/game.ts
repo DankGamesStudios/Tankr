@@ -57,7 +57,6 @@ export default class Title extends Phaser.State {
 
     applyPowerup = (player, powerup) => {
         powerup.applyPowerup(player, powerup);
-        this.powerups.splice(this.powerups.indexOf(powerup), 1);
     }
 
     private spawnedObjects: Array<Phaser.Sprite>;
@@ -103,8 +102,8 @@ export default class Title extends Phaser.State {
         this.addSandBags();
         this.addBarrels();
         this.addExplosions();
-        this.addEnemies();
         this.addPowerups();
+        this.addEnemies();
     }
 
     public update(): void {
@@ -114,7 +113,9 @@ export default class Title extends Phaser.State {
 
         this.game.physics.arcade.collide(this.player, this.enemyBullets, this.bulletHitPlayer);
         for (let powerup of this.powerups) {
-            this.game.physics.arcade.collide(this.player, powerup, this.applyPowerup);
+            if (powerup.is_alive) {
+                this.game.physics.arcade.collide(this.player, powerup, this.applyPowerup);
+            }
         }
         this.game.physics.arcade.collide(this.sandbags, this.enemyBullets, this.bulletHitSandbag);
         this.game.physics.arcade.collide(this.greyBarrels, this.enemyBullets, this.hitBarrel);
@@ -132,11 +133,26 @@ export default class Title extends Phaser.State {
         }
     }
 
+    private render_active_powerups(origin_x, origin_y): void {
+        let active_count = 1;
+        let row_height = 20;
+        let active_powerups = '';
+        for (let powerup of this.powerups) {
+            if (powerup.time_left > 1) {
+                active_powerups = ' ' + powerup.power_type + ': ' + powerup.time_left;
+                let y = origin_y + active_count * row_height;
+                active_count ++;
+                this.game.debug.text(active_powerups, origin_x, y);
+            }
+        }
+    }
+
     public render(): void {
         let info_text = '';
         info_text += ' score: ' + this.score;
         info_text += ' enemies: ' + this.enemies.length;
         this.game.debug.text(info_text, this.world.cameraOffset.x + 50, 64);
+        this.render_active_powerups(this.world.cameraOffset.x + 50, 20 + 64);
     }
 
 
