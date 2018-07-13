@@ -43,14 +43,30 @@ export default class Powerup extends Phaser.Sprite {
     private playerGetHealthDrop = (player, healthDrop) => {
         if (this.is_alive) {
             this.is_alive = false;
-            player.health += 20;
+            let healing_amount = 20;
+            player.health += healing_amount;
             if (player.health > 100) {
                 player.health = 100;
             }
             // repair kit destructs
-            this.game.add.tween(this).to({alpha: 0}, 1000, 'Bounce', true);
+            this.game.add.tween(this).to({alpha: 0}, 1000, Phaser.Easing.Bounce.Out, true);
             this.game.time.events.add(1000, function() {
                 healthDrop.kill();
+            });
+
+            // make a text caption with the healing amount pop out of health drop
+            let caption = this.game.add.text(healthDrop.x, healthDrop.y, '+' + healing_amount);
+            caption.anchor.set(0.5);
+
+            caption.font = 'Arial Black';
+            caption.fontSize = 16;
+
+            caption.stroke = '#000000';
+            caption.strokeThickness = 3;
+            caption.fill = '#ebebe0';
+            this.game.add.tween(caption.scale).to({x: 2, y: 2}, 2000, Phaser.Easing.Bounce.Out, true);
+            this.game.time.events.add(2 * 1000, function() {
+                caption.kill();
             });
         }
     }
