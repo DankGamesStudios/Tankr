@@ -50,9 +50,7 @@ export default class Enemy extends Phaser.Sprite {
         this.healthBar.update();
 
         let player_angle = this.game.physics.arcade.angleBetween(this, this.player);
-        // this.tank.rotation = -80 + player_angle;
-        this.rotation = -80 + player_angle;
-        // this.tank.turret.rotation = 80 + player_angle;
+        this.rotation = player_angle + 1.57079633; // player angle + 90 degrees in radians
         this.turret.x = this.x + 8;
         this.turret.y = this.y;
         this.turret.angle = 180 + this.angle;
