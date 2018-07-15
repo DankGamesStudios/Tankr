@@ -76,6 +76,7 @@ export default class Title extends Phaser.State {
 
     public create(): void {
         this.spawnedObjects = [];
+        this.score = 0;
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
         this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.world.setBounds(-1000, -1000, this.game.width * 2, this.game.height * 2);
