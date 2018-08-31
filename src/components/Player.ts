@@ -21,7 +21,7 @@ export default class Player extends Phaser.Sprite {
     healthBar: HealthBar = null;
 
 
-    constructor(tankrGame: TankrApp, playStage: Game) {
+    constructor(tankrGame: TankrApp, playStage) {
         super(playStage.game, 100, playStage.game.world.centerY, Images.ImgTanksTankBodyBlueOutline.getName());
         this.tankrGame = tankrGame;
         this.health = 100;
