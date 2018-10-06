@@ -6,6 +6,7 @@ import {Images} from '../assets';
 import Title from './game';
 
 const TIME_PER_WAVE = 60;
+const WAVES_TILL_VICTORY = 3;
 
 export default class SurvivalTitle extends Title {
     timeStart: number;
@@ -132,6 +133,21 @@ export default class SurvivalTitle extends Title {
             this.game.state.start('endsurvival', true, false, this.wavesSurvived);
         }
         bullet.kill();
+    }
+
+    hitEnemy = (enemy, bullet) => {
+        enemy.hit(this.player.bullet_damage);
+        if (!enemy.isAlive()) {
+            let animation = this.explosions.getFirstExists(false);
+            animation && animation.reset(enemy.x, enemy.y);
+            animation && animation.play('kaboom', 30, false, true);
+            this.enemies.splice(this.enemies.indexOf(enemy), 1);
+            this.score += 1;
+        }
+        bullet.kill();
+        if (this.enemies.length === 0 && this.wavesSurvived >= WAVES_TILL_VICTORY) {
+            this.game.state.start('win');
+        }
     }
 
     protected addEnemies(nr: number = 10): void {
