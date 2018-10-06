@@ -5,6 +5,8 @@ import TankrApp from '../app';
 import {Images} from '../assets';
 import Title from './game';
 
+const TIME_PER_WAVE = 60;
+
 export default class SurvivalTitle extends Title {
     timeStart: number;
     wavesSurvived: number;
@@ -118,6 +120,20 @@ export default class SurvivalTitle extends Title {
         } while (overlaps);
     }
 
+    bulletHitPlayer = (player, bullet) => {
+        this.player.hitWithBullet();
+        if (!this.player.isAlive()) {
+            let animation = this.explosions.getFirstExists(false);
+            animation && animation.reset(player.x, player.y);
+            animation && animation.play('kaboom', 30, false, true);
+            this.game.camera.unfollow();
+            player.turret.kill();
+            player.kill();
+            this.game.state.start('endsurvival', true, false, this.wavesSurvived);
+        }
+        bullet.kill();
+    }
+
     protected addEnemies(nr: number = 10): void {
         this.enemyBullets = this.game.add.group();
         this.enemyBullets.enableBody = true;
@@ -131,7 +147,6 @@ export default class SurvivalTitle extends Title {
 
         let self = this; // i hope the this instance is passed correctly
         function addEnemiesEvent(): void {
-            console.log('adding enemies');
             for (let i = 0; i < nr; i++) {
                 let genXY = SurvivalTitle._randomOutside(self.player.x, self.player.y, 30, self.game);
                 let enemy = new Enemy(self.game, genXY, i, self.player, self.enemyBullets);
@@ -140,7 +155,7 @@ export default class SurvivalTitle extends Title {
                 self.enemies.push(enemy);
             }
             self.wavesSurvived += 1;
-            self.game.time.events.add(60 * 1000, addEnemiesEvent);
+            self.game.time.events.add(TIME_PER_WAVE * 1000, addEnemiesEvent);
         }
         addEnemiesEvent();
         this.wavesSurvived = 0;

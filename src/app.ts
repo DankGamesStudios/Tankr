@@ -12,6 +12,7 @@ import MainScreen from './states/mainScreen';
 import Credits from './states/credits';
 import Win from './states/win';
 import Loss from './states/loss';
+import EndSurvival from './states/endsurvival';
 import Settings from './states/settings';
 import * as Utils from './utils/utils';
 import * as Assets from './assets';
@@ -37,6 +38,7 @@ export default class TankrApp extends Phaser.Game {
         this.state.add('credits', Credits);
         this.state.add('win', Win);
         this.state.add('loss', Loss);
+        this.state.add('endsurvival', EndSurvival);
         this.state.add('settings', new Settings(this));
     }
 
