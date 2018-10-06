@@ -5,14 +5,14 @@ import Title from '../states/game';
 
 export default class Powerup extends Phaser.Sprite {
     game: Phaser.Game;
-    title;
+    title: Title;
     power_type: string;
     // we have a tween that takes a second to destroy
     // so make sure the powerup can't be activated more than once
     is_alive: boolean;
     time_left: number = -1;
 
-    constructor(game: Phaser.Game, title, x: number, y: number, power_type = '') {
+    constructor(game: Phaser.Game, title: Title, x: number, y: number, power_type = '') {
         super(game, x, y, power_type);
         // if no power_type given, generatePowerType will generate a random one
         this.generatePowerType(power_type);
