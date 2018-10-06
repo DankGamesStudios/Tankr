@@ -129,25 +129,20 @@ export default class SurvivalTitle extends Title {
         this.enemyBullets.setAll('outOfBoundsKill', true);
         this.enemyBullets.setAll('checkWorldBounds', true);
 
-        let game = this.game;
-        let enemies = this.enemies;
-        let player = this.player;
-        let enemyBullets = this.enemyBullets;
-        let spawnedObjects = this.spawnedObjects;
-        let wavesSurvived = this.wavesSurvived;
+        let self = this; // i hope the this instance is passed correctly
         function addEnemiesEvent(): void {
             console.log('adding enemies');
             for (let i = 0; i < nr; i++) {
-                let genXY = SurvivalTitle._randomOutside(player.x, player.y, 30, game);
-                let enemy = new Enemy(game, genXY, i, player, enemyBullets);
-                SurvivalTitle._adjustPosition(enemy, spawnedObjects, game);
-                spawnedObjects.push(enemy);
-                enemies.push(enemy);
+                let genXY = SurvivalTitle._randomOutside(self.player.x, self.player.y, 30, self.game);
+                let enemy = new Enemy(self.game, genXY, i, self.player, self.enemyBullets);
+                SurvivalTitle._adjustPosition(enemy, self.spawnedObjects, self.game);
+                self.spawnedObjects.push(enemy);
+                self.enemies.push(enemy);
             }
-            wavesSurvived += 1; // not sure this working
-            game.time.events.add(60 * 1000, addEnemiesEvent);
+            self.wavesSurvived += 1;
+            self.game.time.events.add(60 * 1000, addEnemiesEvent);
         }
         addEnemiesEvent();
-        this.game.time.events.add(60 * 1000, addEnemiesEvent);
+        this.wavesSurvived = 0;
     }
 }
