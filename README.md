@@ -24,8 +24,7 @@ npm run-script deploy
 
 There are two docker versions: dev and production.
 
-In order build and run the production
-docker, configure `constants.sh` and run:
+In order build and run the production docker, configure `constants.sh` and run:
 
 ```
 bash build.sh
@@ -47,7 +46,7 @@ To push the docker to a hub, configure the constants file and run:
 bash deploy.sh
 ```
 
-deploy also supports the `dev` for the first argument.
+Deploy also supports the `dev` for the first argument.
 
 #### Reverse proxy with directory
 
