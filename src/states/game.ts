@@ -59,17 +59,17 @@ export default class Title extends Phaser.State {
         powerup.applyPowerup(player, powerup);
     }
 
-    private spawnedObjects: Array<Phaser.Sprite>;
-    private player: Player;
-    private greyBarrels: Phaser.Group = null;
-    private sandbags: Phaser.Group = null;
-    private powerups: Array<Powerup> = null;
-    private enemyBullets: Phaser.Group = null;
-    private enemies: Array<Enemy> = null;
-    private explosions: Phaser.Group = null;
-    private score: number = 0;
+    protected spawnedObjects: Array<Phaser.Sprite>;
+    protected player: Player;
+    protected greyBarrels: Phaser.Group = null;
+    protected sandbags: Phaser.Group = null;
+    protected powerups: Array<Powerup> = null;
+    protected enemyBullets: Phaser.Group = null;
+    protected enemies: Array<Enemy> = null;
+    protected explosions: Phaser.Group = null;
+    protected score: number = 0;
 
-    private static checkOverlap(spriteA: Phaser.Sprite, spriteB: Phaser.Sprite): boolean {
+    protected static checkOverlap(spriteA: Phaser.Sprite, spriteB: Phaser.Sprite): boolean {
         let boundsA = spriteA.getBounds();
         let boundsB = spriteB.getBounds();
         // update bounds' x,y coordinates, something fishy made them all 0,0
@@ -80,7 +80,7 @@ export default class Title extends Phaser.State {
         return (boundsA as any).intersects(boundsB);
     }
 
-    private static notNear(a, b, range) {
+    protected static notNear(a, b, range) {
         let diff = a - b;
         if (diff < 0) {
             diff = -diff;
@@ -140,7 +140,7 @@ export default class Title extends Phaser.State {
         }
     }
 
-    private render_active_powerups(origin_x, origin_y): void {
+    protected render_active_powerups(origin_x, origin_y): void {
         let active_count = 1;
         let row_height = 20;
         let active_powerups = '';
@@ -172,7 +172,7 @@ export default class Title extends Phaser.State {
         return this;
     }
 
-    private addSandBags(): void {
+    protected addSandBags(): void {
         this.sandbags = this.game.add.group();
         this.sandbags.physicsBodyType = Phaser.Physics.ARCADE;
         this.sandbags.enableBody = true;
@@ -184,7 +184,7 @@ export default class Title extends Phaser.State {
         }
     }
 
-    private addBarrels(): void {
+    protected addBarrels(): void {
         this.greyBarrels = this.game.add.group();
         this.greyBarrels.physicsBodyType = Phaser.Physics.ARCADE;
         this.greyBarrels.enableBody = true;
@@ -197,7 +197,7 @@ export default class Title extends Phaser.State {
         }
     }
 
-    private addExplosions(): void {
+    protected addExplosions(): void {
         this.explosions = this.game.add.group();
         for (let i = 0; i < 10; i++) {
             let explosionAnimation = this.explosions.create(0, 0, 'kaboom', 0, false);
@@ -206,13 +206,13 @@ export default class Title extends Phaser.State {
         }
     }
 
-    private restrict_coord(coord, min, max, leeway) {
+    protected restrict_coord(coord, min, max, leeway) {
         coord = coord > max - leeway ? max - leeway : coord;
         coord = coord < min + leeway ? min + leeway : coord;
         return coord;
     }
 
-    private addPowerups(nr: number = 10): void {
+    protected addPowerups(nr: number = 10): void {
         this.powerups = [];
         let leeway = 50;
         for (let i = 0; i < nr; i++) {
@@ -226,7 +226,7 @@ export default class Title extends Phaser.State {
         }
     }
 
-    private addEnemies(nr: number = 10): void {
+    protected addEnemies(nr: number = 10): void {
         this.enemyBullets = this.game.add.group();
         this.enemyBullets.enableBody = true;
         this.enemyBullets.physicsBodyType = Phaser.Physics.ARCADE;
@@ -247,7 +247,7 @@ export default class Title extends Phaser.State {
         }
     }
 
-    private randomOutside(x, y, range) {
+    protected randomOutside(x, y, range) {
         let genX, genY;
         do {
             genX = this.game.world.randomX;
@@ -256,7 +256,7 @@ export default class Title extends Phaser.State {
         return [genX, genY];
     }
 
-    private adjustPosition(element) {
+    protected adjustPosition(element) {
         let overlaps = false;
         let times = 5; // maximum times we relocate an item that still overlaps
         do {

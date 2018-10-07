@@ -20,6 +20,14 @@ export default class MenuState extends Phaser.State {
         title.anchor.set(0.5, 0.5);
     }
 
+    /* this makes sense to be called in
+       the state's init function, because in the create
+       function the title is rendered and not
+       checked for changes again.*/
+    public setTitle(title: string): void {
+        this.title = title;
+    }
+
     addOption(text: string, stateKey: string = null, x: number = null, y: number = null) {
         x = x ? x : this.game.world.centerX;
         y = y ? y : this.game.world.centerY;
