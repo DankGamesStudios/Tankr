@@ -1,5 +1,5 @@
 import 'phaser-ce';
-import {Images} from '../assets';
+import {Audio, Images} from '../assets';
 import Title from '../states/game';
 
 
@@ -11,6 +11,7 @@ export default class Powerup extends Phaser.Sprite {
     // so make sure the powerup can't be activated more than once
     is_alive: boolean;
     time_left: number = -1;
+    activationSound;
 
     constructor(game: Phaser.Game, title: Title, x: number, y: number, power_type = '') {
         super(game, x, y, power_type);
@@ -34,9 +35,11 @@ export default class Powerup extends Phaser.Sprite {
             this.loadTexture(this.powerup_map[power_type]['sprite']);
         }
         this.power_type = power_type;
+        this.activationSound = this.game.add.audio(this.powerup_map[power_type]['audio']);
     }
 
     public applyPowerup = (actor1, actor2) => {
+        this.activationSound.play();
         this.powerup_map[this.power_type]['callback'](actor1, actor2);
     }
 
@@ -127,16 +130,19 @@ export default class Powerup extends Phaser.Sprite {
         'health': {
             'name': 'health',
             'sprite': Images.ImgPowerupsHealth.getName(),
+            'audio': Audio.AudioPowerUp2.getName(),
             'callback': this.playerGetHealthDrop,
         },
         'missiles': {
             'name': 'missiles',
             'sprite': Images.ImgPowerupsMissiles.getName(),
+            'audio': Audio.AudioPowerUp12.getName(),
             'callback': this.playerGetMissiles,
         },
         'freeze': {
             'name': 'freeze',
             'sprite': Images.ImgPowerupsFreeze.getName(),
+            'audio': Audio.AudioPowerUp3.getName(),
             'callback': this.enemyFreezeDrop,
         },
     };

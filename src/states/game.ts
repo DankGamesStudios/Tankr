@@ -3,7 +3,7 @@ import Player from '../components/Player';
 import Enemy from '../components/Enemy';
 import Powerup from '../components/Powerup';
 import TankrApp from '../app';
-import {Images} from '../assets';
+import {Audio, Images} from '../assets';
 
 export default class Title extends Phaser.State {
     tankrGame: TankrApp;
@@ -111,6 +111,7 @@ export default class Title extends Phaser.State {
         this.addExplosions();
         this.addPowerups();
         this.addEnemies();
+        this.game.add.sound(Audio.AudioFemaleReady.getName()).play();
     }
 
     public update(): void {

@@ -1,5 +1,5 @@
 import 'phaser-ce';
-import {Images} from '../assets';
+import {Audio, Images} from '../assets';
 import Player from './Player';
 import HealthBar from './HealthBar';
 import PlayerCaption from './PlayerCaption';
@@ -19,6 +19,7 @@ export default class Enemy extends Phaser.Sprite {
     caption: PlayerCaption = null;
     healthBar: HealthBar = null;
     frozen: boolean = false;
+    private killAudio: Phaser.Sound;
 
     constructor(game: Phaser.Game, genXY, id, player, bullets) {
         super(game, genXY[0], genXY[1], Images.ImgTanksTankBodyRedOutline.getName());
@@ -38,6 +39,7 @@ export default class Enemy extends Phaser.Sprite {
 
         this.caption = new PlayerCaption(this.game, this, 'CPU');
         this.healthBar = new HealthBar(this.game, this, '#ff0000');
+        this.killAudio = game.add.audio(Audio.AudioExplosion01.getName());
     }
 
     update() {
@@ -96,6 +98,7 @@ export default class Enemy extends Phaser.Sprite {
 
     public kill(): any {
         super.kill();
+        this.killAudio.play();
         this.turret.kill();
         this.caption.kill();
         this.healthBar.kill();

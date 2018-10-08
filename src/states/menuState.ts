@@ -1,8 +1,10 @@
 import 'phaser-ce';
+import {Audio} from '../assets';
 
 export default class MenuState extends Phaser.State {
     private title: string;
     private returnState: string;
+    private menuClickAudio: Phaser.Sound;
 
     constructor(title: string, returnState: string = null) {
         super();
@@ -18,6 +20,7 @@ export default class MenuState extends Phaser.State {
             this.title,
             {font: '50px', fill: '#9eff63', align: 'center'});
         title.anchor.set(0.5, 0.5);
+        this.menuClickAudio = this.game.add.audio(Audio.AudioClick.getName());
     }
 
     /* this makes sense to be called in
@@ -40,6 +43,7 @@ export default class MenuState extends Phaser.State {
         option.inputEnabled = true;
         if (stateKey) {
             option.events.onInputDown.add(() => {
+                this.menuClickAudio.play();
                 this.game.state.start(stateKey);
             }, this);
         }

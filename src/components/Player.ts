@@ -1,7 +1,7 @@
 import 'phaser-ce';
 import HealthBar from './HealthBar';
 import PlayerCaption from './PlayerCaption';
-import {Images} from '../assets';
+import {Audio, Images} from '../assets';
 import Game from '../states/game';
 import TankrApp from '../app';
 
@@ -19,6 +19,8 @@ export default class Player extends Phaser.Sprite {
     bullets: Phaser.Group = null;
     caption: PlayerCaption = null;
     healthBar: HealthBar = null;
+    private killAudio: Phaser.Sound;
+    private fireAudio: Phaser.Sound;
 
 
     constructor(tankrGame: TankrApp, playStage: Game) {
@@ -41,6 +43,8 @@ export default class Player extends Phaser.Sprite {
 
         this.caption = new PlayerCaption(this.game, this, 'Player 1');
         this.healthBar = new HealthBar(this.game, this, '#136572');
+        this.killAudio = this.game.add.audio(Audio.AudioExplosion01.getName());
+        this.fireAudio = this.game.add.audio(Audio.AudioLaserShootingSfx.getName());
     }
 
     // taken from the interwebs:
@@ -115,6 +119,7 @@ export default class Player extends Phaser.Sprite {
                     let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle - 90));
                     this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                     this.last_fired = now;
+                    this.fireAudio.play();
                 }
             }
         }
@@ -146,5 +151,6 @@ export default class Player extends Phaser.Sprite {
 
     public kill(): any {
         this.healthBar.kill();
+        this.killAudio.play();
     }
 }
