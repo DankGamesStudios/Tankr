@@ -143,6 +143,9 @@ export default class Player extends Phaser.Sprite {
 
     hitWithBullet() {
         this.health -= 1;
+        if (this.health === 0) {
+            this.killAudio.play();
+        }
     }
 
     isAlive() {
@@ -150,7 +153,8 @@ export default class Player extends Phaser.Sprite {
     }
 
     public kill(): any {
+        super.kill();
+        this.turret.kill();
         this.healthBar.kill();
-        this.killAudio.play();
     }
 }

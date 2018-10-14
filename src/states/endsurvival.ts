@@ -20,9 +20,11 @@ export default class EndSurvival extends MenuState {
         this.addOption('Play again', 'survival', null, this.game.world.centerY - 100);
         this.addOption('Return to main menu', 'mainScreen', null, this.game.world.centerY);
         if (this.waves === 0) {
-            this.game.add.sound(Audio.AudioFemaleWrong.getName()).play();
-        } else {
+            this.game.add.sound(Audio.AudioFemaleMissionFailed.getName()).play();
+        } else if (this.waves < 3) {
             this.game.add.sound(Audio.AudioFemaleCongratulations.getName()).play();
+        } else {
+            this.game.add.sound(Audio.AudioFemaleMissionCompleted.getName()).play();
         }
     }
 

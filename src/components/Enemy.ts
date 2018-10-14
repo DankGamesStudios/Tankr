@@ -81,6 +81,7 @@ export default class Enemy extends Phaser.Sprite {
         this.health -= damage;
         if (this.health <= 0) {
             this.alive = false;
+            this.killAudio.play();
             this.kill();
             return true;
         }
@@ -98,7 +99,6 @@ export default class Enemy extends Phaser.Sprite {
 
     public kill(): any {
         super.kill();
-        this.killAudio.play();
         this.turret.kill();
         this.caption.kill();
         this.healthBar.kill();
