@@ -1,13 +1,7 @@
 language: node_js
 node_js:
   - "6"
-install:
+before_script:
   - npm install
 script:
   - npm run-script tslint
-
-jobs:
-  include:
-    - stage: deploy to github pages
-      if: branch = master
-      script: 'npm run-script deploy'
