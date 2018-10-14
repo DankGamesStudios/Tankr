@@ -20,10 +20,10 @@ import KeyCode = Phaser.KeyCode;
 
 export default class TankrApp extends Phaser.Game {
     settings = {
-        'UpKey': KeyCode.UP,
-        'LeftKey': KeyCode.LEFT,
-        'RightKey': KeyCode.RIGHT,
-        'DownKey': KeyCode.DOWN,
+        'UpKey': this.getLocalStorageSettingNr('UpKey', KeyCode.UP),
+        'LeftKey': this.getLocalStorageSettingNr('LeftKey', KeyCode.LEFT),
+        'RightKey': this.getLocalStorageSettingNr('RightKey', KeyCode.RIGHT),
+        'DownKey': this.getLocalStorageSettingNr('DownKey', KeyCode.DOWN),
         'FireKey': 'mouseLeft',
     };
 
@@ -51,7 +51,16 @@ export default class TankrApp extends Phaser.Game {
     }
 
     public setSetting(name: string, value: any) {
+        window.localStorage.setItem(`setting_${name}`, value) ;
         this.settings[name] = value;
+    }
+
+    private getLocalStorageSettingNr(key, defaultValue) {
+        let value = window.localStorage.getItem(`setting_${key}`);
+        if (value) {
+            return parseInt(value, 10);
+        }
+        return defaultValue;
     }
 
     public isButtonPressed(buttonKey: string): boolean {
