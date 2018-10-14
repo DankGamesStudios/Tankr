@@ -1,7 +1,7 @@
 import 'phaser-ce';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
-import TankrApp from "../app";
+import TankrApp from '../app';
 import {Images} from '../assets';
 import Title from './game';
 
