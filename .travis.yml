@@ -5,3 +5,9 @@ before_script:
   - npm install
 script:
   - npm run-script tslint
+
+jobs:
+  include:
+    - stage: deploy
+      if: branch = master
+      script: npm run-script deploy
