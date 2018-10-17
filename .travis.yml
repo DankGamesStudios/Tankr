@@ -5,11 +5,3 @@ before_script:
   - npm install
 script:
   - npm run-script tslint
-
-env:
-  global:
-    - secure: "I0bBUwpODoo3rjxme2HpYGsEko7RMeTzPDw3yZAq2U5GAMCdNEdznhudA4ZsMCAXKhrKG9BAgKSRoVa3OHpH8R31Hs9JsShOkv6qbozJciBpTRqll9TheEIc/5ptRJc+R0DeC30jroF5WNIX1gJmbfmr8Vohh50BNd8/p+geysSq++sxLcqsWEGc+VSS+v2ZpVsZExkE7DiFSt2Ja3psEfBOIeMoPCVuvRn0Zavq2ilERMmBdMrlwmfBfq+MeD9owZB8rz9B/xuP+bhHHuysnM0jdJjoLvGdsnHYK8ngArKiu+KWBwno/sFyLcOj/EqpmGC77Z/xQKY63kSUpV34kocxl+aeuAax5lg4vlLpt+Wsc1i75HB7xbUL/Hm1U5FnCWgYijv2cZKBUT3vzqsMiCkNQbkYbnIxQUV6b6vgqX2a8yCSWr3uqRFUzEKsoj48Hqxy//eGI7NUg+1Mwuke8NyfgiHQblpj1DWXOXP9omVDTA9y8AHTez0q/QpKfQzWHyIG1A9wxlGGMkie4vkft5L7Y7Ls+21FQwOA9sPy7jwPlvB6c5rc1mYbYrkqSdWpH2MkjcSs7w0eY1SKa+qNu2XAq4d/tnjSxC1XEymFfFbG0GwznHNYn/wsu6QApBxcFj0j7dLF8Kk0fFnxATadZOiYP5lYOniXHkMLWr8o5x0="
-
-deploy:
-  - provider: script
-    script: bash travis_deploy.sh
