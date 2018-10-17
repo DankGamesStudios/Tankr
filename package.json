@@ -19,7 +19,8 @@
     "electron:pack:dev": "npm run build:dev && node ./scripts/packageElectronApp.js",
     "electron:pack:dist": "npm run build:dist && node ./scripts/packageElectronApp.js",
     "checkDepsVersions": "npm-check --skip-unused -u",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "tslint": "tslint 'src/**/*.ts'"
   },
   "repository": {
     "type": "git",
