@@ -6,4 +6,5 @@ git config --global user.name "Travis CI"
 
 git remote remove origin
 git remote add origin "https://${GITHUB_TOKEN}@github.com:DankGamesStudios/Tankr.git"
+npm list --depth 0
 npm run-script deploy
