@@ -1114,7 +1114,836 @@ export namespace Atlases {
 }
 
 export namespace Audio {
-    class IExistSoTypeScriptWillNotComplainAboutAnEmptyNamespace {}
+    export class AudioClick {
+        static getName(): string { return 'click'; }
+
+        static getWAV(): string { return require('assets/audio/click.wav'); }
+    }
+    export class AudioExplosion01 {
+        static getName(): string { return 'explosion01'; }
+
+        static getWAV(): string { return require('assets/audio/explosion01.wav'); }
+    }
+    export class AudioExplosion02 {
+        static getName(): string { return 'explosion02'; }
+
+        static getWAV(): string { return require('assets/audio/explosion02.wav'); }
+    }
+    export class AudioExplosion03 {
+        static getName(): string { return 'explosion03'; }
+
+        static getWAV(): string { return require('assets/audio/explosion03.wav'); }
+    }
+    export class AudioExplosion04 {
+        static getName(): string { return 'explosion04'; }
+
+        static getWAV(): string { return require('assets/audio/explosion04.wav'); }
+    }
+    export class AudioExplosion05 {
+        static getName(): string { return 'explosion05'; }
+
+        static getWAV(): string { return require('assets/audio/explosion05.wav'); }
+    }
+    export class AudioExplosion06 {
+        static getName(): string { return 'explosion06'; }
+
+        static getWAV(): string { return require('assets/audio/explosion06.wav'); }
+    }
+    export class AudioExplosion07 {
+        static getName(): string { return 'explosion07'; }
+
+        static getWAV(): string { return require('assets/audio/explosion07.wav'); }
+    }
+    export class AudioExplosion08 {
+        static getName(): string { return 'explosion08'; }
+
+        static getWAV(): string { return require('assets/audio/explosion08.wav'); }
+    }
+    export class AudioExplosion09 {
+        static getName(): string { return 'explosion09'; }
+
+        static getWAV(): string { return require('assets/audio/explosion09.wav'); }
+    }
+    export class AudioFemale1 {
+        static getName(): string { return '1'; }
+
+        static getOGG(): string { return require('assets/audio/Female/1.ogg'); }
+    }
+    export class AudioFemale10 {
+        static getName(): string { return '10'; }
+
+        static getOGG(): string { return require('assets/audio/Female/10.ogg'); }
+    }
+    export class AudioFemale2 {
+        static getName(): string { return '2'; }
+
+        static getOGG(): string { return require('assets/audio/Female/2.ogg'); }
+    }
+    export class AudioFemale3 {
+        static getName(): string { return '3'; }
+
+        static getOGG(): string { return require('assets/audio/Female/3.ogg'); }
+    }
+    export class AudioFemale4 {
+        static getName(): string { return '4'; }
+
+        static getOGG(): string { return require('assets/audio/Female/4.ogg'); }
+    }
+    export class AudioFemale5 {
+        static getName(): string { return '5'; }
+
+        static getOGG(): string { return require('assets/audio/Female/5.ogg'); }
+    }
+    export class AudioFemale6 {
+        static getName(): string { return '6'; }
+
+        static getOGG(): string { return require('assets/audio/Female/6.ogg'); }
+    }
+    export class AudioFemale7 {
+        static getName(): string { return '7'; }
+
+        static getOGG(): string { return require('assets/audio/Female/7.ogg'); }
+    }
+    export class AudioFemale8 {
+        static getName(): string { return '8'; }
+
+        static getOGG(): string { return require('assets/audio/Female/8.ogg'); }
+    }
+    export class AudioFemale9 {
+        static getName(): string { return '9'; }
+
+        static getOGG(): string { return require('assets/audio/Female/9.ogg'); }
+    }
+    export class AudioFemaleCongratulations {
+        static getName(): string { return 'congratulations'; }
+
+        static getOGG(): string { return require('assets/audio/Female/congratulations.ogg'); }
+    }
+    export class AudioFemaleCorrect {
+        static getName(): string { return 'correct'; }
+
+        static getOGG(): string { return require('assets/audio/Female/correct.ogg'); }
+    }
+    export class AudioFemaleFinalRound {
+        static getName(): string { return 'final_round'; }
+
+        static getOGG(): string { return require('assets/audio/Female/final_round.ogg'); }
+    }
+    export class AudioFemaleGameOver {
+        static getName(): string { return 'game_over'; }
+
+        static getOGG(): string { return require('assets/audio/Female/game_over.ogg'); }
+    }
+    export class AudioFemaleGo {
+        static getName(): string { return 'go'; }
+
+        static getOGG(): string { return require('assets/audio/Female/go.ogg'); }
+    }
+    export class AudioFemaleHurryUp {
+        static getName(): string { return 'hurry_up'; }
+
+        static getOGG(): string { return require('assets/audio/Female/hurry_up.ogg'); }
+    }
+    export class AudioFemaleItsATie {
+        static getName(): string { return 'its_a_tie'; }
+
+        static getOGG(): string { return require('assets/audio/Female/its_a_tie.ogg'); }
+    }
+    export class AudioFemaleLevelUp {
+        static getName(): string { return 'level_up'; }
+
+        static getOGG(): string { return require('assets/audio/Female/level_up.ogg'); }
+    }
+    export class AudioFemaleLevel {
+        static getName(): string { return 'level'; }
+
+        static getOGG(): string { return require('assets/audio/Female/level.ogg'); }
+    }
+    export class AudioFemaleMissionCompleted {
+        static getName(): string { return 'mission_completed'; }
+
+        static getOGG(): string { return require('assets/audio/Female/mission_completed.ogg'); }
+    }
+    export class AudioFemaleMissionFailed {
+        static getName(): string { return 'mission_failed'; }
+
+        static getOGG(): string { return require('assets/audio/Female/mission_failed.ogg'); }
+    }
+    export class AudioFemaleNewHighscore {
+        static getName(): string { return 'new_highscore'; }
+
+        static getOGG(): string { return require('assets/audio/Female/new_highscore.ogg'); }
+    }
+    export class AudioFemaleObjectiveAchieved {
+        static getName(): string { return 'objective_achieved'; }
+
+        static getOGG(): string { return require('assets/audio/Female/objective_achieved.ogg'); }
+    }
+    export class AudioFemalePowerUp {
+        static getName(): string { return 'power_up'; }
+
+        static getOGG(): string { return require('assets/audio/Female/power_up.ogg'); }
+    }
+    export class AudioFemaleReady {
+        static getName(): string { return 'ready'; }
+
+        static getOGG(): string { return require('assets/audio/Female/ready.ogg'); }
+    }
+    export class AudioFemaleRound {
+        static getName(): string { return 'round'; }
+
+        static getOGG(): string { return require('assets/audio/Female/round.ogg'); }
+    }
+    export class AudioFemaleSet {
+        static getName(): string { return 'set'; }
+
+        static getOGG(): string { return require('assets/audio/Female/set.ogg'); }
+    }
+    export class AudioFemaleTimeOver {
+        static getName(): string { return 'time_over'; }
+
+        static getOGG(): string { return require('assets/audio/Female/time_over.ogg'); }
+    }
+    export class AudioFemaleWarCallForBackup {
+        static getName(): string { return 'war_call_for_backup'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_call_for_backup.ogg'); }
+    }
+    export class AudioFemaleWarCoverMe {
+        static getName(): string { return 'war_cover_me'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_cover_me.ogg'); }
+    }
+    export class AudioFemaleWarFireInTheHole {
+        static getName(): string { return 'war_fire_in_the_hole'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_fire_in_the_hole.ogg'); }
+    }
+    export class AudioFemaleWarGetDown {
+        static getName(): string { return 'war_get_down'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_get_down.ogg'); }
+    }
+    export class AudioFemaleWarGoGoGo {
+        static getName(): string { return 'war_go_go_go'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_go_go_go.ogg'); }
+    }
+    export class AudioFemaleWarHold {
+        static getName(): string { return 'war_hold'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_hold.ogg'); }
+    }
+    export class AudioFemaleWarLookOut {
+        static getName(): string { return 'war_look_out'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_look_out.ogg'); }
+    }
+    export class AudioFemaleWarMedic {
+        static getName(): string { return 'war_medic'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_medic.ogg'); }
+    }
+    export class AudioFemaleWarReloading {
+        static getName(): string { return 'war_reloading'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_reloading.ogg'); }
+    }
+    export class AudioFemaleWarRpg {
+        static getName(): string { return 'war_rpg'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_rpg.ogg'); }
+    }
+    export class AudioFemaleWarSniper {
+        static getName(): string { return 'war_sniper'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_sniper.ogg'); }
+    }
+    export class AudioFemaleWarSupressingFire {
+        static getName(): string { return 'war_supressing_fire'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_supressing_fire.ogg'); }
+    }
+    export class AudioFemaleWarTargetDestroyed {
+        static getName(): string { return 'war_target_destroyed'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_target_destroyed.ogg'); }
+    }
+    export class AudioFemaleWarTargetEngaged {
+        static getName(): string { return 'war_target_engaged'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_target_engaged.ogg'); }
+    }
+    export class AudioFemaleWarWatchMyBack {
+        static getName(): string { return 'war_watch_my_back'; }
+
+        static getOGG(): string { return require('assets/audio/Female/war_watch_my_back.ogg'); }
+    }
+    export class AudioFemaleWrong {
+        static getName(): string { return 'wrong'; }
+
+        static getOGG(): string { return require('assets/audio/Female/wrong.ogg'); }
+    }
+    export class AudioFemaleYouLose {
+        static getName(): string { return 'you_lose'; }
+
+        static getOGG(): string { return require('assets/audio/Female/you_lose.ogg'); }
+    }
+    export class AudioFemaleYouWin {
+        static getName(): string { return 'you_win'; }
+
+        static getOGG(): string { return require('assets/audio/Female/you_win.ogg'); }
+    }
+    export class AudioHighDown {
+        static getName(): string { return 'highDown'; }
+
+        static getOGG(): string { return require('assets/audio/highDown.ogg'); }
+    }
+    export class AudioHighUp {
+        static getName(): string { return 'highUp'; }
+
+        static getOGG(): string { return require('assets/audio/highUp.ogg'); }
+    }
+    export class AudioLaserShootingSfx {
+        static getName(): string { return 'laser_shooting_sfx'; }
+
+        static getWAV(): string { return require('assets/audio/laser_shooting_sfx.wav'); }
+    }
+    export class AudioLaser1 {
+        static getName(): string { return 'laser1'; }
+
+        static getOGG(): string { return require('assets/audio/laser1.ogg'); }
+    }
+    export class AudioLaser2 {
+        static getName(): string { return 'laser2'; }
+
+        static getOGG(): string { return require('assets/audio/laser2.ogg'); }
+    }
+    export class AudioLaser3 {
+        static getName(): string { return 'laser3'; }
+
+        static getOGG(): string { return require('assets/audio/laser3.ogg'); }
+    }
+    export class AudioLaser4 {
+        static getName(): string { return 'laser4'; }
+
+        static getOGG(): string { return require('assets/audio/laser4.ogg'); }
+    }
+    export class AudioLaser5 {
+        static getName(): string { return 'laser5'; }
+
+        static getOGG(): string { return require('assets/audio/laser5.ogg'); }
+    }
+    export class AudioLaser6 {
+        static getName(): string { return 'laser6'; }
+
+        static getOGG(): string { return require('assets/audio/laser6.ogg'); }
+    }
+    export class AudioLaser7 {
+        static getName(): string { return 'laser7'; }
+
+        static getOGG(): string { return require('assets/audio/laser7.ogg'); }
+    }
+    export class AudioLaser8 {
+        static getName(): string { return 'laser8'; }
+
+        static getOGG(): string { return require('assets/audio/laser8.ogg'); }
+    }
+    export class AudioLaser9 {
+        static getName(): string { return 'laser9'; }
+
+        static getOGG(): string { return require('assets/audio/laser9.ogg'); }
+    }
+    export class AudioLowDown {
+        static getName(): string { return 'lowDown'; }
+
+        static getOGG(): string { return require('assets/audio/lowDown.ogg'); }
+    }
+    export class AudioLowRandom {
+        static getName(): string { return 'lowRandom'; }
+
+        static getOGG(): string { return require('assets/audio/lowRandom.ogg'); }
+    }
+    export class AudioLowThreeTone {
+        static getName(): string { return 'lowThreeTone'; }
+
+        static getOGG(): string { return require('assets/audio/lowThreeTone.ogg'); }
+    }
+    export class AudioMale1 {
+        static getName(): string { return '1'; }
+
+        static getOGG(): string { return require('assets/audio/Male/1.ogg'); }
+    }
+    export class AudioMale10 {
+        static getName(): string { return '10'; }
+
+        static getOGG(): string { return require('assets/audio/Male/10.ogg'); }
+    }
+    export class AudioMale2 {
+        static getName(): string { return '2'; }
+
+        static getOGG(): string { return require('assets/audio/Male/2.ogg'); }
+    }
+    export class AudioMale3 {
+        static getName(): string { return '3'; }
+
+        static getOGG(): string { return require('assets/audio/Male/3.ogg'); }
+    }
+    export class AudioMale4 {
+        static getName(): string { return '4'; }
+
+        static getOGG(): string { return require('assets/audio/Male/4.ogg'); }
+    }
+    export class AudioMale5 {
+        static getName(): string { return '5'; }
+
+        static getOGG(): string { return require('assets/audio/Male/5.ogg'); }
+    }
+    export class AudioMale6 {
+        static getName(): string { return '6'; }
+
+        static getOGG(): string { return require('assets/audio/Male/6.ogg'); }
+    }
+    export class AudioMale7 {
+        static getName(): string { return '7'; }
+
+        static getOGG(): string { return require('assets/audio/Male/7.ogg'); }
+    }
+    export class AudioMale8 {
+        static getName(): string { return '8'; }
+
+        static getOGG(): string { return require('assets/audio/Male/8.ogg'); }
+    }
+    export class AudioMale9 {
+        static getName(): string { return '9'; }
+
+        static getOGG(): string { return require('assets/audio/Male/9.ogg'); }
+    }
+    export class AudioMaleCongratulations {
+        static getName(): string { return 'congratulations'; }
+
+        static getOGG(): string { return require('assets/audio/Male/congratulations.ogg'); }
+    }
+    export class AudioMaleCorrect {
+        static getName(): string { return 'correct'; }
+
+        static getOGG(): string { return require('assets/audio/Male/correct.ogg'); }
+    }
+    export class AudioMaleFinalRound {
+        static getName(): string { return 'final_round'; }
+
+        static getOGG(): string { return require('assets/audio/Male/final_round.ogg'); }
+    }
+    export class AudioMaleGameOver {
+        static getName(): string { return 'game_over'; }
+
+        static getOGG(): string { return require('assets/audio/Male/game_over.ogg'); }
+    }
+    export class AudioMaleGo {
+        static getName(): string { return 'go'; }
+
+        static getOGG(): string { return require('assets/audio/Male/go.ogg'); }
+    }
+    export class AudioMaleHold {
+        static getName(): string { return 'hold'; }
+
+        static getOGG(): string { return require('assets/audio/Male/hold.ogg'); }
+    }
+    export class AudioMaleHurryUp {
+        static getName(): string { return 'hurry_up'; }
+
+        static getOGG(): string { return require('assets/audio/Male/hurry_up.ogg'); }
+    }
+    export class AudioMaleItsATie {
+        static getName(): string { return 'its_a_tie'; }
+
+        static getOGG(): string { return require('assets/audio/Male/its_a_tie.ogg'); }
+    }
+    export class AudioMaleLevelUp {
+        static getName(): string { return 'level_up'; }
+
+        static getOGG(): string { return require('assets/audio/Male/level_up.ogg'); }
+    }
+    export class AudioMaleLevel {
+        static getName(): string { return 'level'; }
+
+        static getOGG(): string { return require('assets/audio/Male/level.ogg'); }
+    }
+    export class AudioMaleMissionCompleted {
+        static getName(): string { return 'mission_completed'; }
+
+        static getOGG(): string { return require('assets/audio/Male/mission_completed.ogg'); }
+    }
+    export class AudioMaleMissionFailed {
+        static getName(): string { return 'mission_failed'; }
+
+        static getOGG(): string { return require('assets/audio/Male/mission_failed.ogg'); }
+    }
+    export class AudioMaleNewHighscore {
+        static getName(): string { return 'new_highscore'; }
+
+        static getOGG(): string { return require('assets/audio/Male/new_highscore.ogg'); }
+    }
+    export class AudioMaleObjectiveAchieved {
+        static getName(): string { return 'objective_achieved'; }
+
+        static getOGG(): string { return require('assets/audio/Male/objective_achieved.ogg'); }
+    }
+    export class AudioMalePowerUp {
+        static getName(): string { return 'power_up'; }
+
+        static getOGG(): string { return require('assets/audio/Male/power_up.ogg'); }
+    }
+    export class AudioMaleReady {
+        static getName(): string { return 'ready'; }
+
+        static getOGG(): string { return require('assets/audio/Male/ready.ogg'); }
+    }
+    export class AudioMaleRound {
+        static getName(): string { return 'round'; }
+
+        static getOGG(): string { return require('assets/audio/Male/round.ogg'); }
+    }
+    export class AudioMaleSet {
+        static getName(): string { return 'set'; }
+
+        static getOGG(): string { return require('assets/audio/Male/set.ogg'); }
+    }
+    export class AudioMaleTimeOver {
+        static getName(): string { return 'time_over'; }
+
+        static getOGG(): string { return require('assets/audio/Male/time_over.ogg'); }
+    }
+    export class AudioMaleWarCallForBackup {
+        static getName(): string { return 'war_call_for_backup'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_call_for_backup.ogg'); }
+    }
+    export class AudioMaleWarCoverMe {
+        static getName(): string { return 'war_cover_me'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_cover_me.ogg'); }
+    }
+    export class AudioMaleWarFireInTheHole {
+        static getName(): string { return 'war_fire_in_the_hole'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_fire_in_the_hole.ogg'); }
+    }
+    export class AudioMaleWarGetDown {
+        static getName(): string { return 'war_get_down'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_get_down.ogg'); }
+    }
+    export class AudioMaleWarGoGoGo {
+        static getName(): string { return 'war_go_go_go'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_go_go_go.ogg'); }
+    }
+    export class AudioMaleWarLookOut {
+        static getName(): string { return 'war_look_out'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_look_out.ogg'); }
+    }
+    export class AudioMaleWarMedic {
+        static getName(): string { return 'war_medic'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_medic.ogg'); }
+    }
+    export class AudioMaleWarReloading {
+        static getName(): string { return 'war_reloading'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_reloading.ogg'); }
+    }
+    export class AudioMaleWarRpg {
+        static getName(): string { return 'war_rpg'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_rpg.ogg'); }
+    }
+    export class AudioMaleWarSniper {
+        static getName(): string { return 'war_sniper'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_sniper.ogg'); }
+    }
+    export class AudioMaleWarSuppressingFire {
+        static getName(): string { return 'war_suppressing_fire'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_suppressing_fire.ogg'); }
+    }
+    export class AudioMaleWarTargetDestroyed {
+        static getName(): string { return 'war_target_destroyed'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_target_destroyed.ogg'); }
+    }
+    export class AudioMaleWarTargetEngaged {
+        static getName(): string { return 'war_target_engaged'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_target_engaged.ogg'); }
+    }
+    export class AudioMaleWarWatchMyBack {
+        static getName(): string { return 'war_watch_my_back'; }
+
+        static getOGG(): string { return require('assets/audio/Male/war_watch_my_back.ogg'); }
+    }
+    export class AudioMaleWrong {
+        static getName(): string { return 'wrong'; }
+
+        static getOGG(): string { return require('assets/audio/Male/wrong.ogg'); }
+    }
+    export class AudioMaleYouLose {
+        static getName(): string { return 'you_lose'; }
+
+        static getOGG(): string { return require('assets/audio/Male/you_lose.ogg'); }
+    }
+    export class AudioMaleYouWin {
+        static getName(): string { return 'you_win'; }
+
+        static getOGG(): string { return require('assets/audio/Male/you_win.ogg'); }
+    }
+    export class AudioPepSound1 {
+        static getName(): string { return 'pepSound1'; }
+
+        static getOGG(): string { return require('assets/audio/pepSound1.ogg'); }
+    }
+    export class AudioPepSound2 {
+        static getName(): string { return 'pepSound2'; }
+
+        static getOGG(): string { return require('assets/audio/pepSound2.ogg'); }
+    }
+    export class AudioPepSound3 {
+        static getName(): string { return 'pepSound3'; }
+
+        static getOGG(): string { return require('assets/audio/pepSound3.ogg'); }
+    }
+    export class AudioPepSound4 {
+        static getName(): string { return 'pepSound4'; }
+
+        static getOGG(): string { return require('assets/audio/pepSound4.ogg'); }
+    }
+    export class AudioPepSound5 {
+        static getName(): string { return 'pepSound5'; }
+
+        static getOGG(): string { return require('assets/audio/pepSound5.ogg'); }
+    }
+    export class AudioPhaseJump1 {
+        static getName(): string { return 'phaseJump1'; }
+
+        static getOGG(): string { return require('assets/audio/phaseJump1.ogg'); }
+    }
+    export class AudioPhaseJump2 {
+        static getName(): string { return 'phaseJump2'; }
+
+        static getOGG(): string { return require('assets/audio/phaseJump2.ogg'); }
+    }
+    export class AudioPhaseJump3 {
+        static getName(): string { return 'phaseJump3'; }
+
+        static getOGG(): string { return require('assets/audio/phaseJump3.ogg'); }
+    }
+    export class AudioPhaseJump4 {
+        static getName(): string { return 'phaseJump4'; }
+
+        static getOGG(): string { return require('assets/audio/phaseJump4.ogg'); }
+    }
+    export class AudioPhaseJump5 {
+        static getName(): string { return 'phaseJump5'; }
+
+        static getOGG(): string { return require('assets/audio/phaseJump5.ogg'); }
+    }
+    export class AudioPhaserDown1 {
+        static getName(): string { return 'phaserDown1'; }
+
+        static getOGG(): string { return require('assets/audio/phaserDown1.ogg'); }
+    }
+    export class AudioPhaserDown2 {
+        static getName(): string { return 'phaserDown2'; }
+
+        static getOGG(): string { return require('assets/audio/phaserDown2.ogg'); }
+    }
+    export class AudioPhaserDown3 {
+        static getName(): string { return 'phaserDown3'; }
+
+        static getOGG(): string { return require('assets/audio/phaserDown3.ogg'); }
+    }
+    export class AudioPhaserUp1 {
+        static getName(): string { return 'phaserUp1'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp1.ogg'); }
+    }
+    export class AudioPhaserUp2 {
+        static getName(): string { return 'phaserUp2'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp2.ogg'); }
+    }
+    export class AudioPhaserUp3 {
+        static getName(): string { return 'phaserUp3'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp3.ogg'); }
+    }
+    export class AudioPhaserUp4 {
+        static getName(): string { return 'phaserUp4'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp4.ogg'); }
+    }
+    export class AudioPhaserUp5 {
+        static getName(): string { return 'phaserUp5'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp5.ogg'); }
+    }
+    export class AudioPhaserUp6 {
+        static getName(): string { return 'phaserUp6'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp6.ogg'); }
+    }
+    export class AudioPhaserUp7 {
+        static getName(): string { return 'phaserUp7'; }
+
+        static getOGG(): string { return require('assets/audio/phaserUp7.ogg'); }
+    }
+    export class AudioPowerUp1 {
+        static getName(): string { return 'powerUp1'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp1.ogg'); }
+    }
+    export class AudioPowerUp10 {
+        static getName(): string { return 'powerUp10'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp10.ogg'); }
+    }
+    export class AudioPowerUp11 {
+        static getName(): string { return 'powerUp11'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp11.ogg'); }
+    }
+    export class AudioPowerUp12 {
+        static getName(): string { return 'powerUp12'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp12.ogg'); }
+    }
+    export class AudioPowerUp2 {
+        static getName(): string { return 'powerUp2'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp2.ogg'); }
+    }
+    export class AudioPowerUp3 {
+        static getName(): string { return 'powerUp3'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp3.ogg'); }
+    }
+    export class AudioPowerUp4 {
+        static getName(): string { return 'powerUp4'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp4.ogg'); }
+    }
+    export class AudioPowerUp5 {
+        static getName(): string { return 'powerUp5'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp5.ogg'); }
+    }
+    export class AudioPowerUp6 {
+        static getName(): string { return 'powerUp6'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp6.ogg'); }
+    }
+    export class AudioPowerUp7 {
+        static getName(): string { return 'powerUp7'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp7.ogg'); }
+    }
+    export class AudioPowerUp8 {
+        static getName(): string { return 'powerUp8'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp8.ogg'); }
+    }
+    export class AudioPowerUp9 {
+        static getName(): string { return 'powerUp9'; }
+
+        static getOGG(): string { return require('assets/audio/powerUp9.ogg'); }
+    }
+    export class AudioPreview {
+        static getName(): string { return 'Preview'; }
+
+        static getOGG(): string { return require('assets/audio/Preview.ogg'); }
+    }
+    export class AudioSpaceTrash1 {
+        static getName(): string { return 'spaceTrash1'; }
+
+        static getOGG(): string { return require('assets/audio/spaceTrash1.ogg'); }
+    }
+    export class AudioSpaceTrash2 {
+        static getName(): string { return 'spaceTrash2'; }
+
+        static getOGG(): string { return require('assets/audio/spaceTrash2.ogg'); }
+    }
+    export class AudioSpaceTrash3 {
+        static getName(): string { return 'spaceTrash3'; }
+
+        static getOGG(): string { return require('assets/audio/spaceTrash3.ogg'); }
+    }
+    export class AudioSpaceTrash4 {
+        static getName(): string { return 'spaceTrash4'; }
+
+        static getOGG(): string { return require('assets/audio/spaceTrash4.ogg'); }
+    }
+    export class AudioSpaceTrash5 {
+        static getName(): string { return 'spaceTrash5'; }
+
+        static getOGG(): string { return require('assets/audio/spaceTrash5.ogg'); }
+    }
+    export class AudioThreeTone1 {
+        static getName(): string { return 'threeTone1'; }
+
+        static getOGG(): string { return require('assets/audio/threeTone1.ogg'); }
+    }
+    export class AudioThreeTone2 {
+        static getName(): string { return 'threeTone2'; }
+
+        static getOGG(): string { return require('assets/audio/threeTone2.ogg'); }
+    }
+    export class AudioTone1 {
+        static getName(): string { return 'tone1'; }
+
+        static getOGG(): string { return require('assets/audio/tone1.ogg'); }
+    }
+    export class AudioTwoTone1 {
+        static getName(): string { return 'twoTone1'; }
+
+        static getOGG(): string { return require('assets/audio/twoTone1.ogg'); }
+    }
+    export class AudioTwoTone2 {
+        static getName(): string { return 'twoTone2'; }
+
+        static getOGG(): string { return require('assets/audio/twoTone2.ogg'); }
+    }
+    export class AudioZap1 {
+        static getName(): string { return 'zap1'; }
+
+        static getOGG(): string { return require('assets/audio/zap1.ogg'); }
+    }
+    export class AudioZap2 {
+        static getName(): string { return 'zap2'; }
+
+        static getOGG(): string { return require('assets/audio/zap2.ogg'); }
+    }
+    export class AudioZapThreeToneDown {
+        static getName(): string { return 'zapThreeToneDown'; }
+
+        static getOGG(): string { return require('assets/audio/zapThreeToneDown.ogg'); }
+    }
+    export class AudioZapThreeToneUp {
+        static getName(): string { return 'zapThreeToneUp'; }
+
+        static getOGG(): string { return require('assets/audio/zapThreeToneUp.ogg'); }
+    }
+    export class AudioZapTwoTone {
+        static getName(): string { return 'zapTwoTone'; }
+
+        static getOGG(): string { return require('assets/audio/zapTwoTone.ogg'); }
+    }
+    export class AudioZapTwoTone2 {
+        static getName(): string { return 'zapTwoTone2'; }
+
+        static getOGG(): string { return require('assets/audio/zapTwoTone2.ogg'); }
+    }
 }
 
 export namespace Audiosprites {

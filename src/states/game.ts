@@ -3,10 +3,11 @@ import Player from '../components/Player';
 import Enemy from '../components/Enemy';
 import Powerup from '../components/Powerup';
 import TankrApp from '../app';
-import {Images} from '../assets';
+import {Audio, Images} from '../assets';
 
 export default class Title extends Phaser.State {
     tankrGame: TankrApp;
+    barrelExplosionAudio: Phaser.Sound;
 
     constructor(tankrGame: TankrApp) {
         super();
@@ -28,14 +29,13 @@ export default class Title extends Phaser.State {
         }
     }
 
-    bulletHitPlayer = (player, bullet) => {
+    bulletHitPlayer = (player: Player, bullet) => {
         this.player.hitWithBullet();
         if (!this.player.isAlive()) {
             let animation = this.explosions.getFirstExists(false);
             animation && animation.reset(player.x, player.y);
             animation && animation.play('kaboom', 30, false, true);
             this.game.camera.unfollow();
-            player.turret.kill();
             player.kill();
             this.game.state.start('loss');
         }
@@ -52,6 +52,7 @@ export default class Title extends Phaser.State {
         animation && animation.play('kaboom', 30, false, true);
 
         barrel.kill();
+        this.barrelExplosionAudio.play();
         bullet.kill();
     }
 
@@ -89,6 +90,7 @@ export default class Title extends Phaser.State {
     }
 
     public create(): void {
+        this.barrelExplosionAudio = this.game.add.audio(Audio.AudioExplosion02.getName());
         // if there are objects left from previous game, destroy them
         if (this.spawnedObjects) {
             for (let spawn of this.spawnedObjects) {
@@ -111,6 +113,7 @@ export default class Title extends Phaser.State {
         this.addExplosions();
         this.addPowerups();
         this.addEnemies();
+        this.game.add.sound(Audio.AudioFemaleReady.getName()).play();
     }
 
     public update(): void {
@@ -148,7 +151,7 @@ export default class Title extends Phaser.State {
             if (powerup.time_left > 1) {
                 active_powerups = ' ' + powerup.power_type + ': ' + powerup.time_left;
                 let y = origin_y + active_count * row_height;
-                active_count ++;
+                active_count++;
                 this.game.debug.text(active_powerups, origin_x, y);
             }
         }
@@ -264,7 +267,7 @@ export default class Title extends Phaser.State {
             for (let i = 0; i < this.spawnedObjects.length && !overlaps; i++) {
                 if (Title.checkOverlap(element, this.spawnedObjects[i])) {
                     overlaps = true;
-                    times --;
+                    times--;
                     element.x = this.game.world.randomX;
                     element.y = this.game.world.randomY;
                 }
