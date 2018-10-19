@@ -1,7 +1,7 @@
 # Tankr
 Arcade Tank Game
 
-[Play](https://hacktm2017bozo.github.io/Tankr/)
+[Play the game](https://dankgamesstudios.github.io/Tankr/)
 
 ### Contributing
 
