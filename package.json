@@ -38,11 +38,12 @@
     "commander": "2.15.0",
     "copy-webpack-plugin": "4.5.1",
     "echo-cli": "1.0.8",
-    "electron": "1.7.11",
-    "electron-packager": "10.1.1",
+    "electron": "3.0.5",
+    "electron-packager": "12.2.0",
     "expose-loader": "0.7.4",
     "file-loader": "1.1.6",
     "html-webpack-plugin": "2.30.1",
+    "npm": "^6.4.1",
     "npm-check": "5.5.2",
     "phaser-ce": "2.10.0",
     "pngjs-image": "0.11.7",
@@ -59,6 +60,6 @@
     "xml2js": "0.4.19"
   },
   "devDependencies": {
-    "gh-pages": "^1.1.0"
+    "gh-pages": "2.0.1"
   }
 }
