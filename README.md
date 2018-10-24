@@ -1,6 +1,8 @@
 # Tankr
 Arcade Tank Game
 
+[![Build Status](https://travis-ci.com/DankGamesStudios/Tankr.svg?branch=master)](https://travis-ci.com/DankGamesStudios/Tankr)
+
 [Play the game](https://dankgamesstudios.github.io/Tankr/)
 
 ### Contributing
