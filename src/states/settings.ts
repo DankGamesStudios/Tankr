@@ -75,7 +75,7 @@ export default class Settings extends MenuState {
             x,
             y,
             keyCode,
-            {font: '30px', fill: '#317AAA', fontWeight: 'bold', stroke: "#000000", strokeThickness: 2, align: 'center'});
+            {font: '30px', fill: '#317AAA', fontWeight: 'bold', stroke: '#000000', strokeThickness: 2, align: 'center'});
         option.anchor.set(0.5, 0.5);
         option.inputEnabled = true;
         option.events.onInputDown.add(() => {
