@@ -89,6 +89,11 @@ export default class Title extends Phaser.State {
         return diff < range;
     }
 
+    public preload(): void {
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+        this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
+    }
+
     public create(): void {
         this.barrelExplosionAudio = this.game.add.audio(Audio.AudioExplosion02.getName());
         // if there are objects left from previous game, destroy them
@@ -99,8 +104,6 @@ export default class Title extends Phaser.State {
         }
         this.spawnedObjects = [];
         this.score = 0;
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.world.setBounds(0, 0, this.game.width * 2, this.game.height * 2);
 
         let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2,

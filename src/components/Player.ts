@@ -30,7 +30,7 @@ export default class Player extends Phaser.Sprite {
         this.game.add.existing(this);
         this.turret = this.game.add.sprite(0, 0, Images.ImgTanksTankBlueBarrel1.getName());
         // turret rotates from middle of bottom, so set that as anchor
-        this.turret.anchor.setTo(0.5, 1);
+        this.turret.anchor.setTo(0.5, 0);
         this.anchor.setTo(0.5, 0.5);
         this.game.camera.follow(this);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);

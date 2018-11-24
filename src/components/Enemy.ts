@@ -30,7 +30,7 @@ export default class Enemy extends Phaser.Sprite {
 
         this.anchor.setTo(0.5, 0.5);
         this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksTankRedBarrel1.getName());
-
+        this.turret.anchor.setTo(0.5, 0);
         this.enemy_name = id.toString();
         // this.enableBody = true;
         this.body.immovable = true;
