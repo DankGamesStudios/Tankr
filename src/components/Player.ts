@@ -28,13 +28,13 @@ export default class Player extends Phaser.Sprite {
         this.tankrGame = tankrGame;
         this.health = 100;
         this.game.add.existing(this);
-        this.turret = this.game.add.sprite(0, 0, Images.ImgTanksTankBlueBarrel1.getName());
+        this.turret = this.game.add.sprite(0, 0, Images.ImgTanksTankBlueBarrel2Outline.getName());
         // turret rotates from middle of bottom, so set that as anchor
-        this.turret.anchor.setTo(0.5, 1);
+        this.turret.anchor.setTo(0.5, 0);
         this.anchor.setTo(0.5, 0.5);
         this.game.camera.follow(this);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
-
+        console.log(this.body);
         this.body.collideWorldBounds = true;
 
         this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -51,7 +51,7 @@ export default class Player extends Phaser.Sprite {
     // http://www.html5gamedevs.com/topic/9007-help-managing-sprite-orientation/
     // we add 90 degrees in radians to rotation to fix orientation for angleToPointer
     private static fixRotation(rotation: number) {
-        return rotation + 1.57079633;
+        return rotation - 1.57079633;
     }
 
     public createBullets() {
@@ -74,9 +74,6 @@ export default class Player extends Phaser.Sprite {
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         this.body.angularVelocity = 0;
-        this.turret.x = this.x + 8;
-        this.turret.y = this.y;
-        this.turret.angle = 180 + this.angle;
 
         this.caption.update();
         this.healthBar.update();
@@ -103,8 +100,8 @@ export default class Player extends Phaser.Sprite {
         }
 
         // turret anchor should match player anchor
-        this.turret.x = this.x;
-        this.turret.y = this.y;
+        this.turret.x = this.body.center.x;
+        this.turret.y = this.body.center.y;
         this.turret.rotation = Player.fixRotation(
             this.game.physics.arcade.angleToPointer(this.turret));
 
@@ -113,10 +110,12 @@ export default class Player extends Phaser.Sprite {
             if (this.last_fired + this.reload_time < now) {
                 let bullet = this.bullets.getFirstExists(false);
                 if (bullet) {
-                    bullet.reset(this.turret.x, this.turret.y);
                     bullet.angle = this.turret.angle;
-                    let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle - 90));
-                    let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle - 90));
+                    let turretEndX = this.x + (this.turret.height * Math.cos(Player.degToRad(this.turret.angle + 90)));
+                    let turretEndY = this.y + (this.turret.height * Math.sin(Player.degToRad(this.turret.angle + 90)));
+                    let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle + 90));
+                    let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle + 90));
+                    bullet.reset(turretEndX, turretEndY);
                     this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                     this.last_fired = now;
                     this.fireAudio.play();

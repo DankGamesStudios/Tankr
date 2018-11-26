@@ -29,8 +29,8 @@ export default class Enemy extends Phaser.Sprite {
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         this.anchor.setTo(0.5, 0.5);
-        this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksTankRedBarrel1.getName());
-
+        this.turret = game.add.sprite(this.x, this.y, Images.ImgTanksTankRedBarrel2Outline.getName());
+        this.turret.anchor.setTo(0.5, 0);
         this.enemy_name = id.toString();
         // this.enableBody = true;
         this.body.immovable = true;
@@ -43,8 +43,8 @@ export default class Enemy extends Phaser.Sprite {
     }
 
     update() {
-        this.turret.x = this.x - 7;
-        this.turret.y = this.y - 50;
+        this.turret.x = this.x;
+        this.turret.y = this.y;
         this.body.velocity.x = 0;
         this.body.velocity.y = 0;
         this.body.angularVelocity = 0;
@@ -54,8 +54,6 @@ export default class Enemy extends Phaser.Sprite {
 
         let player_angle = this.game.physics.arcade.angleBetween(this, this.player);
         this.rotation = player_angle + 1.57079633; // player angle + 90 degrees in radians
-        this.turret.x = this.x + 8;
-        this.turret.y = this.y;
         this.turret.angle = 180 + this.angle;
 
         const now = this.game.time.now;
