@@ -111,10 +111,11 @@ export default class Player extends Phaser.Sprite {
                 let bullet = this.bullets.getFirstExists(false);
                 if (bullet) {
                     bullet.angle = this.turret.angle;
-                    let turretEndX = this.x + (this.turret.height * Math.cos(Player.degToRad(this.turret.angle + 90)));
-                    let turretEndY = this.y + (this.turret.height * Math.sin(Player.degToRad(this.turret.angle + 90)));
-                    let ix = this.x + 100 * Math.cos(Player.degToRad(this.turret.angle + 90));
-                    let iy = this.y + 100 * Math.sin(Player.degToRad(this.turret.angle + 90));
+                    let turretRightAngle = this.turret.angle + 90;
+                    let turretEndX = this.x + this.getXFromAngle(this.turret.height, turretRightAngle);
+                    let turretEndY = this.y + this.getYFromAngle(this.turret.height, turretRightAngle);
+                    let ix = this.x + 100 * Math.cos(Player.degToRad(turretRightAngle));
+                    let iy = this.y + 100 * Math.sin(Player.degToRad(turretRightAngle));
                     bullet.reset(turretEndX, turretEndY);
                     this.game.physics.arcade.moveToXY(bullet, ix, iy, 500);
                     this.last_fired = now;
@@ -134,6 +135,14 @@ export default class Player extends Phaser.Sprite {
         this.game.camera.x = this.x;
         this.game.camera.y = this.y;
 
+    }
+
+    private getXFromAngle(radius: number, angle: number) {
+        return radius * Math.cos(Player.degToRad(angle));
+    }
+
+    private getYFromAngle(radius: number, angle: number) {
+        return radius * Math.sin(Player.degToRad(angle));
     }
 
     private static degToRad(degrees: number) {
