@@ -123,7 +123,7 @@ export default class Title extends Phaser.State {
 
         this.game.physics.arcade.collide(this.player, this.enemyBullets, this.bulletHitPlayer);
         for (let powerup of this.powerups) {
-            if (powerup.is_alive) {
+            if (powerup.powerup_not_activated) {
                 this.game.physics.arcade.collide(this.player, powerup, this.applyPowerup);
             }
         }
@@ -148,7 +148,7 @@ export default class Title extends Phaser.State {
         let row_height = 20;
         let active_powerups = '';
         for (let powerup of this.powerups) {
-            if (powerup.time_left > 1) {
+            if (powerup.time_left > 0) {
                 active_powerups = ' ' + powerup.power_type + ': ' + powerup.time_left;
                 let y = origin_y + active_count * row_height;
                 active_count++;
@@ -168,6 +168,10 @@ export default class Title extends Phaser.State {
 
     public getEnemies() {
         return this.enemies;
+    }
+
+    public getPowerups() {
+        return this.powerups;
     }
 
     public addSpawnedObject(obj: Phaser.Sprite): Phaser.State {
