@@ -34,7 +34,6 @@ export default class Player extends Phaser.Sprite {
         this.anchor.setTo(0.5, 0.5);
         this.game.camera.follow(this);
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
-        console.log(this.body);
         this.body.collideWorldBounds = true;
 
         this.spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
