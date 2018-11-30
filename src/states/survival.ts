@@ -51,7 +51,7 @@ export default class SurvivalTitle extends Title {
 
         this.game.physics.arcade.collide(this.player, this.enemyBullets, this.bulletHitPlayer);
         for (let powerup of this.powerups) {
-            if (powerup.is_alive) {
+            if (powerup.powerup_not_activated) {
                 this.game.physics.arcade.collide(this.player, powerup, this.applyPowerup);
             }
         }

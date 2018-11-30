@@ -9,7 +9,9 @@ export default class Powerup extends Phaser.Sprite {
     power_type: string;
     // we have a tween that takes a second to destroy
     // so make sure the powerup can't be activated more than once
-    is_alive: boolean;
+    powerup_not_activated: boolean;
+    start_time: number;
+    end_time: number;
     time_left: number = -1;
     activationSound;
 
@@ -23,7 +25,7 @@ export default class Powerup extends Phaser.Sprite {
         this.game.physics.enable(this, Phaser.Physics.ARCADE);
 
         this.body.immovable = true;
-        this.is_alive = true;
+        this.powerup_not_activated = true;
     }
 
     private generatePowerType = (power_type): void => {
@@ -40,12 +42,28 @@ export default class Powerup extends Phaser.Sprite {
 
     public applyPowerup = (actor1, actor2) => {
         this.activationSound.play();
+        // set start time
+        this.start_time = (new Date()).getTime();
         this.powerup_map[this.power_type]['callback'](actor1, actor2);
+        // time_left must have been set in powerup callback
+        this.end_time = this.start_time + (this.time_left * 1000);
+        // reset other active powerups of same type
+        let powerups = this.title.getPowerups();
+        for (let i = 0; i < powerups.length; i++) {
+            if (
+                    powerups[i].power_type === this.power_type &&
+                    powerups[i].time_left !== -1 &&
+                    powerups[i] !== this
+                ) {
+                powerups[i].time_left = -1;
+                powerups[i].end_time = this.start_time;
+            }
+        }
     }
 
     private playerGetHealthDrop = (player, healthDrop) => {
-        if (this.is_alive) {
-            this.is_alive = false;
+        if (this.powerup_not_activated) {
+            this.powerup_not_activated = false; // double negation means its true!
             let healing_amount = 20;
             player.health += healing_amount;
             if (player.health > 100) {
@@ -75,15 +93,18 @@ export default class Powerup extends Phaser.Sprite {
     }
 
     private updateTimeLeft = () => {
-        if (this.time_left > 1) {
-            this.time_left --;
-            this.game.time.events.add(1000, this.updateTimeLeft);
+        let now = (new Date()).getTime();
+        if (now < this.end_time) {
+            this.time_left = Math.floor((this.end_time - now) / 1000);
+            this.game.time.events.add(300, this.updateTimeLeft);
+        } else {
+            this.time_left = -1; // reset time_left ?
         }
     }
 
     private playerGetMissiles = (player, boost) => {
-        if (this.is_alive) {
-            this.is_alive = false;
+        if (this.powerup_not_activated) {
+            this.powerup_not_activated = false;
             player.bullet_damage = 2;
             player.createBullets();
             // missile icon that gave us the missile boost destructs
@@ -93,34 +114,42 @@ export default class Powerup extends Phaser.Sprite {
             });
             // update time_left
             this.time_left = 10;
-            this.game.time.events.add(1000, this.updateTimeLeft);
+            this.game.time.events.add(300, this.updateTimeLeft);
             // boost becomes inactive after 10 seconds
-            this.game.time.events.add(this.time_left * 1000, function() {
-                player.bullet_damage = 1;
-                player.createBullets();
+            this.game.time.events.add(this.time_left * 1000, () => {
+                // if this.time_left is -1 a
+                // previous missile deactivated this one
+                if (this.time_left === 0) {
+                    player.bullet_damage = 1;
+                    player.createBullets();
+                }
             });
         }
     }
 
     private enemyFreezeDrop = (player, drop) => {
-        if (this.is_alive) {
-            this.is_alive = false;
+        if (this.powerup_not_activated) {
+            this.powerup_not_activated = false;
             let enemies = this.title.getEnemies();
             for (let i = 0; i < enemies.length; i++) {
                 enemies[i].frozen = true;
             }
             // hourglass icon that gave us the freeze boost destructs
             this.game.add.tween(this).to({alpha: 0}, 1000, 'Circ.easeOut', true);
-            this.game.time.events.add(1000, function() {
+            this.game.time.events.add(300, function() {
                 drop.kill();
             });
             // update time_left
             this.time_left = 5;
             this.game.time.events.add(1000, this.updateTimeLeft);
             // boost becomes inactive after 5 seconds
-            this.game.time.events.add(this.time_left * 1000, function() {
-                for (let i = 0; i < enemies.length; i++) {
-                    enemies[i].frozen = false;
+            this.game.time.events.add(this.time_left * 1000, () => {
+                // if this.time_left is -1 a
+                // previous freeze deactivated this one
+                if (this.time_left === 0) {
+                    for (let i = 0; i < enemies.length; i++) {
+                        enemies[i].frozen = false;
+                    }
                 }
             });
         }
