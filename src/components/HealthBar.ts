@@ -23,10 +23,10 @@ export default class HealthBar extends Phaser.Sprite {
     }
 
     public update(): void {
-        this.bgSprite.x = this.parent.x;
-        this.bgSprite.y = this.parent.y - 60;
-        this.healthBar.x = this.parent.x - 30;
-        this.healthBar.y = this.parent.y - 60;
+        this.bgSprite.x = this.parent.body.x;
+        this.bgSprite.y = this.parent.body.y - 60;
+        this.healthBar.x = this.parent.body.x - 30;
+        this.healthBar.y = this.parent.body.y - 60;
         this.healthBar.width = (this.parent.health / this.parent.maxHealth) * this.options.width;
     }
 
