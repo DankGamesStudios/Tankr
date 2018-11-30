@@ -2,7 +2,7 @@ import 'phaser-ce';
 import Player from '../components/Player';
 import Enemy from '../components/Enemy';
 import TankrApp from '../app';
-import {Images} from '../assets';
+import {Audio, Images} from '../assets';
 import Title from './game';
 
 const TIME_PER_WAVE = 60;
@@ -17,6 +17,7 @@ export default class SurvivalTitle extends Title {
     }
 
     public create(): void {
+        this.barrelExplosionAudio = this.game.add.audio(Audio.AudioExplosion02.getName());
         // if there are objects left from previous game, destroy them
         if (this.spawnedObjects) {
             for (let spawn of this.spawnedObjects) {
@@ -29,7 +30,6 @@ export default class SurvivalTitle extends Title {
         this.timeStart = (new Date()).getTime();
         this.wavesSurvived = 0;
         this.game.physics.startSystem(Phaser.Physics.ARCADE);
-        this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
         this.game.world.setBounds(0, 0, this.game.width * 2, this.game.height * 2);
 
         let land = this.game.add.tileSprite(0, 0, this.game.width * 2, this.game.height * 2,
@@ -51,7 +51,7 @@ export default class SurvivalTitle extends Title {
 
         this.game.physics.arcade.collide(this.player, this.enemyBullets, this.bulletHitPlayer);
         for (let powerup of this.powerups) {
-            if (powerup.is_alive) {
+            if (powerup.powerup_not_activated) {
                 this.game.physics.arcade.collide(this.player, powerup, this.applyPowerup);
             }
         }

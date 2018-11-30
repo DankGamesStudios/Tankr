@@ -35,7 +35,7 @@ export default class Settings extends MenuState {
         this.fire = this.addKeySelect('FireKey', this.game.world.centerX + 100, this.game.world.centerY + 140);
 
         this.addOption('Press value to change', null, this.game.world.centerX - 100, this.game.world.centerY + 220);
-        this.addOption('Return', 'mainScreen', this.game.world.centerX + 100, this.game.world.centerY + 220);
+        this.addOption('Return', 'mainScreen', this.game.world.centerX + 150, this.game.world.centerY + 220);
     }
 
     public render(): void {
@@ -75,7 +75,7 @@ export default class Settings extends MenuState {
             x,
             y,
             keyCode,
-            {font: '30px', fill: '#9eff63', align: 'center'});
+            {font: '30px', fill: '#317AAA', fontWeight: 'bold', stroke: '#000000', strokeThickness: 2, align: 'center'});
         option.anchor.set(0.5, 0.5);
         option.inputEnabled = true;
         option.events.onInputDown.add(() => {

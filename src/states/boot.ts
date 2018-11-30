@@ -7,6 +7,7 @@ export default class Boot extends Phaser.State {
         this.game.load.atlasJSONArray(Assets.Atlases.AtlasesPreloadSpritesArray.getName(), Assets.Atlases.AtlasesPreloadSpritesArray.getPNG(), Assets.Atlases.AtlasesPreloadSpritesArray.getJSONArray());
         // this.game.load.atlasJSONHash(Assets.Atlases.AtlasesPreloadSpritesHash.getName(), Assets.Atlases.AtlasesPreloadSpritesHash.getPNG(), Assets.Atlases.AtlasesPreloadSpritesHash.getJSONHash());
         // this.game.load.atlasXML(Assets.Atlases.AtlasesPreloadSpritesXml.getName(), Assets.Atlases.AtlasesPreloadSpritesXml.getPNG(), Assets.Atlases.AtlasesPreloadSpritesXml.getXML());
+        this.game.scale.scaleMode = Phaser.ScaleManager.RESIZE;
     }
 
     public create(): void {
@@ -15,7 +16,7 @@ export default class Boot extends Phaser.State {
         // Uncomment the following to disable multitouch
         // this.input.maxPointers = 1;
 
-        this.game.scale.scaleMode = Phaser.ScaleManager[SCALE_MODE];
+        // this.game.scale.scaleMode = Phaser.ScaleManager[SCALE_MODE];
 
         if (SCALE_MODE === 'USER_SCALE') {
             let screenMetrics: Utils.ScreenMetrics = Utils.ScreenUtils.screenMetrics;

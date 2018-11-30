@@ -1,6 +1,11 @@
 /* AUTO GENERATED FILE. DO NOT MODIFY. YOU WILL LOSE YOUR CHANGES ON BUILD. */
 
 export namespace Images {
+    export class ImagesBackgroundScreenshot1 {
+        static getName(): string { return 'background_screenshot1'; }
+
+        static getPNG(): string { return require('assets/images/background_screenshot1.png'); }
+    }
     export class ImagesBackgroundTemplate {
         static getName(): string { return 'background_template'; }
 
