@@ -63,6 +63,7 @@ export default class MenuState extends Phaser.State {
                 this.game.state.start(stateKey);
             }, this);
         }
+        return option;
     }
 
     update() {
