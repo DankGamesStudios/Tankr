@@ -1,7 +1,6 @@
 import 'phaser-ce';
 import MenuState from './menuState';
 import TankrApp from '../app';
-import Key = Phaser.Key;
 
 export default class Settings extends MenuState {
     tankrGame: TankrApp;
@@ -38,15 +37,29 @@ export default class Settings extends MenuState {
         this.addOption('Return', 'mainScreen', this.game.world.centerX + 150, this.game.world.centerY + 220);
     }
 
+    private getSettingDisplayValue(option): string {
+        if (this.currentModifiedSetting === option) {
+            return this.changeLabel;
+        }
+        let settingVal = this.tankrGame.getSetting(option);
+        if (settingVal === 'mouseLeft') {
+            return 'Mouse Left';
+        } else if (settingVal === 'mouseRight') {
+            return 'Mouse Right';
+        }
+        return String.fromCharCode(settingVal);
+    }
+
     public render(): void {
-        this.up.text = this.currentModifiedSetting === 'UpKey' ? this.changeLabel : this.tankrGame.getSetting('UpKey');
-        this.left.text = this.currentModifiedSetting === 'LeftKey' ? this.changeLabel : this.tankrGame.getSetting('LeftKey');
-        this.right.text = this.currentModifiedSetting === 'RightKey' ? this.changeLabel : this.tankrGame.getSetting('RightKey');
-        this.down.text = this.currentModifiedSetting === 'DownKey' ? this.changeLabel : this.tankrGame.getSetting('DownKey');
-        this.fire.text = this.currentModifiedSetting === 'FireKey' ? this.changeLabel : this.tankrGame.getSetting('FireKey');
+        this.up.text = this.getSettingDisplayValue('UpKey');
+        this.left.text = this.getSettingDisplayValue('LeftKey');
+        this.right.text = this.getSettingDisplayValue('RightKey');
+        this.down.text = this.getSettingDisplayValue('DownKey');
+        this.fire.text = this.getSettingDisplayValue('FireKey');
     }
 
     public update(): void {
+        super.update();
         if (!this.currentModifiedSetting) {
             return;
         }
@@ -69,14 +82,7 @@ export default class Settings extends MenuState {
     addKeySelect(settingName: string, x: number = null, y: number = null): Phaser.Text {
         x = x ? x : this.game.world.centerX;
         y = y ? y : this.game.world.centerY;
-        let keyCode = this.tankrGame.getSetting(settingName);
-        let key = new Key(this.game, keyCode); // TODO: display nice name
-        let option = this.game.add.text(
-            x,
-            y,
-            keyCode,
-            {font: '30px', fill: '#317AAA', fontWeight: 'bold', stroke: '#000000', strokeThickness: 2, align: 'center'});
-        option.anchor.set(0.5, 0.5);
+        let option = this.addOption(this.getSettingDisplayValue(settingName), null, x, y);
         option.inputEnabled = true;
         option.events.onInputDown.add(() => {
             this.currentModifiedSetting = settingName;
