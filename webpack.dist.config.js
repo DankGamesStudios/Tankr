@@ -10,7 +10,7 @@ module.exports = {
     entry: path.join(__dirname, 'src/app.ts'),
     output: {
         path: path.join(__dirname, 'dist'),
-        filename: 'game.min.js'
+        filename: 'game.min.js',
     },
     resolve: {
         extensions: ['.ts', '.js'],
@@ -58,13 +58,14 @@ module.exports = {
     devServer: {
         contentBase: path.join(__dirname, 'dist'),
         compress: true,
-        port: 9000,
+        port: 8080,
+        host: '0.0.0.0',
         inline: true,
         watchOptions: {
             aggregateTimeout: 300,
             poll: true,
             ignored: /node_modules/
-        }
+        },
     },
     module: {
         rules: [
